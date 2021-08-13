@@ -38,19 +38,27 @@ public class IsiAppActivity extends AppCompatActivity{
     private float x1;
     private float y1;
     private static final int MIN_DISTANCE = 400;
-
     public boolean closing = true;
-
     private ViewGroup mainView;
-
     private View inflate = null;
     private View underMenu = null;
     private View lateralMenu = null;
+
+    private boolean scrolling = true;
+
+    public void setScrolling(boolean scrolling) {
+        this.scrolling = scrolling;
+    }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
 
         super.dispatchTouchEvent(ev);
+
+        if(!scrolling){
+            scrolling = true;
+            return false;
+        }
 
         switch(ev.getAction()) {
             case MotionEvent.ACTION_DOWN:

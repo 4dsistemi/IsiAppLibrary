@@ -9,6 +9,7 @@ import android.widget.ScrollView;
 public class IsiAppScrollView extends ScrollView {
 
     private boolean dispatchEventEnable = true;
+    private IsiAppActivity activity = null;
 
     public IsiAppScrollView(Context context) {
         super(context);
@@ -30,17 +31,23 @@ public class IsiAppScrollView extends ScrollView {
         this.dispatchEventEnable = dispatchEventEnable;
     }
 
+    public void setActivity(IsiAppActivity activity) {
+        this.activity = activity;
+    }
+
     public boolean isDispatchEventEnable() {
         return dispatchEventEnable;
     }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev){
-        Log.e("TAG", "dispatchTouchEvent: " + dispatchEventEnable);
         if(dispatchEventEnable){
             super.dispatchTouchEvent(ev);
             return true;
         }else{
+            if(activity != null){
+                activity.setScrolling(false);
+            }
             return false;
 
         }
