@@ -72,16 +72,11 @@ public class IsiAppActivity extends AppCompatActivity{
                 if(scrolling){
                     if (Math.abs(deltaX) > MIN_DISTANCE && x2 > x1)
                     {
-
                         getPackageNameSlide(0);
-
                     }else if(Math.abs(deltaX) > MIN_DISTANCE && x2 < x1){
                         getPackageNameSlide(1);
                     }else if(deltay > MIN_DISTANCE && y1 < 100){
-
                         getApplicationActive(202);
-
-
                     }
                 }else{
                     scrolling = true;
