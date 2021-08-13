@@ -37,9 +37,12 @@ public class IsiAppScrollView extends ScrollView {
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev){
         Log.e("TAG", "dispatchTouchEvent: " + dispatchEventEnable);
-        if(dispatchEventEnable)
+        if(dispatchEventEnable){
             super.dispatchTouchEvent(ev);
+            return true;
+        }else{
+            return false;
 
-        return true;
+        }
     }
 }
