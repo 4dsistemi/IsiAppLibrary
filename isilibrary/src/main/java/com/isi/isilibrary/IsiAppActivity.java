@@ -55,11 +55,6 @@ public class IsiAppActivity extends AppCompatActivity{
 
         super.dispatchTouchEvent(ev);
 
-        if(!scrolling){
-            scrolling = true;
-            return false;
-        }
-
         switch(ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 y1 = ev.getY();
@@ -74,18 +69,22 @@ public class IsiAppActivity extends AppCompatActivity{
                 float x2 = ev.getX();
                 float deltaX = x2 - x1;
 
-                if (Math.abs(deltaX) > MIN_DISTANCE && x2 > x1)
-                {
+                if(scrolling){
+                    if (Math.abs(deltaX) > MIN_DISTANCE && x2 > x1)
+                    {
 
-                    getPackageNameSlide(0);
+                        getPackageNameSlide(0);
 
-                }else if(Math.abs(deltaX) > MIN_DISTANCE && x2 < x1){
-                    getPackageNameSlide(1);
-                }else if(deltay > MIN_DISTANCE && y1 < 100){
+                    }else if(Math.abs(deltaX) > MIN_DISTANCE && x2 < x1){
+                        getPackageNameSlide(1);
+                    }else if(deltay > MIN_DISTANCE && y1 < 100){
 
-                    getApplicationActive(202);
+                        getApplicationActive(202);
 
 
+                    }
+                }else{
+                    scrolling = true;
                 }
 
                 break;
