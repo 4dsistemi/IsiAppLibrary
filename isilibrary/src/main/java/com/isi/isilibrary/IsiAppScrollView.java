@@ -2,7 +2,6 @@ package com.isi.isilibrary;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.ScrollView;
 
@@ -41,15 +40,10 @@ public class IsiAppScrollView extends ScrollView {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev){
-        if(dispatchEventEnable){
-            super.dispatchTouchEvent(ev);
-            return true;
-        }else{
-            if(activity != null){
-                activity.setScrolling(false);
-            }
-            return false;
-
+        super.dispatchTouchEvent(ev);
+        if(activity != null){
+            activity.setScrolling(false);
         }
+        return false;
     }
 }
