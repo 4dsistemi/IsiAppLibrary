@@ -40,10 +40,9 @@ public class IsiAppHorizontalScrollView extends HorizontalScrollView {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev){
-        super.dispatchTouchEvent(ev);
         if(activity != null && !dispatchEventEnable){
             activity.setScrolling(false);
         }
-        return false;
+        return super.dispatchTouchEvent(ev);
     }
 }
