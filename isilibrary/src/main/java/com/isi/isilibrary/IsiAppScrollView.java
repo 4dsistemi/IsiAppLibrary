@@ -41,7 +41,7 @@ public class IsiAppScrollView extends ScrollView {
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev){
         super.dispatchTouchEvent(ev);
-        if(activity != null){
+        if(activity != null && !dispatchEventEnable){
             activity.setScrolling(false);
         }
         return false;
