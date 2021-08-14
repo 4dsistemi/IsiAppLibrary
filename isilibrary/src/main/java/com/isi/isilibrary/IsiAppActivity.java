@@ -206,6 +206,7 @@ public class IsiAppActivity extends AppCompatActivity{
         try {
             pm.getPackageInfo(targetPackage,PackageManager.GET_META_DATA);
         } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
             return false;
         }
         return true;
