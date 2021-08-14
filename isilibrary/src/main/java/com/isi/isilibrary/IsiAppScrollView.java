@@ -7,9 +7,6 @@ import android.widget.ScrollView;
 
 public class IsiAppScrollView extends ScrollView {
 
-    private boolean dispatchEventEnable = true;
-    private IsiAppActivity activity = null;
-
     public IsiAppScrollView(Context context) {
         super(context);
     }
@@ -26,24 +23,10 @@ public class IsiAppScrollView extends ScrollView {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public void setDispatchEventEnable(boolean dispatchEventEnable) {
-        this.dispatchEventEnable = dispatchEventEnable;
-    }
-
-    public void setActivity(IsiAppActivity activity) {
-        this.activity = activity;
-    }
-
-    public boolean isDispatchEventEnable() {
-        return dispatchEventEnable;
-    }
-
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev){
         super.dispatchTouchEvent(ev);
-        if(activity != null && !dispatchEventEnable){
-            activity.setScrolling(false);
-        }
-        return false;
+
+        return true;
     }
 }
