@@ -216,6 +216,7 @@ public class IsiAppActivity extends AppCompatActivity{
         super.onResume();
 
         if(isPackageExisted("com.isi.isiapp")){
+            Log.e("TAG", "onResume: exists");
             if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
                 if(lateralMenu == null){
                     getApplicationListActive(210);
@@ -461,6 +462,8 @@ public class IsiAppActivity extends AppCompatActivity{
 
             assert data != null;
             String packageName = data.getStringExtra("applications_active");
+
+            Log.e("TAG", "onActivityResult: " + packageName);
 
             Type listType = new TypeToken<ArrayList<ApplicationList>>() {}.getType();
             Gson gson = new Gson();
