@@ -379,7 +379,7 @@ public class IsiAppActivity extends AppCompatActivity{
         try{
             Intent myIntent = new Intent();
             myIntent.setClassName("com.isi.isiapp", "com.isi.isiapp.PackageActivity");
-            myIntent.putExtra("intent", "getApplicationListsActive");
+            myIntent.putExtra("intent", "getApplicationsActive");
             startActivityForResult(myIntent, code);
         }catch (Exception ignored){
 
