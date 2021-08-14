@@ -214,9 +214,9 @@ public class IsiAppActivity extends AppCompatActivity{
     @Override
     protected void onResume() {
         super.onResume();
+        Log.e("TAG", "onResume: exists");
 
         if(isPackageExisted("com.isi.isiapp")){
-            Log.e("TAG", "onResume: exists");
             if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
                 if(lateralMenu == null){
                     getApplicationListActive(210);
