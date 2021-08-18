@@ -143,9 +143,7 @@ public class IsiAppActivity extends AppCompatActivity{
                             }
                         });
 
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    } catch (Exception ignored) {}
 
                     break;
                 }
