@@ -392,16 +392,18 @@ public class IsiAppActivity extends AppCompatActivity{
 
             if(resultCode == RESULT_OK){
 
-                assert data != null;
-                String packageName = data.getStringExtra("package_name");
+                if(data != null){
+                    String packageName = data.getStringExtra("package_name");
 
-                assert packageName != null;
-                Intent launchIntent = getPackageManager().getLaunchIntentForPackage(packageName);
-                if (launchIntent != null) {
-                    startActivity(launchIntent);//null pointer check in case package name was not found
-                    overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+                    if(packageName != null){
+                        Intent launchIntent = getPackageManager().getLaunchIntentForPackage(packageName);
+                        if (launchIntent != null) {
+                            startActivity(launchIntent);//null pointer check in case package name was not found
+                            overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+                        }
+                    }
+
                 }
-
 
             }
 
@@ -409,42 +411,45 @@ public class IsiAppActivity extends AppCompatActivity{
 
             if(resultCode == RESULT_OK){
 
-                assert data != null;
-                String packageName = data.getStringExtra("package_name");
+                if(data != null){
+                    String packageName = data.getStringExtra("package_name");
 
-                assert packageName != null;
-                Intent launchIntent = getPackageManager().getLaunchIntentForPackage(packageName);
-                if (launchIntent != null) {
-                    startActivity(launchIntent);//null pointer check in case package name was not found
-                    overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+                    assert packageName != null;
+                    Intent launchIntent = getPackageManager().getLaunchIntentForPackage(packageName);
+                    if (launchIntent != null) {
+                        startActivity(launchIntent);//null pointer check in case package name was not found
+                        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+                    }
                 }
-
 
             }
 
         }else if (requestCode == 202){
 
-            assert data != null;
-            String packageName = data.getStringExtra("applications_active");
+            if(data != null){
+                String packageName = data.getStringExtra("applications_active");
 
-            Type listType = new TypeToken<ArrayList<ApplicationList>>() {}.getType();
-            Gson gson = new Gson();
+                Type listType = new TypeToken<ArrayList<ApplicationList>>() {}.getType();
+                Gson gson = new Gson();
 
-            ArrayList<ApplicationList> applications = gson.fromJson(packageName, listType);
+                ArrayList<ApplicationList> applications = gson.fromJson(packageName, listType);
 
-            updateGUI(applications);
+                updateGUI(applications);
+            }
+
 
         }else if(requestCode == 210){
 
-            assert data != null;
-            String packageName = data.getStringExtra("applications_active");
+            if(data != null){
+                String packageName = data.getStringExtra("applications_active");
 
-            Type listType = new TypeToken<ArrayList<ApplicationList>>() {}.getType();
-            Gson gson = new Gson();
+                Type listType = new TypeToken<ArrayList<ApplicationList>>() {}.getType();
+                Gson gson = new Gson();
 
-            ArrayList<ApplicationList> applications = gson.fromJson(packageName, listType);
+                ArrayList<ApplicationList> applications = gson.fromJson(packageName, listType);
 
-            lateralMenu(applications);
+                lateralMenu(applications);
+            }
 
         }
     }
