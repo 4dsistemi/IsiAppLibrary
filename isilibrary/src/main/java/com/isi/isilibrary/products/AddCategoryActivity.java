@@ -66,8 +66,6 @@ public class AddCategoryActivity extends BackActivity {
 
             final String name = editText.getText().toString();
 
-
-
             if(!name.equals("")){
 
                 SweetAlertDialog loader = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);

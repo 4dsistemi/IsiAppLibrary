@@ -54,43 +54,55 @@ public class DepartmentActivity extends BackActivity {
             ArrayList<Department> rates = IsiAppActivity.isiCashierRequest.getDepartment(IsiAppActivity.serial);
             ArrayList<Product> products = IsiAppActivity.isiCashierRequest.getProducts(IsiAppActivity.serial);
 
-            rates.sort(Comparator.comparingInt(departments -> departments.department));
+            if(rates == null || products == null){
+                runOnUiThread(() -> new SweetAlertDialog(DepartmentActivity.this, SweetAlertDialog.ERROR_TYPE)
+                        .setTitleText("Attenzione")
+                        .setContentText("Errore di comunicazione con il server. Riprovare")
+                        .setConfirmText("Ok")
+                        .setConfirmClickListener(sweetAlertDialog -> {
+                            sweetAlertDialog.dismissWithAnimation();
+                            finish();
+                        }).show());
+            }else{
+                rates.sort(Comparator.comparingInt(departments -> departments.department));
 
-            for (final Department rate : rates){
+                for (final Department rate : rates){
 
-                LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
-                assert inflater != null;
-                @SuppressLint("InflateParams") final View inflate = inflater.inflate(R.layout.department_cell, departmentLayout, false);
+                    LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
+                    assert inflater != null;
+                    @SuppressLint("InflateParams") final View inflate = inflater.inflate(R.layout.department_cell, departmentLayout, false);
 
-                TextView name = inflate.findViewById(R.id.nameDepartmentCellText);
+                    TextView name = inflate.findViewById(R.id.nameDepartmentCellText);
 
-                name.setText(String.format(Locale.getDefault(), "Reparto %d a %s", rate.department, Rates.getRatesValor(rate.code)));
+                    name.setText(String.format(Locale.getDefault(), "Reparto %d a %s", rate.department, Rates.getRatesValor(rate.code)));
 
-                TextView description = inflate.findViewById(R.id.descriptionRateTextCell);
+                    TextView description = inflate.findViewById(R.id.descriptionRateTextCell);
 
-                if(rate.product_id != null){
-                    for (Product prod : products){
-                        if(prod.id == rate.product_id){
-                            description.setText(String.format("Descrizione %s", prod.name));
+                    if(rate.product_id != null){
+                        for (Product prod : products){
+                            if(prod.id == rate.product_id){
+                                description.setText(String.format("Descrizione %s", prod.name));
+                            }
                         }
+
                     }
+
+                    Button modify = inflate.findViewById(R.id.modifyDepartmentButton);
+
+                    modify.setOnClickListener(view -> runOnUiThread(() -> {
+                        Intent i = new Intent(DepartmentActivity.this, AddDepartmentsActivity.class);
+                        i.putExtra("modify", true);
+                        i.putExtra("id", rate.id);
+                        startActivity(i);
+                    }));
+
+                    runOnUiThread(() -> departmentLayout.addView(inflate));
 
                 }
 
-                Button modify = inflate.findViewById(R.id.modifyDepartmentButton);
-
-                modify.setOnClickListener(view -> runOnUiThread(() -> {
-                    Intent i = new Intent(DepartmentActivity.this, AddDepartmentsActivity.class);
-                    i.putExtra("modify", true);
-                    i.putExtra("id", rate.id);
-                    startActivity(i);
-                }));
-
-                runOnUiThread(() -> departmentLayout.addView(inflate));
-
+                runOnUiThread(pDialog::dismissWithAnimation);
             }
 
-            runOnUiThread(pDialog::dismissWithAnimation);
 
         }).start();
     }

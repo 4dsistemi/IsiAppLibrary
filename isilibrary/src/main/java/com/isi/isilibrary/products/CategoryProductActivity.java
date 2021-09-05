@@ -88,18 +88,28 @@ public class CategoryProductActivity extends BackActivity {
 
     public void updateUI() {
 
-        categoryLayout.removeAllViews();
+        if(categories == null){
+            new SweetAlertDialog(CategoryProductActivity.this, SweetAlertDialog.ERROR_TYPE)
+                    .setTitleText("Attenzione")
+                    .setContentText("Errore di comunicazione con il server. Riprovare")
+                    .setConfirmText("Ok")
+                    .setConfirmClickListener(sweetAlertDialog -> {
+                        sweetAlertDialog.dismissWithAnimation();
+                        finish();
+                    }).show();
+        }else{
+            categoryLayout.removeAllViews();
 
+            for (Category category : categories){
 
-        for (Category category : categories){
+                TextView view = new TextView(categoryLayout.getContext());
 
-            TextView view = new TextView(categoryLayout.getContext());
+                view.setText(category.name);
 
-            view.setText(category.name);
+                view.setTextSize(20);
 
-            view.setTextSize(20);
-
-            categoryLayout.addView(view);
+                categoryLayout.addView(view);
+            }
         }
 
     }
