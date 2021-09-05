@@ -70,65 +70,69 @@ public class AddDepartmentsActivity extends BackActivity {
                 names.add(p.name);
             }
 
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                    android.R.layout.simple_spinner_item, names);
+            runOnUiThread(() -> {
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(AddDepartmentsActivity.this,
+                        android.R.layout.simple_spinner_item, names);
 
-            spinner.setAdapter(adapter);
+                spinner.setAdapter(adapter);
 
-            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    if(i > 0){
-                        product_id = products.get(i -1).id;
-                    }else{
-                        product_id = null;
-                    }
-
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> adapterView) {
-
-                }
-            });
-
-            if(getIntent().getBooleanExtra("modify", false)){
-
-                for (Department departments : rates){
-
-                    if(departments.id == getIntent().getIntExtra("id", -1)){
-
-                        code.setText(String.format(Locale.getDefault(), "%d", departments.department));
-
-                        backDepartment = departments;
-
-                        String[] arrayRate = getResources().getStringArray(R.array.rate_percents);
-
-                        for (int j = 0; j < arrayRate.length; j++) {
-
-                            if(arrayRate[j].contains(departments.code + " -")){
-                                spinnerRate.setSelection(j, true);
-                            }
-
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        if(i > 0){
+                            product_id = products.get(i -1).id;
+                        }else{
+                            product_id = null;
                         }
 
-                        if(departments.product_id != null){
-                            for (int j = 0; j < products.size(); j++) {
+                    }
 
-                                if(products.get(j).id == departments.product_id){
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
 
-                                    spinner.setSelection(j + 1);
+                    }
+                });
 
+                if(getIntent().getBooleanExtra("modify", false)){
+
+                    for (Department departments : rates){
+
+                        if(departments.id == getIntent().getIntExtra("id", -1)){
+
+                            code.setText(String.format(Locale.getDefault(), "%d", departments.department));
+
+                            backDepartment = departments;
+
+                            String[] arrayRate = getResources().getStringArray(R.array.rate_percents);
+
+                            for (int j = 0; j < arrayRate.length; j++) {
+
+                                if(arrayRate[j].contains(departments.code + " -")){
+                                    spinnerRate.setSelection(j, true);
                                 }
 
                             }
+
+                            if(departments.product_id != null){
+                                for (int j = 0; j < products.size(); j++) {
+
+                                    if(products.get(j).id == departments.product_id){
+
+                                        spinner.setSelection(j + 1);
+
+                                    }
+
+                                }
+                            }
+
                         }
 
                     }
 
                 }
 
-            }
+            });
+
         }).start();
     }
 
