@@ -10,7 +10,6 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -31,7 +30,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.isi.isiapi.isicashier.HttpRequest;
 import com.isi.isilibrary.application.ApplicationList;
-
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
@@ -134,22 +132,17 @@ public class IsiAppActivity extends AppCompatActivity{
 
                         b.setImageDrawable(icon);
 
-                        b.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
+                        b.setOnClickListener(v -> {
 
-                                Intent launchIntent = getPackageManager().getLaunchIntentForPackage(app.Package);
-                                if (launchIntent != null) {
-                                    startActivity(launchIntent);//null pointer check in case package name was not found
-                                    overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
-                                }
-
+                            Intent launchIntent = getPackageManager().getLaunchIntentForPackage(app.Package);
+                            if (launchIntent != null) {
+                                startActivity(launchIntent);//null pointer check in case package name was not found
+                                overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
                             }
+
                         });
 
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    } catch (Exception ignored) {}
 
                     break;
                 }
@@ -169,21 +162,18 @@ public class IsiAppActivity extends AppCompatActivity{
 
                         b.setImageDrawable(icon);
 
-                        b.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
+                        b.setOnClickListener(v -> {
 
-                                Intent launchIntent = getPackageManager().getLaunchIntentForPackage(app.Package);
-                                if (launchIntent != null) {
-                                    startActivity(launchIntent);//null pointer check in case package name was not found
-                                    overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
-                                }
-
+                            Intent launchIntent = getPackageManager().getLaunchIntentForPackage(app.Package);
+                            if (launchIntent != null) {
+                                startActivity(launchIntent);//null pointer check in case package name was not found
+                                overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
                             }
+
                         });
 
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    } catch (Exception ignored) {
+
                     }
 
                     break;
@@ -219,7 +209,6 @@ public class IsiAppActivity extends AppCompatActivity{
     @Override
     protected void onResume() {
         super.onResume();
-        Log.e("TAG", "onResume: exists");
 
         if(isPackageExisted("com.isi.isiapp")){
             if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
@@ -246,14 +235,11 @@ public class IsiAppActivity extends AppCompatActivity{
 
         Button closeMenu = inflate.findViewById(R.id.closeMenuButton);
 
-        closeMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mainView.removeView(inflate);
+        closeMenu.setOnClickListener(v -> {
+            mainView.removeView(inflate);
 
-                inflate = null;
+            inflate = null;
 
-            }
         });
 
         ImageView thisAppImageView = inflate.findViewById(R.id.thisAppImageView);
@@ -297,16 +283,13 @@ public class IsiAppActivity extends AppCompatActivity{
 
             appNameSecondary.setText(pack.Name);
 
-            packInflate.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent launchIntent = getPackageManager().getLaunchIntentForPackage(pack.Package);
-                    if (launchIntent != null) {
-                        mainView.removeView(inflate);
+            packInflate.setOnClickListener(v -> {
+                Intent launchIntent = getPackageManager().getLaunchIntentForPackage(pack.Package);
+                if (launchIntent != null) {
+                    mainView.removeView(inflate);
 
-                        inflate = null;
-                        startActivity(launchIntent);//null pointer check in case package name was not found
-                    }
+                    inflate = null;
+                    startActivity(launchIntent);//null pointer check in case package name was not found
                 }
             });
 
@@ -315,19 +298,16 @@ public class IsiAppActivity extends AppCompatActivity{
 
         ImageButton logout = inflate.findViewById(R.id.logoutButton);
 
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try{
-                    mainView.removeView(inflate);
+        logout.setOnClickListener(v -> {
+            try{
+                mainView.removeView(inflate);
 
-                    Intent intent2 = new Intent("timeoutService");
-                    intent2.putExtra("time_out", 1);
-                    sendBroadcast(intent2);
+                Intent intent2 = new Intent("timeoutService");
+                intent2.putExtra("time_out", 1);
+                sendBroadcast(intent2);
 
-                }catch (Exception ignored){
+            }catch (Exception ignored){
 
-                }
             }
         });
 
@@ -347,25 +327,22 @@ public class IsiAppActivity extends AppCompatActivity{
 
             if(message != 0){
 
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
+                runOnUiThread(() -> {
 
-                        doSomethingOnTimeout();
+                    doSomethingOnTimeout();
 
-                        if(closing){
-                            finish();
-                            System.exit(0);
-                        }else{
-                            Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.isi.isiapp");
-                            if (launchIntent != null) {
-                                startActivity(launchIntent);//null pointer check in case package name was not found
-                                overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
-                            }
+                    if(closing){
+                        finish();
+                        System.exit(0);
+                    }else{
+                        Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.isi.isiapp");
+                        if (launchIntent != null) {
+                            startActivity(launchIntent);//null pointer check in case package name was not found
+                            overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
                         }
-
-
                     }
+
+
                 });
             }
         }
@@ -420,16 +397,18 @@ public class IsiAppActivity extends AppCompatActivity{
 
             if(resultCode == RESULT_OK){
 
-                assert data != null;
-                String packageName = data.getStringExtra("package_name");
+                if(data != null){
+                    String packageName = data.getStringExtra("package_name");
 
-                assert packageName != null;
-                Intent launchIntent = getPackageManager().getLaunchIntentForPackage(packageName);
-                if (launchIntent != null) {
-                    startActivity(launchIntent);//null pointer check in case package name was not found
-                    overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+                    if(packageName != null){
+                        Intent launchIntent = getPackageManager().getLaunchIntentForPackage(packageName);
+                        if (launchIntent != null) {
+                            startActivity(launchIntent);//null pointer check in case package name was not found
+                            overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+                        }
+                    }
+
                 }
-
 
             }
 
@@ -437,46 +416,45 @@ public class IsiAppActivity extends AppCompatActivity{
 
             if(resultCode == RESULT_OK){
 
-                assert data != null;
-                String packageName = data.getStringExtra("package_name");
+                if(data != null){
+                    String packageName = data.getStringExtra("package_name");
 
-                assert packageName != null;
-                Intent launchIntent = getPackageManager().getLaunchIntentForPackage(packageName);
-                if (launchIntent != null) {
-                    startActivity(launchIntent);//null pointer check in case package name was not found
-                    overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+                    assert packageName != null;
+                    Intent launchIntent = getPackageManager().getLaunchIntentForPackage(packageName);
+                    if (launchIntent != null) {
+                        startActivity(launchIntent);//null pointer check in case package name was not found
+                        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
+                    }
                 }
-
 
             }
 
         }else if (requestCode == 202){
 
-            assert data != null;
-            String packageName = data.getStringExtra("applications_active");
+            if(data != null){
+                String packageName = data.getStringExtra("applications_active");
 
-            Log.e("", "onActivityResult: " + packageName);
+                Type listType = new TypeToken<ArrayList<ApplicationList>>() {}.getType();
+                Gson gson = new Gson();
 
-            Type listType = new TypeToken<ArrayList<ApplicationList>>() {}.getType();
-            Gson gson = new Gson();
+                ArrayList<ApplicationList> applications = gson.fromJson(packageName, listType);
 
-            ArrayList<ApplicationList> applications = gson.fromJson(packageName, listType);
+                updateGUI(applications);
+            }
 
-            updateGUI(applications);
 
         }else if(requestCode == 210){
 
-            assert data != null;
-            String packageName = data.getStringExtra("applications_active");
+            if(data != null){
+                String packageName = data.getStringExtra("applications_active");
 
-            Log.e("TAG", "onActivityResult: " + packageName);
+                Type listType = new TypeToken<ArrayList<ApplicationList>>() {}.getType();
+                Gson gson = new Gson();
 
-            Type listType = new TypeToken<ArrayList<ApplicationList>>() {}.getType();
-            Gson gson = new Gson();
+                ArrayList<ApplicationList> applications = gson.fromJson(packageName, listType);
 
-            ArrayList<ApplicationList> applications = gson.fromJson(packageName, listType);
-
-            lateralMenu(applications);
+                lateralMenu(applications);
+            }
 
         }
     }
