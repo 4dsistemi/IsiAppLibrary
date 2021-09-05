@@ -496,9 +496,10 @@ public class IsiAppActivity extends AppCompatActivity{
 
     }
 
-    public void initAPI(String apikey){
+    public void initAPI(String apikey, boolean debug){
         IsiAppActivity.apikey = apikey;
         IsiAppActivity.isiCashierRequest = new HttpRequest(apikey);
+        IsiAppActivity.isiCashierRequest.setDebug(debug);
     }
 }
 
