@@ -3,12 +3,10 @@ package com.isi.isilibrary.products;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-
 import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 import com.google.gson.Gson;
@@ -18,9 +16,6 @@ import com.isi.isiapi.general.classes.Product;
 import com.isi.isilibrary.IsiAppActivity;
 import com.isi.isilibrary.R;
 import com.isi.isilibrary.backActivity.BackActivity;
-
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -28,10 +23,10 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class AddModifyProduct extends BackActivity {
 
-    private String barcode = "";
     private int color = -1;
     private EditText barcodeEdit;
     private Product backProduct = null;
+    private Button chooseColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +38,7 @@ public class AddModifyProduct extends BackActivity {
             backProduct = new Gson().fromJson(back.getStringExtra("product"), Product.class);
         }
 
-        final EditText name = findViewById(R.id.productNameEdit);
-        final EditText price = findViewById(R.id.priceProductEdit);
-        final Spinner categorySpinner = findViewById(R.id.categorySpinnerAddProduct);
-        final Button chooseColor = findViewById(R.id.chooseColorProduct);
+        chooseColor = findViewById(R.id.chooseColorProduct);
         barcodeEdit = findViewById(R.id.barcodeValueText);
 
         barcodeEdit.setOnFocusChangeListener((v, hasFocus) -> {
@@ -54,6 +46,33 @@ public class AddModifyProduct extends BackActivity {
                 barcodeEdit.setText("");
             }
         });
+
+        chooseColor.setOnClickListener(v -> ColorPickerDialogBuilder
+                .with(AddModifyProduct.this)
+                .setTitle("Scegli colore")
+                .initialColor(Color.WHITE)
+                .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
+                .density(12)
+                .setOnColorSelectedListener(selectedColor -> {
+                    color = selectedColor;
+                    chooseColor.setBackgroundColor(color);
+                })
+                .setPositiveButton("ok", (dialog, selectedColor, allColors) -> {
+
+                })
+                .setNegativeButton("cancella", (dialog, which) -> color = -1)
+                .build()
+                .show());
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        final EditText name = findViewById(R.id.productNameEdit);
+        final EditText price = findViewById(R.id.priceProductEdit);
+        final Spinner categorySpinner = findViewById(R.id.categorySpinnerAddProduct);
 
         SweetAlertDialog pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
         pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
@@ -67,7 +86,7 @@ public class AddModifyProduct extends BackActivity {
 
             runOnUiThread(() -> {
 
-               pDialog.dismissWithAnimation();
+                pDialog.dismissWithAnimation();
 
                 if (cats.size() == 0) {
 
@@ -141,7 +160,7 @@ public class AddModifyProduct extends BackActivity {
                                             .setConfirmText("Ok")
                                             .setConfirmClickListener(SweetAlertDialog::dismissWithAnimation).show();
                                 } else {
-                                   finish();
+                                    finish();
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -197,92 +216,5 @@ public class AddModifyProduct extends BackActivity {
             });
 
         }).start();
-
-        chooseColor.setOnClickListener(v -> ColorPickerDialogBuilder
-                .with(AddModifyProduct.this)
-                .setTitle("Scegli colore")
-                .initialColor(Color.WHITE)
-                .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
-                .density(12)
-                .setOnColorSelectedListener(selectedColor -> {
-                    color = selectedColor;
-                    chooseColor.setBackgroundColor(color);
-                })
-                .setPositiveButton("ok", (dialog, selectedColor, allColors) -> {
-
-                })
-                .setNegativeButton("cancella", (dialog, which) -> color = -1)
-                .build()
-                .show());
-
-    }
-
-    private String primitiveBarcodeReaded = "";
-    private String barcodeReaded = "";
-    private boolean isToRemove = false;
-
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
-
-        if(event.getKeyCode() == KeyEvent.KEYCODE_BACK){
-
-            onBackPressed();
-
-        }else if(event.getKeyCode() != KeyEvent.KEYCODE_ENTER){
-
-            if(isToRemove){
-
-                primitiveBarcodeReaded = "";
-                barcodeReaded = "";
-                isToRemove = false;
-
-            }
-
-            primitiveBarcodeReaded += String.valueOf((char)event.getUnicodeChar());
-
-        }else{
-            if(!isToRemove){
-
-                char[] charing = primitiveBarcodeReaded.toCharArray();
-
-                ArrayList<Character> chars = new ArrayList<>();
-
-                for (int i = 0; i < charing.length; i++) {
-                    if(Character.isLetter(charing[i])){
-
-                        try{
-                            charing[i-1] = '!';
-                            charing[i+1] = '!';
-                        }catch (Exception ignored){}
-
-                    }
-                }
-
-                for (char c : charing) {
-                    if (c != '!') {
-
-                        chars.add(c);
-
-                    }
-                }
-
-                Character[] char2 = new Character[chars.size()];
-                char2 = chars.toArray(char2);
-
-                for (int i = 0; i < char2.length; i = i+2) {
-
-                    barcodeReaded = String.format("%s%s", barcodeReaded, char2[i]);
-
-                }
-
-                barcode = barcodeReaded;
-
-                isToRemove = true;
-
-            }
-
-        }
-
-        return super.dispatchKeyEvent(event);
     }
 }

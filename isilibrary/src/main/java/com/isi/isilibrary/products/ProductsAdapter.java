@@ -1,6 +1,7 @@
 package com.isi.isilibrary.products;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,12 +50,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
         holder.priceProduct.setText(String.format(Locale.getDefault(), "Prezzo: %.2f", c.price));
         holder.barcode.setText(c.barcode);
 
-        holder.modify.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
+        holder.modify.setOnClickListener(view -> context.startActivity(new Intent(context, AddModifyProduct.class)));
 
 
     }
