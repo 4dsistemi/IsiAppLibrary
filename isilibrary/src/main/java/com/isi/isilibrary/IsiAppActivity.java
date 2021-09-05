@@ -29,6 +29,7 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.flexbox.FlexboxLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.isi.isiapi.isicashier.HttpRequest;
 import com.isi.isilibrary.application.ApplicationList;
 
 import java.lang.reflect.Type;
@@ -44,6 +45,9 @@ public class IsiAppActivity extends AppCompatActivity{
     private View inflate = null;
     private View underMenu = null;
     private View lateralMenu = null;
+    public static String apikey = "";
+    public static String serial = "";
+    public static HttpRequest isiCashierRequest;
 
     private boolean scrolling = true;
 
@@ -373,6 +377,7 @@ public class IsiAppActivity extends AppCompatActivity{
 
         registerReceiver(guestReceiver, new IntentFilter("timeoutService"));
 
+        serial = "J107213B00342";
 
     }
 
@@ -513,6 +518,9 @@ public class IsiAppActivity extends AppCompatActivity{
 
     }
 
-
+    public void initAPI(String apikey){
+        IsiAppActivity.apikey = apikey;
+        IsiAppActivity.isiCashierRequest = new HttpRequest(apikey);
+    }
 }
 

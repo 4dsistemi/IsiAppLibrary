@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/addIntestazioneDone"
+        android:icon="@drawable/done_icon_menu"
+        android:title="@string/add"
+        app:showAsAction="ifRoom"
+        android:orderInCategory="0"/>
+
+
+</menu>
