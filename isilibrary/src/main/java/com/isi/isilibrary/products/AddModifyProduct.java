@@ -212,7 +212,8 @@ public class AddModifyProduct extends BackActivity {
 
                             }
 
-                            chooseColor.setBackgroundColor(backProduct.color);
+                            if(backProduct.color != -1)
+                                chooseColor.setBackgroundColor(backProduct.color);
 
                             color = backProduct.color;
 
