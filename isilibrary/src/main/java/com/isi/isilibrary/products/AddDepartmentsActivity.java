@@ -38,6 +38,12 @@ public class AddDepartmentsActivity extends BackActivity {
 
         setTitle("Reparti");
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
         Spinner spinner = findViewById(R.id.productSpinnerDepartment);
         code = findViewById(R.id.departmentCodeEdit);
 
@@ -124,7 +130,6 @@ public class AddDepartmentsActivity extends BackActivity {
 
             }
         }).start();
-
     }
 
     @Override

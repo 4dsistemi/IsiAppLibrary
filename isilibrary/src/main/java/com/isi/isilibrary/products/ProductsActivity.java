@@ -44,7 +44,8 @@ public class ProductsActivity extends BackActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                adapter.getFilter().filter(newText);
+                if(adapter != null)
+                    adapter.getFilter().filter(newText);
                 return true;
             }
         });
