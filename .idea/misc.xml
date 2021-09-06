@@ -3,16 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/edoar/Desktop/IsiAppLibrary/isilibrary/src/main/res/drawable/circle_drawable.xml" value="0.37864583333333335" />
-        <entry key="..\:/Users/edoar/Desktop/IsiAppLibrary/isilibrary/src/main/res/drawable/done_icon_menu.xml" value="0.37864583333333335" />
-        <entry key="..\:/Users/edoar/Desktop/IsiAppLibrary/isilibrary/src/main/res/layout/activity_add_category.xml" value="0.2957427536231884" />
-        <entry key="..\:/Users/edoar/Desktop/IsiAppLibrary/isilibrary/src/main/res/layout/activity_add_departments.xml" value="0.2957427536231884" />
-        <entry key="..\:/Users/edoar/Desktop/IsiAppLibrary/isilibrary/src/main/res/layout/activity_add_modify_product.xml" value="0.2957427536231884" />
-        <entry key="..\:/Users/edoar/Desktop/IsiAppLibrary/isilibrary/src/main/res/layout/activity_category_product.xml" value="0.2957427536231884" />
-        <entry key="..\:/Users/edoar/Desktop/IsiAppLibrary/isilibrary/src/main/res/layout/activity_department.xml" value="0.2957427536231884" />
-        <entry key="..\:/Users/edoar/Desktop/IsiAppLibrary/isilibrary/src/main/res/layout/department_cell.xml" value="0.2957427536231884" />
-        <entry key="..\:/Users/edoar/Desktop/IsiAppLibrary/isilibrary/src/main/res/menu/add_intestazione_menu.xml" value="0.3625" />
-        <entry key="..\:/Users/edoar/Desktop/IsiAppLibrary/isilibrary/src/main/res/menu/intestazione_menu.xml" value="0.3625" />
+        <entry key="..\:/Users/edoardo/StudioProjects/isilibrary/isilibrary/src/main/res/layout/activity_modify_category.xml" value="0.28940217391304346" />
+        <entry key="..\:/Users/edoardo/StudioProjects/isilibrary/isilibrary/src/main/res/layout/category_cell.xml" value="0.28940217391304346" />
       </map>
     </option>
   </component>

@@ -1,13 +1,18 @@
 package com.isi.isilibrary.products;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.isi.isiapi.general.classes.Category;
 import com.isi.isilibrary.IsiAppActivity;
 import com.isi.isilibrary.R;
@@ -102,11 +107,19 @@ public class CategoryProductActivity extends BackActivity {
 
             for (Category category : categories){
 
-                TextView view = new TextView(categoryLayout.getContext());
+                LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
+                assert inflater != null;
+                @SuppressLint("InflateParams") final View inflate = inflater.inflate(R.layout.category_cell, categoryLayout, false);
+                TextView view = inflate.findViewById(R.id.categoryCellName);
+                Button modify = inflate.findViewById(R.id.categoryModifyCell);
+
+                modify.setOnClickListener(v -> {
+                    Intent i = new Intent(CategoryProductActivity.this, AddCategoryActivity.class);
+                    i.putExtra("category", new Gson().toJson(category));
+                    startActivity(i);
+                });
 
                 view.setText(category.name);
-
-                view.setTextSize(20);
 
                 categoryLayout.addView(view);
             }

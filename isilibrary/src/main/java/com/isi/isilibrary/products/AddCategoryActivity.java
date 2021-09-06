@@ -1,15 +1,17 @@
 package com.isi.isilibrary.products;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
+import com.google.gson.Gson;
+import com.isi.isiapi.general.classes.Category;
 import com.isi.isilibrary.IsiAppActivity;
 import com.isi.isilibrary.R;
 import com.isi.isilibrary.backActivity.BackActivity;
@@ -19,13 +21,28 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class AddCategoryActivity extends BackActivity {
 
     private Integer color = -1;
+    private Category backCategory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_category);
 
+        Intent i = getIntent();
+
+        if(i.getStringExtra("category") != null){
+            backCategory = new Gson().fromJson(i.getStringExtra("category"), Category.class);
+        }
+
         final Button chooseColor = findViewById(R.id.chooseCategoryColorButton);
+        EditText editText = findViewById(R.id.categoryNameEdit);
+
+        if(backCategory != null){
+            editText.setText(backCategory.name);
+            if(backCategory.color != -1){
+                chooseColor.setBackgroundColor(backCategory.color);
+            }
+        }
 
         chooseColor.setOnClickListener(v -> ColorPickerDialogBuilder
                 .with(AddCategoryActivity.this)
@@ -75,13 +92,20 @@ public class AddCategoryActivity extends BackActivity {
                 loader.show();
                 new Thread(() -> {
 
-                    final boolean result = IsiAppActivity.isiCashierRequest.addCategory(IsiAppActivity.serial, name, color);
+                    boolean result;
+
+                    if(backCategory != null){
+                        backCategory.name = name;
+                        backCategory.color = color;
+                        result = IsiAppActivity.isiCashierRequest.modifyCategory(backCategory);
+                    }else{
+                        result = IsiAppActivity.isiCashierRequest.addCategory(IsiAppActivity.serial, name, color);
+                    }
+
                     runOnUiThread(() -> {
                         loader.dismissWithAnimation();
                         if (result) {
                             finish();
-                            Toast.makeText(AddCategoryActivity.this, "Categoria aggiunta correttamente!",
-                                    Toast.LENGTH_LONG).show();
                         } else {
                             new SweetAlertDialog(AddCategoryActivity.this, SweetAlertDialog.ERROR_TYPE)
                                     .setTitleText("Attenzione")
