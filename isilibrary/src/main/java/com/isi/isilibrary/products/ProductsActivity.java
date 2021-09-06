@@ -66,26 +66,25 @@ public class ProductsActivity extends BackActivity {
 
             List<Product> spese = IsiAppActivity.isiCashierRequest.getProducts(IsiAppActivity.serial);
 
-            pDialog.dismissWithAnimation();
+            runOnUiThread(() -> {
+                pDialog.dismissWithAnimation();
 
-            if(spese == null){
-                new SweetAlertDialog(ProductsActivity.this, SweetAlertDialog.ERROR_TYPE)
-                        .setTitleText("Attenzione")
-                        .setContentText("Errore di comunicazione con il server. Riprovare")
-                        .setConfirmText("Ok")
-                        .setConfirmClickListener(sweetAlertDialog -> {
-                            sweetAlertDialog.dismissWithAnimation();
-                            finish();
-                        }).show();
-            }else{
+                if(spese == null){
+                    new SweetAlertDialog(ProductsActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Attenzione")
+                            .setContentText("Errore di comunicazione con il server. Riprovare")
+                            .setConfirmText("Ok")
+                            .setConfirmClickListener(sweetAlertDialog -> {
+                                sweetAlertDialog.dismissWithAnimation();
+                                finish();
+                            }).show();
+                }else{
 
-                runOnUiThread(() -> {
                     adapter = new ProductsAdapter(ProductsActivity.this, spese);
 
                     recyclerView.setAdapter(adapter);
-                });
-            }
-
+                }
+            });
 
         }).start();
     }

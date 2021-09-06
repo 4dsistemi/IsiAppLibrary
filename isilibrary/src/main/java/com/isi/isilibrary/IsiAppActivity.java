@@ -354,8 +354,6 @@ public class IsiAppActivity extends AppCompatActivity{
 
         registerReceiver(guestReceiver, new IntentFilter("timeoutService"));
 
-        serial = "J107213B00342";
-
     }
 
     private void getApplicationListActive(int code){
@@ -496,8 +494,9 @@ public class IsiAppActivity extends AppCompatActivity{
 
     }
 
-    public void initAPI(String apikey, boolean debug){
+    public void initAPI(String apikey, boolean debug, String serial){
         IsiAppActivity.apikey = apikey;
+        IsiAppActivity.serial = serial;
         IsiAppActivity.isiCashierRequest = new HttpRequest(apikey);
         IsiAppActivity.isiCashierRequest.setDebug(debug);
     }
