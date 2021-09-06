@@ -121,7 +121,7 @@ public class CategoryProductActivity extends BackActivity {
 
                 view.setText(category.name);
 
-                categoryLayout.addView(view);
+                categoryLayout.addView(inflate);
             }
         }
 
