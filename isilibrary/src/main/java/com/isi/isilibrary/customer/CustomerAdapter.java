@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.card.MaterialCardView;
 import com.google.gson.Gson;
 import com.isi.isiapi.general.classes.Customer;
 import com.isi.isilibrary.R;
@@ -28,11 +29,13 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.ViewHo
     private final Activity context;
     private final List<Customer> customers;
     private final ArrayList<Customer> customersFilteres;
+    private boolean searching;
 
-    public CustomerAdapter(@NonNull Activity context, @NonNull List<Customer> objects) {
+    public CustomerAdapter(@NonNull Activity context, @NonNull List<Customer> objects, boolean searching) {
         this.context = context;
         this.customers = objects;
         this.customersFilteres = new ArrayList<>(customers);
+        this.searching = searching;
     }
 
     @NonNull
@@ -75,6 +78,17 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.ViewHo
             i.putExtra("customer", new Gson().toJson(c));
             context.startActivity(i);
         });
+
+        if(searching){
+            holder.cardView.setOnClickListener(v -> {
+
+                Intent i = new Intent();
+                i.putExtra("customer", new Gson().toJson(c));
+                context.setResult(Activity.RESULT_OK, i);
+                context.finish();
+
+            });
+        }
 
     }
 
@@ -130,6 +144,7 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.ViewHo
         TextView zip;
         TextView birthday;
         Button modify;
+        MaterialCardView cardView;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -140,6 +155,7 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.ViewHo
             zip = itemView.findViewById(R.id.zipCustomerDisplay);
             birthday = itemView.findViewById(R.id.birthdayCustomerDisplay);
             modify = itemView.findViewById(R.id.modifyCustomerButton);
+            cardView = itemView.findViewById(R.id.cardViewLayout);
         }
     }
 }

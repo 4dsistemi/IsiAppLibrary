@@ -71,6 +71,8 @@ public class MyCustomerActivity extends BackActivity {
     protected void onResume() {
         super.onResume();
 
+        boolean searching = getIntent().getBooleanExtra("searching", false);
+
         SweetAlertDialog pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
         pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
         pDialog.setTitleText("Aggiorno Clienti...");
@@ -86,7 +88,7 @@ public class MyCustomerActivity extends BackActivity {
             runOnUiThread(() -> {
                 pDialog.dismissWithAnimation();
 
-                adapter = new CustomerAdapter(MyCustomerActivity.this, customers);
+                adapter = new CustomerAdapter(MyCustomerActivity.this, customers, searching);
 
                 recyclerView.setAdapter(adapter);
             });
