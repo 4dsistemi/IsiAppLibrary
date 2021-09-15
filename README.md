@@ -20,7 +20,7 @@ Come utilizzare la libreria:
 	</pre>
 
 . Sempre nel gradle importare:
-    implementation 'com.github.4dsistemi:IsiAppLibrary:1.0.15'
+    implementation 'com.github.4dsistemi:IsiAppLibrary:1.1.16'
 
 . L'activity che dovrà integrare il sistema dovrà estendere la IsiAppActivity.  
 . In caso di Scrollview: la scrollview dovrà essere IsiAppScrollView  
