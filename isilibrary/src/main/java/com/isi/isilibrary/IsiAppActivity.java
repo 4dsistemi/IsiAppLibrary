@@ -116,6 +116,8 @@ public class IsiAppActivity extends AppCompatActivity{
         LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
         assert inflater != null;
 
+        mainView = ((ViewGroup) IsiAppActivity.this.getWindow().getDecorView().getRootView());
+
         lateralMenu = inflater.inflate(R.layout.menu_lateral, mainView, false);
 
         ConstraintLayout lateralLayout = lateralMenu.findViewById(R.id.lateral_left);
@@ -182,9 +184,6 @@ public class IsiAppActivity extends AppCompatActivity{
             }
 
         }
-
-
-        mainView = ((ViewGroup) IsiAppActivity.this.getWindow().getDecorView().getRootView());
 
         mainView.addView(lateralMenu);
 
