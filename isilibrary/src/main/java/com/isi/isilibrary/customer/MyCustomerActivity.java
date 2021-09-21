@@ -83,14 +83,28 @@ public class MyCustomerActivity extends BackActivity {
 
             List<Customer> customers = IsiAppActivity.isiCashierRequest.getCustomers(IsiAppActivity.serial);
 
-            customers.sort(Comparator.comparing(Customer::getSurname));
-
             runOnUiThread(() -> {
                 pDialog.dismissWithAnimation();
 
-                adapter = new CustomerAdapter(MyCustomerActivity.this, customers, searching);
+                if(customers != null){
 
-                recyclerView.setAdapter(adapter);
+                    customers.sort(Comparator.comparing(Customer::getSurname));
+
+                    adapter = new CustomerAdapter(MyCustomerActivity.this, customers, searching);
+
+                    recyclerView.setAdapter(adapter);
+                }else{
+                    runOnUiThread(() -> new SweetAlertDialog(MyCustomerActivity.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Attenzione")
+                            .setContentText("Errore di comunicazione con il server. Riprovare")
+                            .setConfirmText("Ok")
+                            .setConfirmClickListener(sweetAlertDialog -> {
+                                sweetAlertDialog.dismissWithAnimation();
+                                finish();
+                            }).show());
+                }
+
+
             });
 
         }).start();
