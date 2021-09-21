@@ -162,24 +162,31 @@ public class AddModifyProduct extends BackActivity {
                                     } else {
                                         res = IsiAppActivity.isiCashierRequest.addProduct(IsiAppActivity.serial, new Product(-1, name.getText().toString(), priceFloat, rates.get(rateSpinner.getSelectedItemPosition()).id, barcodeEdit.getText().toString(), color, finalCatId));
                                     }
-                                    loader.dismissWithAnimation();
-                                    if (!res) {
-                                        new SweetAlertDialog(AddModifyProduct.this, SweetAlertDialog.ERROR_TYPE)
-                                                .setTitleText("Attenzione")
-                                                .setContentText("Errore di comunicazione con il server. Riprovare")
-                                                .setConfirmText("Ok")
-                                                .setConfirmClickListener(SweetAlertDialog::dismissWithAnimation).show();
-                                    } else {
-                                        finish();
-                                    }
+
+                                    runOnUiThread(() -> {
+                                        loader.dismissWithAnimation();
+                                        if (!res) {
+                                            new SweetAlertDialog(AddModifyProduct.this, SweetAlertDialog.ERROR_TYPE)
+                                                    .setTitleText("Attenzione")
+                                                    .setContentText("Errore di comunicazione con il server. Riprovare")
+                                                    .setConfirmText("Ok")
+                                                    .setConfirmClickListener(SweetAlertDialog::dismissWithAnimation).show();
+                                        } else {
+                                            finish();
+                                        }
+                                    });
+
                                 } catch (Exception e) {
                                     e.printStackTrace();
-                                    loader.dismissWithAnimation();
-                                    new SweetAlertDialog(AddModifyProduct.this, SweetAlertDialog.ERROR_TYPE)
-                                            .setTitleText("Attenzione")
-                                            .setContentText("Prezzo non valido")
-                                            .setConfirmText("Ok")
-                                            .setConfirmClickListener(SweetAlertDialog::dismissWithAnimation).show();
+                                    runOnUiThread(() -> {
+                                        loader.dismissWithAnimation();
+                                        new SweetAlertDialog(AddModifyProduct.this, SweetAlertDialog.ERROR_TYPE)
+                                                .setTitleText("Attenzione")
+                                                .setContentText("Prezzo non valido")
+                                                .setConfirmText("Ok")
+                                                .setConfirmClickListener(SweetAlertDialog::dismissWithAnimation).show();
+                                    });
+
                                 }
                             }).start();
                         });
