@@ -2,7 +2,6 @@ package com.isi.isilibrary.customer;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +28,7 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.ViewHo
     private final Activity context;
     private final List<Customer> customers;
     private final ArrayList<Customer> customersFilteres;
-    private boolean searching;
+    private final boolean searching;
 
     public CustomerAdapter(@NonNull Activity context, @NonNull List<Customer> objects, boolean searching) {
         this.context = context;
@@ -55,22 +54,32 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.ViewHo
 
         if(!StringUtils.isAnyEmpty(c.getAddress(), c.getCountry(), c.getCity(), c.getZip(), c.getProvince())){
             holder.addressCustomer.setText(String.format("Indirizzo: %s %s %s %s %s", c.getAddress(), c.getCity(), c.getZip(), c.getCountry(), c.getProvince()));
+        }else{
+            holder.addressCustomer.setText("");
         }
 
         if(c.getFiscal() != null){
             holder.fiscalCustomer.setText(String.format("Codice fiscale: %s", c.getFiscal()));
+        }else{
+            holder.addressCustomer.setText("");
         }
 
         if(c.getBirthplace() != null){
             holder.birthplace.setText(String.format("Nato a: %s", c.getBirthplace()));
+        }else{
+            holder.birthplace.setText("");
         }
 
         if(c.getZip() != null){
             holder.zip.setText(String.format("CAP: %s", c.getZip()));
+        }else{
+            holder.zip.setText("");
         }
 
         if(c.getBirthday() != null){
             holder.birthday.setText(String.format("Data di nascita: %s", c.getBirthday()));
+        }else{
+            holder.birthday.setText("");
         }
 
         holder.modify.setOnClickListener(v -> {
