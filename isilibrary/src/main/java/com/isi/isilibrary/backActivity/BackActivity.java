@@ -1,10 +1,12 @@
 package com.isi.isilibrary.backActivity;
 
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Button;
 
 import androidx.annotation.CallSuper;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.isi.isilibrary.R;
@@ -14,6 +16,14 @@ import java.util.Objects;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class BackActivity extends AppCompatActivity {
+
+    private SweetAlertDialog pDialog;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        pDialog = new SweetAlertDialog(BackActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+    }
 
     @Override
     protected void onResume() {
@@ -54,12 +64,10 @@ public class BackActivity extends AppCompatActivity {
         runOnUiThread(() -> setContentView(R.layout.empty_data));
     }
 
-    private SweetAlertDialog pDialog;
 
     public void startLoader(String title){
         final String titleIn = title == null ? "Aggiorno dati..." : title;
         runOnUiThread(() -> {
-            pDialog = new SweetAlertDialog(BackActivity.this, SweetAlertDialog.PROGRESS_TYPE);
             pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
             pDialog.setTitleText(titleIn);
             pDialog.setCancelable(false);

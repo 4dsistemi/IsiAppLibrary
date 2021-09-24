@@ -11,6 +11,7 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -55,6 +56,13 @@ public class IsiAppActivity extends AppCompatActivity{
     public static HttpRequest isiCashierRequest;
 
     private boolean scrolling = true;
+    private SweetAlertDialog pDialog;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
+        super.onCreate(savedInstanceState, persistentState);
+        pDialog = new SweetAlertDialog(IsiAppActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+    }
 
     public void setScrolling(boolean scrolling) {
         this.scrolling = scrolling;
@@ -528,12 +536,9 @@ public class IsiAppActivity extends AppCompatActivity{
         runOnUiThread(() -> setContentView(R.layout.empty_data));
     }
 
-    private SweetAlertDialog pDialog;
-
     public void startLoader(String title){
         final String titleIn = title == null ? "Aggiorno dati..." : title;
         runOnUiThread(() -> {
-            pDialog = new SweetAlertDialog(IsiAppActivity.this, SweetAlertDialog.PROGRESS_TYPE);
             pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
             pDialog.setTitleText(titleIn);
             pDialog.setCancelable(false);
