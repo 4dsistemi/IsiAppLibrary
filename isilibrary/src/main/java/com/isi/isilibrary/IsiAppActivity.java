@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,6 +21,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.CallSuper;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -30,8 +33,12 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.isi.isiapi.isicashier.HttpRequest;
 import com.isi.isilibrary.application.ApplicationList;
+import com.isi.isilibrary.backActivity.BackActivity;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class IsiAppActivity extends AppCompatActivity{
 
@@ -498,6 +505,49 @@ public class IsiAppActivity extends AppCompatActivity{
         IsiAppActivity.serial = serial;
         IsiAppActivity.isiCashierRequest = new HttpRequest(apikey);
         IsiAppActivity.isiCashierRequest.setDebug(debug);
+    }
+
+    @CallSuper
+    public void updateUI(int layout){
+        runOnUiThread(() -> setContentView(layout));
+    }
+
+
+    public void errorPage(int layout){
+        runOnUiThread(() -> {
+            setContentView(R.layout.error_data);
+
+            Button reloadButton = findViewById(R.id.reload_data_button);
+
+            reloadButton.setOnClickListener(v -> updateUI(layout));
+        });
+
+    }
+
+    public void emptyData(){
+        runOnUiThread(() -> setContentView(R.layout.empty_data));
+    }
+
+    private SweetAlertDialog pDialog;
+
+    public void startLoader(String title){
+        final String titleIn = title == null ? "Aggiorno dati..." : title;
+        runOnUiThread(() -> {
+            pDialog = new SweetAlertDialog(IsiAppActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+            pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+            pDialog.setTitleText(titleIn);
+            pDialog.setCancelable(false);
+            pDialog.show();
+        });
+
+    }
+
+    public void stopLoader(){
+        runOnUiThread(() -> {
+            if(pDialog != null){
+                pDialog.dismissWithAnimation();
+            }
+        });
     }
 }
 
