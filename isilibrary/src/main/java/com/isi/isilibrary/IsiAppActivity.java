@@ -55,7 +55,6 @@ public class IsiAppActivity extends AppCompatActivity{
     public static HttpRequest isiCashierRequest;
 
     private boolean scrolling = true;
-    private SweetAlertDialog pDialog;
 
 
     public void setScrolling(boolean scrolling) {
@@ -359,10 +358,6 @@ public class IsiAppActivity extends AppCompatActivity{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        pDialog = new SweetAlertDialog(IsiAppActivity.this, SweetAlertDialog.PROGRESS_TYPE);
-        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-        pDialog.setTitleText("Aggiorno dati...");
-        pDialog.setCancelable(false);
         registerReceiver(guestReceiver, new IntentFilter("timeoutService"));
 
     }
@@ -533,21 +528,5 @@ public class IsiAppActivity extends AppCompatActivity{
         runOnUiThread(() -> setContentView(R.layout.empty_data));
     }
 
-    public void startLoader(String title){
-        final String titleIn = title == null ? "Aggiorno dati..." : title;
-        runOnUiThread(() -> {
-            pDialog.setTitleText(titleIn);
-            pDialog.show();
-        });
-
-    }
-
-    public void stopLoader(){
-        runOnUiThread(() -> {
-            if(pDialog != null){
-                pDialog.dismissWithAnimation();
-            }
-        });
-    }
 }
 
