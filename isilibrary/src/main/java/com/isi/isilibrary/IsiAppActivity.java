@@ -58,11 +58,6 @@ public class IsiAppActivity extends AppCompatActivity{
     private boolean scrolling = true;
     private SweetAlertDialog pDialog;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
-        pDialog = new SweetAlertDialog(IsiAppActivity.this, SweetAlertDialog.PROGRESS_TYPE);
-    }
 
     public void setScrolling(boolean scrolling) {
         this.scrolling = scrolling;
@@ -365,7 +360,7 @@ public class IsiAppActivity extends AppCompatActivity{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        pDialog = new SweetAlertDialog(IsiAppActivity.this, SweetAlertDialog.PROGRESS_TYPE);
         registerReceiver(guestReceiver, new IntentFilter("timeoutService"));
 
     }
