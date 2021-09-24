@@ -11,7 +11,6 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,6 +26,7 @@ import androidx.annotation.CallSuper;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.flexbox.FlexboxLayout;
@@ -34,7 +34,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.isi.isiapi.isicashier.HttpRequest;
 import com.isi.isilibrary.application.ApplicationList;
-import com.isi.isilibrary.backActivity.BackActivity;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -361,6 +360,9 @@ public class IsiAppActivity extends AppCompatActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         pDialog = new SweetAlertDialog(IsiAppActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog.setTitleText("Aggiorno dati...");
+        pDialog.setCancelable(false);
         registerReceiver(guestReceiver, new IntentFilter("timeoutService"));
 
     }
@@ -471,7 +473,7 @@ public class IsiAppActivity extends AppCompatActivity{
     }
 
     public void sendBroadcast(String title, String messgae){
-       NotifyBroadcast.sendBroadcast(this, title, messgae);
+        NotifyBroadcast.sendBroadcast(this, title, messgae);
     }
 
     private String getApplicationListName(String packageName) {
@@ -534,9 +536,7 @@ public class IsiAppActivity extends AppCompatActivity{
     public void startLoader(String title){
         final String titleIn = title == null ? "Aggiorno dati..." : title;
         runOnUiThread(() -> {
-            pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
             pDialog.setTitleText(titleIn);
-            pDialog.setCancelable(false);
             pDialog.show();
         });
 
