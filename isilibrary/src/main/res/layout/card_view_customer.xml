@@ -110,11 +110,11 @@
 
             <Button
                 android:id="@+id/deleteCustomerButton"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
-                android:background="#9CED1C1C"
+                android:backgroundTint="#9CED1C1C"
                 android:text="Elimina" />
 
         </LinearLayout>
