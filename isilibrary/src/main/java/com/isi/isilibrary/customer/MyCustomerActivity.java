@@ -67,9 +67,7 @@ public class MyCustomerActivity extends BackActivity {
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+    public void updateUI(){
 
         boolean searching = getIntent().getBooleanExtra("searching", false);
 
@@ -108,6 +106,13 @@ public class MyCustomerActivity extends BackActivity {
             });
 
         }).start();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        updateUI();
 
     }
 

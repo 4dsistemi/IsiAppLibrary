@@ -108,6 +108,15 @@
                 android:layout_marginBottom="8dp"
                 android:text="Modifica" />
 
+            <Button
+                android:id="@+id/deleteCustomerButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:backgroundTint="#B7E30606"
+                android:text="Elimina" />
+
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>

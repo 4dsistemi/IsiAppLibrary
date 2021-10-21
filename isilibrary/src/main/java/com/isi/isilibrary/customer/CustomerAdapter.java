@@ -2,6 +2,7 @@ package com.isi.isilibrary.customer;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.card.MaterialCardView;
 import com.google.gson.Gson;
 import com.isi.isiapi.general.classes.Customer;
+import com.isi.isilibrary.IsiAppActivity;
 import com.isi.isilibrary.R;
 
 import org.apache.commons.lang3.StringUtils;
@@ -23,14 +25,16 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.ViewHolder> implements Filterable {
 
-    private final Activity context;
+    private final MyCustomerActivity context;
     private final List<Customer> customers;
     private final ArrayList<Customer> customersFilteres;
     private final boolean searching;
 
-    public CustomerAdapter(@NonNull Activity context, @NonNull List<Customer> objects, boolean searching) {
+    public CustomerAdapter(@NonNull MyCustomerActivity context, @NonNull List<Customer> objects, boolean searching) {
         this.context = context;
         this.customers = objects;
         this.customersFilteres = new ArrayList<>(customers);
@@ -87,6 +91,42 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.ViewHo
             i.putExtra("customer", new Gson().toJson(c));
             context.startActivity(i);
         });
+
+        holder.delete.setOnClickListener(v -> new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
+                .setTitleText("Cancellazione cliente")
+                .setContentText("Sei sicuro di voler eliminare " + c.getName() + " " + c.getSurname() + "?")
+                .setConfirmText("Sì")
+                .setCancelText("No")
+                .setCancelClickListener(SweetAlertDialog::dismissWithAnimation)
+                .setConfirmClickListener(sweetAlertDialog -> {
+                    sweetAlertDialog.dismissWithAnimation();
+                    SweetAlertDialog pDialog = new SweetAlertDialog(context, SweetAlertDialog.PROGRESS_TYPE);
+                    pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                    pDialog.setTitleText("Elimino Cliente...");
+                    pDialog.setCancelable(false);
+                    pDialog.show();
+
+                    new Thread(() -> {
+
+                        boolean response = IsiAppActivity.isiCashierRequest.deleteCustomer(IsiAppActivity.serial, c.getId());
+
+                        context.runOnUiThread(() -> {
+                            pDialog.dismissWithAnimation();
+
+                            if(response){
+                                context.updateUI();
+                            }else{
+                                new SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE)
+                                        .setTitleText("Cancellazione cliente")
+                                        .setContentText("Errore nell'eliminazione del cliente")
+                                        .show();
+                            }
+                        });
+
+                    }).start();
+
+                })
+                .show());
 
         if(searching){
             holder.cardView.setOnClickListener(v -> {
@@ -153,6 +193,7 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.ViewHo
         TextView zip;
         TextView birthday;
         Button modify;
+        Button delete;
         MaterialCardView cardView;
 
         public ViewHolder(View itemView) {
@@ -164,6 +205,7 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.ViewHo
             zip = itemView.findViewById(R.id.zipCustomerDisplay);
             birthday = itemView.findViewById(R.id.birthdayCustomerDisplay);
             modify = itemView.findViewById(R.id.modifyCustomerButton);
+            delete = itemView.findViewById(R.id.deleteCustomerButton);
             cardView = itemView.findViewById(R.id.cardViewLayout);
         }
     }
