@@ -12,10 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.isi.isilibrary.IsiAppActivity;
 import com.isi.isilibrary.R;
 import com.isi.isilibrary.backActivity.BackActivity;
-import cn.pedant.SweetAlert.SweetAlertDialog;
-import com.isi.isiapi.general.classes.Product;
+import com.isi.isilibrary.internalApi.classes.CategoryAndProduct;
+import com.isi.isilibrary.internalApi.classes.Product;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class ProductsActivity extends BackActivity {
 
@@ -64,7 +67,12 @@ public class ProductsActivity extends BackActivity {
 
         new Thread(() -> {
 
-            List<Product> spese = IsiAppActivity.isiCashierRequest.getProducts(IsiAppActivity.serial);
+            List<CategoryAndProduct> spese = IsiAppActivity.isiCashierRequest.getCategories();
+            List<Product> products = new ArrayList<>();
+
+            for (CategoryAndProduct categoryAndProduct : spese){
+                products.addAll(categoryAndProduct.product);
+            }
 
             runOnUiThread(() -> {
                 pDialog.dismissWithAnimation();
@@ -80,7 +88,7 @@ public class ProductsActivity extends BackActivity {
                             }).show();
                 }else{
 
-                    adapter = new ProductsAdapter(ProductsActivity.this, spese);
+                    adapter = new ProductsAdapter(ProductsActivity.this, products);
 
                     recyclerView.setAdapter(adapter);
                 }

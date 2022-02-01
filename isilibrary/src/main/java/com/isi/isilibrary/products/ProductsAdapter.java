@@ -14,8 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
-import com.isi.isiapi.general.classes.Product;
 import com.isi.isilibrary.R;
+import com.isi.isilibrary.internalApi.classes.Product;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +49,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
         holder.nameProduct.setText(String.format("%s", c.name));
 
         holder.priceProduct.setText(String.format(Locale.getDefault(), "Prezzo: %.2f", c.price));
-        holder.barcode.setText(c.barcode);
+        holder.barcode.setText(c.barcode_value);
 
         holder.modify.setOnClickListener(view -> {
             Intent i = new Intent(context, AddModifyProduct.class);

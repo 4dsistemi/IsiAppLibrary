@@ -11,15 +11,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.isi.isiapi.general.classes.Department;
-import com.isi.isiapi.general.classes.Product;
 import com.isi.isilibrary.IsiAppActivity;
 import com.isi.isilibrary.R;
 import com.isi.isilibrary.backActivity.BackActivity;
+import com.isi.isilibrary.internalApi.classes.CategoryAndProduct;
+import com.isi.isilibrary.internalApi.classes.IsiCashDepartment;
+import com.isi.isilibrary.internalApi.classes.Product;
 
-import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Locale;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -51,8 +51,8 @@ public class DepartmentActivity extends BackActivity {
 
         new Thread(() -> {
 
-            ArrayList<Department> rates = IsiAppActivity.isiCashierRequest.getDepartment(IsiAppActivity.serial);
-            ArrayList<Product> products = IsiAppActivity.isiCashierRequest.getProducts(IsiAppActivity.serial);
+            List<IsiCashDepartment> rates = IsiAppActivity.isiCashierRequest.getDepartment();
+            List<CategoryAndProduct> products = IsiAppActivity.isiCashierRequest.getCategories();
 
             if(rates == null || products == null){
                 runOnUiThread(() -> new SweetAlertDialog(DepartmentActivity.this, SweetAlertDialog.ERROR_TYPE)
@@ -66,7 +66,7 @@ public class DepartmentActivity extends BackActivity {
             }else{
                 rates.sort(Comparator.comparingInt(departments -> departments.department));
 
-                for (final Department rate : rates){
+                for (final IsiCashDepartment rate : rates){
 
                     LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
                     assert inflater != null;
@@ -79,11 +79,14 @@ public class DepartmentActivity extends BackActivity {
                     TextView description = inflate.findViewById(R.id.descriptionRateTextCell);
 
                     if(rate.product_id != null){
-                        for (Product prod : products){
-                            if(prod.id == rate.product_id){
-                                description.setText(String.format("Descrizione %s", prod.name));
+                        for(CategoryAndProduct categoryAndProduct : products){
+                            for (Product prod : categoryAndProduct.product){
+                                if(prod.id == rate.product_id){
+                                    description.setText(String.format("Descrizione %s", prod.name));
+                                }
                             }
                         }
+
 
                     }
 

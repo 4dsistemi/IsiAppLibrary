@@ -10,12 +10,13 @@ import android.widget.Spinner;
 import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 import com.google.gson.Gson;
-import com.isi.isiapi.general.classes.Category;
-import com.isi.isiapi.general.classes.Department;
-import com.isi.isiapi.general.classes.Product;
 import com.isi.isilibrary.IsiAppActivity;
 import com.isi.isilibrary.R;
 import com.isi.isilibrary.backActivity.BackActivity;
+import com.isi.isilibrary.internalApi.classes.CategoryAndProduct;
+import com.isi.isilibrary.internalApi.classes.IsiCashDepartment;
+import com.isi.isilibrary.internalApi.classes.Product;
+
 import java.util.List;
 import java.util.Locale;
 
@@ -81,8 +82,8 @@ public class AddModifyProduct extends BackActivity {
         pDialog.show();
 
         new Thread(() -> {
-            final List<Category> cats = IsiAppActivity.isiCashierRequest.getCategories(IsiAppActivity.serial);
-            final List<Department> rates = IsiAppActivity.isiCashierRequest.getDepartment(IsiAppActivity.serial);
+            List<CategoryAndProduct> cats = IsiAppActivity.isiCashierRequest.getCategories();
+            List<IsiCashDepartment> rates = IsiAppActivity.isiCashierRequest.getDepartment();
 
             runOnUiThread(() -> {
 
@@ -114,7 +115,7 @@ public class AddModifyProduct extends BackActivity {
 
                         for (int i = 0; i < cats.size(); i++) {
 
-                            catsAdapter[i] = cats.get(i).name;
+                            catsAdapter[i] = cats.get(i).category.name;
 
                         }
 
@@ -150,7 +151,7 @@ public class AddModifyProduct extends BackActivity {
 
                             int catId;
 
-                            catId = cats.get(categorySpinner.getSelectedItemPosition()).id;
+                            catId = cats.get(categorySpinner.getSelectedItemPosition()).category.id;
 
                             final int finalCatId = catId;
                             new Thread(() -> {
@@ -158,9 +159,16 @@ public class AddModifyProduct extends BackActivity {
                                     float priceFloat = Float.parseFloat(price.getText().toString().replace(",", "."));
                                     boolean res;
                                     if (backProduct != null) {
-                                        res = IsiAppActivity.isiCashierRequest.modifyProduct(new Product(backProduct.id, name.getText().toString(), priceFloat, rates.get(rateSpinner.getSelectedItemPosition()).id, barcodeEdit.getText().toString(), color, finalCatId));
+                                        backProduct.name = name.getText().toString();
+                                        backProduct.price = priceFloat;
+                                        backProduct.department = rates.get(rateSpinner.getSelectedItemPosition()).department;
+                                        backProduct.barcode_value = barcodeEdit.getText().toString();
+                                        backProduct.color = color;
+                                        backProduct.category_id = finalCatId;
+                                        res = IsiAppActivity.isiCashierRequest.editProduct(backProduct);
                                     } else {
-                                        res = IsiAppActivity.isiCashierRequest.addProduct(IsiAppActivity.serial, new Product(-1, name.getText().toString(), priceFloat, rates.get(rateSpinner.getSelectedItemPosition()).id, barcodeEdit.getText().toString(), color, finalCatId));
+                                        Product p = new Product(name.getText().toString(), priceFloat, rates.get(rateSpinner.getSelectedItemPosition()).department, barcodeEdit.getText().toString(), color,finalCatId);
+                                        res = IsiAppActivity.isiCashierRequest.addProduct(p);
                                     }
 
                                     runOnUiThread(() -> {
@@ -197,7 +205,7 @@ public class AddModifyProduct extends BackActivity {
 
                             for (int i = 0; i < cats.size(); i++) {
 
-                                if (cats.get(i).id == backProduct.category_id) {
+                                if (cats.get(i).category.id == backProduct.category_id) {
 
                                     categorySpinner.setSelection(i);
                                     break;
@@ -210,7 +218,7 @@ public class AddModifyProduct extends BackActivity {
 
                             for (int i = 0; i < rates.size(); i++) {
 
-                                if (rates.get(i).id == backProduct.department_id) {
+                                if (rates.get(i).id == backProduct.department) {
 
                                     rateSpinner.setSelection(i);
                                     break;
@@ -226,7 +234,7 @@ public class AddModifyProduct extends BackActivity {
 
                             addProduct.setText(R.string.modify);
 
-                            barcodeEdit.setText(backProduct.barcode.equals("null") ? "" : backProduct.barcode);
+                            barcodeEdit.setText(backProduct.barcode_value );
                         }
 
                     }

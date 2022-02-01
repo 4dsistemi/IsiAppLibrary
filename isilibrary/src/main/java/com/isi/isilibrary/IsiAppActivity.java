@@ -8,7 +8,6 @@ import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -32,13 +31,11 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.flexbox.FlexboxLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.isi.isiapi.isicashier.HttpRequest;
 import com.isi.isilibrary.application.ApplicationList;
+import com.isi.isilibrary.internalApi.HttpRequest;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-
-import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class IsiAppActivity extends AppCompatActivity{
 
@@ -500,11 +497,9 @@ public class IsiAppActivity extends AppCompatActivity{
 
     }
 
-    public void initAPI(String apikey, boolean debug, String serial){
+    public void initAPI(String apikey){
         IsiAppActivity.apikey = apikey;
-        IsiAppActivity.serial = serial;
         IsiAppActivity.isiCashierRequest = new HttpRequest(apikey);
-        IsiAppActivity.isiCashierRequest.setDebug(debug);
     }
 
     @CallSuper

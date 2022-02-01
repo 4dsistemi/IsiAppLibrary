@@ -14,10 +14,10 @@ import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
-import com.isi.isiapi.general.classes.Customer;
 import com.isi.isilibrary.IsiAppActivity;
 import com.isi.isilibrary.R;
 import com.isi.isilibrary.backActivity.BackActivity;
+import com.isi.isilibrary.internalApi.classes.Customer;
 
 import java.util.Comparator;
 import java.util.List;
@@ -79,14 +79,14 @@ public class MyCustomerActivity extends BackActivity {
 
         new Thread(() -> {
 
-            List<Customer> customers = IsiAppActivity.isiCashierRequest.getCustomers(IsiAppActivity.serial);
+            List<Customer> customers = IsiAppActivity.isiCashierRequest.getCustomers();
 
             runOnUiThread(() -> {
                 pDialog.dismissWithAnimation();
 
                 if(customers != null){
 
-                    customers.sort(Comparator.comparing(Customer::getSurname));
+                    customers.sort(Comparator.comparing(customer -> customer.surname));
 
                     adapter = new CustomerAdapter(MyCustomerActivity.this, customers, searching);
 

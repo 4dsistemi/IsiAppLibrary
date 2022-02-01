@@ -16,9 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
 import com.google.gson.Gson;
-import com.isi.isiapi.general.classes.Customer;
 import com.isi.isilibrary.IsiAppActivity;
 import com.isi.isilibrary.R;
+import com.isi.isilibrary.internalApi.classes.Customer;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -54,34 +54,34 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.ViewHo
 
         Customer c = customersFilteres.get(position);
 
-        holder.nameSurnameCustomer.setText(String.format("%s %s", c.getName(), c.getSurname()));
+        holder.nameSurnameCustomer.setText(String.format("%s %s", c.name, c.surname));
 
-        if(!StringUtils.isAnyEmpty(c.getAddress(), c.getCountry(), c.getCity(), c.getZip(), c.getProvince())){
-            holder.addressCustomer.setText(String.format("Indirizzo: %s %s %s %s %s", c.getAddress(), c.getCity(), c.getZip(), c.getCountry(), c.getProvince()));
+        if(!StringUtils.isAnyEmpty(c.address, c.country, c.city, c.zip, c.province)){
+            holder.addressCustomer.setText(String.format("Indirizzo: %s %s %s %s %s", c.address, c.city, c.zip, c.country, c.province));
         }else{
             holder.addressCustomer.setText("");
         }
 
-        if(c.getFiscal() != null){
-            holder.fiscalCustomer.setText(String.format("Codice fiscale: %s", c.getFiscal()));
+        if(c.fiscal != null){
+            holder.fiscalCustomer.setText(String.format("Codice fiscale: %s", c.fiscal));
         }else{
             holder.addressCustomer.setText("");
         }
 
-        if(c.getBirthplace() != null){
-            holder.birthplace.setText(String.format("Nato a: %s", c.getBirthplace()));
+        if(c.birthplace != null){
+            holder.birthplace.setText(String.format("Nato a: %s", c.birthplace));
         }else{
             holder.birthplace.setText("");
         }
 
-        if(c.getZip() != null){
-            holder.zip.setText(String.format("CAP: %s", c.getZip()));
+        if(c.zip != null){
+            holder.zip.setText(String.format("CAP: %s", c.zip));
         }else{
             holder.zip.setText("");
         }
 
-        if(c.getBirthday() != null){
-            holder.birthday.setText(String.format("Data di nascita: %s", c.getBirthday()));
+        if(c.birthday != null){
+            holder.birthday.setText(String.format("Data di nascita: %s", c.birthday));
         }else{
             holder.birthday.setText("");
         }
@@ -94,7 +94,7 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.ViewHo
 
         holder.delete.setOnClickListener(v -> new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
                 .setTitleText("Cancellazione cliente")
-                .setContentText("Sei sicuro di voler eliminare " + c.getName() + " " + c.getSurname() + "?")
+                .setContentText("Sei sicuro di voler eliminare " + c.name + " " + c.surname + "?")
                 .setConfirmText("Sì")
                 .setCancelText("No")
                 .setCancelClickListener(SweetAlertDialog::dismissWithAnimation)
@@ -108,7 +108,7 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.ViewHo
 
                     new Thread(() -> {
 
-                        boolean response = IsiAppActivity.isiCashierRequest.deleteCustomer(IsiAppActivity.serial, c.getId());
+                        boolean response = IsiAppActivity.isiCashierRequest.deleteCustomer(c);
 
                         context.runOnUiThread(() -> {
                             pDialog.dismissWithAnimation();
@@ -162,7 +162,7 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.ViewHo
                 String filterPattern = constraint.toString().toLowerCase().trim();
 
                 for (Customer item : customers) {
-                    if (item.getName().toLowerCase().contains(filterPattern.toLowerCase()) || item.getSurname().toLowerCase().contains(filterPattern.toLowerCase())) {
+                    if (item.name.toLowerCase().contains(filterPattern.toLowerCase()) || item.surname.toLowerCase().contains(filterPattern.toLowerCase())) {
                         filteredList.add(item);
                     }
                 }

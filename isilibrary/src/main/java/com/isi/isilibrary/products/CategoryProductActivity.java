@@ -13,12 +13,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.isi.isiapi.general.classes.Category;
 import com.isi.isilibrary.IsiAppActivity;
 import com.isi.isilibrary.R;
 import com.isi.isilibrary.backActivity.BackActivity;
+import com.isi.isilibrary.internalApi.classes.CategoryAndProduct;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -26,7 +27,7 @@ public class CategoryProductActivity extends BackActivity {
 
     private LinearLayout categoryLayout;
 
-    ArrayList<Category> categories = new ArrayList<>();
+    List<CategoryAndProduct> categories = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +83,7 @@ public class CategoryProductActivity extends BackActivity {
         loader.show();
 
         new Thread(() -> {
-            categories = IsiAppActivity.isiCashierRequest.getCategories(IsiAppActivity.serial);
+            categories = IsiAppActivity.isiCashierRequest.getCategories();
             runOnUiThread(() -> {
                 updateUI();
                 loader.dismissWithAnimation();
@@ -105,7 +106,7 @@ public class CategoryProductActivity extends BackActivity {
         }else{
             categoryLayout.removeAllViews();
 
-            for (Category category : categories){
+            for (CategoryAndProduct category : categories){
 
                 LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
                 assert inflater != null;
@@ -119,7 +120,7 @@ public class CategoryProductActivity extends BackActivity {
                     startActivity(i);
                 });
 
-                view.setText(category.name);
+                view.setText(category.category.name);
 
                 categoryLayout.addView(inflate);
             }

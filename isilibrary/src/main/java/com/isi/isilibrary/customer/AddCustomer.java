@@ -12,12 +12,12 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.isi.isiapi.general.classes.Customer;
 import com.isi.isilibrary.IsiAppActivity;
 import com.isi.isilibrary.R;
 import com.isi.isilibrary.backActivity.BackActivity;
 import com.isi.isilibrary.cfbuilder.CF_Builder;
 import com.isi.isilibrary.cfbuilder.PersonalData;
+import com.isi.isilibrary.internalApi.classes.Customer;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -85,27 +85,27 @@ public class AddCustomer extends BackActivity {
         }
 
         if(backCustomer != null){
-            setTextViewtext(aeCode, backCustomer.getAeCode());
-            setTextViewtext(ivaEditCustomer, backCustomer.getIva());
-            setTextViewtext(addressAddCustomer, backCustomer.getAddress());
-            setTextViewtext(cityAddCustomer, backCustomer.getCity());
-            setTextViewtext(capAddCustomer, backCustomer.getZip());
-            setTextViewtext(provinceAddCustomer, backCustomer.getProvince());
-            setTextViewtext(countryAddCustomer, backCustomer.getCountry());
-            setTextViewtext(pecAddCustomer, backCustomer.getPec());
-            setTextViewtext(phoneAddCustomer, backCustomer.getPhone());
-            setTextViewtext(societyAddCustomer, backCustomer.getSociety());
-            setTextViewtext(fiscalAddCustomer, backCustomer.getFiscal());
-            setTextViewtext(nameAddCustomer, backCustomer.getName());
-            setTextViewtext(surnameAddCustomer, backCustomer.getSurname());
-            setTextViewtext(emailAddCustomer, backCustomer.getEmail());
-            setTextViewtext(birthplaceCustomer, backCustomer.getBirthplace());
-            setTextViewtext(birthdayCustomer, backCustomer.getBirthday());
-            if(backCustomer.isCommercialComunication()){
+            setTextViewtext(aeCode, backCustomer.aeCode);
+            setTextViewtext(ivaEditCustomer, backCustomer.iva);
+            setTextViewtext(addressAddCustomer, backCustomer.address);
+            setTextViewtext(cityAddCustomer, backCustomer.city);
+            setTextViewtext(capAddCustomer, backCustomer.zip);
+            setTextViewtext(provinceAddCustomer, backCustomer.province);
+            setTextViewtext(countryAddCustomer, backCustomer.country);
+            setTextViewtext(pecAddCustomer, backCustomer.pec);
+            setTextViewtext(phoneAddCustomer, backCustomer.phone);
+            setTextViewtext(societyAddCustomer, backCustomer.society);
+            setTextViewtext(fiscalAddCustomer, backCustomer.fiscal);
+            setTextViewtext(nameAddCustomer, backCustomer.name);
+            setTextViewtext(surnameAddCustomer, backCustomer.surname);
+            setTextViewtext(emailAddCustomer, backCustomer.email);
+            setTextViewtext(birthplaceCustomer, backCustomer.birthplace);
+            setTextViewtext(birthdayCustomer, backCustomer.birthday);
+            if(backCustomer.commercialComunication){
                 commercialAccepted.setChecked(true);
             }
 
-            if(backCustomer.getGender() == 1){
+            if(backCustomer.gender == 1){
                 female.setChecked(true);
             }
             privacyAccepted.setChecked(true);
@@ -217,21 +217,21 @@ public class AddCustomer extends BackActivity {
                         getTextNullTextView(fiscalAddCustomer),
                         commercialAccepted.isChecked());
 
-                c.setBirthplace(getTextNullTextView(birthplaceCustomer));
+                c.birthplace = getTextNullTextView(birthplaceCustomer);
                 if(male.isChecked()){
-                    c.setGender(0);
+                    c.gender = 0;
                 }else{
-                    c.setGender(1);
+                    c.gender = 1;
                 }
 
                 boolean ok;
 
                 if(backCustomer != null){
-                    c.setId(backCustomer.getId());
-                    ok = IsiAppActivity.isiCashierRequest.modifyCustomer(c);
+                    c.id = backCustomer.id;
+                    ok = IsiAppActivity.isiCashierRequest.editCustomer(c);
 
                 }else{
-                    ok = IsiAppActivity.isiCashierRequest.addCustomer(IsiAppActivity.serial, c);
+                    ok = IsiAppActivity.isiCashierRequest.addCustomer(c);
 
                 }
 

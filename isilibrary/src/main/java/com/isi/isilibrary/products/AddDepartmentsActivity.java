@@ -11,11 +11,13 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.isi.isiapi.general.classes.Department;
-import com.isi.isiapi.general.classes.Product;
+
 import com.isi.isilibrary.IsiAppActivity;
 import com.isi.isilibrary.R;
 import com.isi.isilibrary.backActivity.BackActivity;
+import com.isi.isilibrary.internalApi.classes.CategoryAndProduct;
+import com.isi.isilibrary.internalApi.classes.IsiCashDepartment;
+import com.isi.isilibrary.internalApi.classes.Product;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -27,7 +29,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class AddDepartmentsActivity extends BackActivity {
 
     private Integer product_id = null;
-    private Department backDepartment = null;
+    private IsiCashDepartment backDepartment = null;
     private EditText code;
     private Spinner spinnerRate;
 
@@ -61,14 +63,20 @@ public class AddDepartmentsActivity extends BackActivity {
 
         new Thread(() -> {
 
-            ArrayList<Department> rates = IsiAppActivity.isiCashierRequest.getDepartment(IsiAppActivity.serial);
-            ArrayList<Product> products = IsiAppActivity.isiCashierRequest.getProducts(IsiAppActivity.serial);
+            List<IsiCashDepartment> rates = IsiAppActivity.isiCashierRequest.getDepartment();
+            ArrayList<Product> products = new ArrayList<>();
+
+            List<CategoryAndProduct> categoryAndProducts = IsiAppActivity.isiCashierRequest.getCategories();
+
+            for (CategoryAndProduct cat : categoryAndProducts){
+                products.addAll(cat.product);
+            }
 
             runOnUiThread(() -> {
 
                 pDialog.dismissWithAnimation();
 
-                if(rates == null || products == null){
+                if(rates == null){
                     new SweetAlertDialog(AddDepartmentsActivity.this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Attenzione")
                             .setContentText("Errore di comunicazione con il server. Riprovare")
@@ -108,7 +116,7 @@ public class AddDepartmentsActivity extends BackActivity {
 
                     if(getIntent().getBooleanExtra("modify", false)){
 
-                        for (Department departments : rates){
+                        for (IsiCashDepartment departments : rates){
 
                             if(departments.id == getIntent().getIntExtra("id", -1)){
 
@@ -172,7 +180,11 @@ public class AddDepartmentsActivity extends BackActivity {
 
             if(backDepartment != null){
                 new Thread(() -> {
-                    final boolean result = IsiAppActivity.isiCashierRequest.modifyDepartment(IsiAppActivity.serial, backDepartment.id, code.getText().toString(),Rates.rates[spinnerRate.getSelectedItemPosition()], product_id);
+                    backDepartment.department = Integer.parseInt(code.getText().toString());
+                    backDepartment.code = Rates.rates[spinnerRate.getSelectedItemPosition()];
+                    backDepartment.product_id = product_id;
+
+                    final boolean result = IsiAppActivity.isiCashierRequest.editDepartment(backDepartment);
                     runOnUiThread(() -> {
                         if (result) {
                             finish();
@@ -188,7 +200,9 @@ public class AddDepartmentsActivity extends BackActivity {
                 }).start();
             }else{
                 new Thread(() -> {
-                    final boolean result = IsiAppActivity.isiCashierRequest.addDepartment(IsiAppActivity.serial, Integer.parseInt(code.getText().toString()),Rates.rates[spinnerRate.getSelectedItemPosition()], product_id);
+
+                    IsiCashDepartment department = new IsiCashDepartment(0, Integer.parseInt(code.getText().toString()), product_id, Rates.rates[spinnerRate.getSelectedItemPosition()]);
+                    final boolean result = IsiAppActivity.isiCashierRequest.addDepartment(department);
                     runOnUiThread(() -> {
                         if (result) {
                             finish();

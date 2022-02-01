@@ -11,10 +11,10 @@ import android.widget.EditText;
 import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 import com.google.gson.Gson;
-import com.isi.isiapi.general.classes.Category;
 import com.isi.isilibrary.IsiAppActivity;
 import com.isi.isilibrary.R;
 import com.isi.isilibrary.backActivity.BackActivity;
+import com.isi.isilibrary.internalApi.classes.Category;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -97,9 +97,10 @@ public class AddCategoryActivity extends BackActivity {
                     if(backCategory != null){
                         backCategory.name = name;
                         backCategory.color = color;
-                        result = IsiAppActivity.isiCashierRequest.modifyCategory(backCategory);
+                        result = IsiAppActivity.isiCashierRequest.editcategory(backCategory);
                     }else{
-                        result = IsiAppActivity.isiCashierRequest.addCategory(IsiAppActivity.serial, name, color);
+                        Category c = new Category(0, name, color);
+                        result = IsiAppActivity.isiCashierRequest.addCategory(c);
                     }
 
                     runOnUiThread(() -> {
