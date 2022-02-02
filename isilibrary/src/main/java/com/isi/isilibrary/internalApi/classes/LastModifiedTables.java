@@ -10,5 +10,5 @@ public class LastModifiedTables {
     public Date last_update = new Date();
 
     @SerializedName("Modified")
-    public int modified = 0;
+    public int modified = 1;
 }
