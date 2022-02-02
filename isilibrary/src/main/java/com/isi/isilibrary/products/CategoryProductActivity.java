@@ -116,7 +116,7 @@ public class CategoryProductActivity extends BackActivity {
 
                 modify.setOnClickListener(v -> {
                     Intent i = new Intent(CategoryProductActivity.this, AddCategoryActivity.class);
-                    i.putExtra("category", new Gson().toJson(category));
+                    i.putExtra("category", new Gson().toJson(category.category));
                     startActivity(i);
                 });
 
