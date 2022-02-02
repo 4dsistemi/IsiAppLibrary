@@ -359,7 +359,6 @@ public class HttpRequest {
 
     }
 
-
     public boolean addProduct(Product product){
 
         HttpJson json = new HttpJson();
@@ -385,7 +384,7 @@ public class HttpRequest {
         HttpJson json = new HttpJson();
         json.addData("product", new Gson().toJsonTree(product));
 
-        MakeHttpPost post = new MakeHttpPost( "addProduct", json.getData(), apiKey);
+        MakeHttpPost post = new MakeHttpPost( "editProduct", json.getData(), apiKey);
 
         try {
             String response = post.execute().get();
