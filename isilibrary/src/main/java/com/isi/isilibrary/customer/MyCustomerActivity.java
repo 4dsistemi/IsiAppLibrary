@@ -17,7 +17,7 @@ import com.google.android.flexbox.JustifyContent;
 import com.isi.isilibrary.IsiAppActivity;
 import com.isi.isilibrary.R;
 import com.isi.isilibrary.backActivity.BackActivity;
-import com.isi.isilibrary.internalApi.classes.Customer;
+import com.isi.isiapi.classes.Customer;
 
 import java.util.Comparator;
 import java.util.List;

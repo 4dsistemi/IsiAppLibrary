@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 import com.isi.isilibrary.IsiAppActivity;
 import com.isi.isilibrary.R;
 import com.isi.isilibrary.backActivity.BackActivity;
-import com.isi.isilibrary.internalApi.classes.Category;
+import com.isi.isiapi.classes.Category;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 

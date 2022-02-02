@@ -18,7 +18,7 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.gson.Gson;
 import com.isi.isilibrary.IsiAppActivity;
 import com.isi.isilibrary.R;
-import com.isi.isilibrary.internalApi.classes.Customer;
+import com.isi.isiapi.classes.Customer;
 
 import org.apache.commons.lang3.StringUtils;
 

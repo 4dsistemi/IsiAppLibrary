@@ -31,9 +31,8 @@ import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.flexbox.FlexboxLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.isi.isilibrary.internalApi.HttpRequest;
-import com.isi.isilibrary.internalApi.classes.AppAndAppActivation;
-import com.isi.isilibrary.internalApi.classes.ApplicationList;
+import com.isi.isiapi.HttpRequest;
+import com.isi.isiapi.classes.AppAndAppActivation;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -49,7 +48,6 @@ public class IsiAppActivity extends AppCompatActivity{
     private View underMenu = null;
     private View lateralMenu = null;
     public static String apikey = "";
-    public static String serial = "";
     public static HttpRequest isiCashierRequest;
 
     private boolean scrolling = true;

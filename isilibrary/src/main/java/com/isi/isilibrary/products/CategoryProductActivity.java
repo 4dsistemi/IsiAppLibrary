@@ -16,7 +16,7 @@ import com.google.gson.Gson;
 import com.isi.isilibrary.IsiAppActivity;
 import com.isi.isilibrary.R;
 import com.isi.isilibrary.backActivity.BackActivity;
-import com.isi.isilibrary.internalApi.classes.CategoryAndProduct;
+import com.isi.isiapi.classes.CategoryAndProduct;
 
 import java.util.ArrayList;
 import java.util.List;

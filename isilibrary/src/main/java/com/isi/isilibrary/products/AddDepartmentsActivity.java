@@ -15,9 +15,9 @@ import android.widget.Toast;
 import com.isi.isilibrary.IsiAppActivity;
 import com.isi.isilibrary.R;
 import com.isi.isilibrary.backActivity.BackActivity;
-import com.isi.isilibrary.internalApi.classes.CategoryAndProduct;
-import com.isi.isilibrary.internalApi.classes.IsiCashDepartment;
-import com.isi.isilibrary.internalApi.classes.Product;
+import com.isi.isiapi.classes.CategoryAndProduct;
+import com.isi.isiapi.classes.IsiCashDepartment;
+import com.isi.isiapi.classes.Product;
 
 import java.util.ArrayList;
 import java.util.Comparator;

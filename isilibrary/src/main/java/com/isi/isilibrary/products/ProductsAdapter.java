@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.isi.isilibrary.R;
-import com.isi.isilibrary.internalApi.classes.Product;
+import com.isi.isiapi.classes.Product;
 
 import java.util.ArrayList;
 import java.util.List;
