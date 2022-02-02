@@ -50,6 +50,8 @@ public class Customer extends LastModifiedTables {
     public String docExpire;
     @SerializedName("CommercialComunication")
     public boolean commercialComunication;
+    @SerializedName("Active")
+    public int active = 1;
 
     public Customer(String name, String surname, String iva, String email, String address, String city, String province, String zip, String country, String phone, String pec, String aeCode, String birthday, String society, String fiscal, boolean commercialComunication) {
         this.name = name;

@@ -20,12 +20,18 @@ public class IsiCashBill extends LastModifiedTables{
     public String payment_type;
     @SerializedName("Total")
     public float total;
+    @SerializedName("ClosureNumber")
+    public int closure_number;
+    @SerializedName("DocumentNumber")
+    public int document_number;
 
-    public IsiCashBill(int discount_valor, int discount_type, int account_id, String payment_type, float total) {
+    public IsiCashBill(int discount_valor, int discount_type, int account_id, String payment_type, float total, int closure_number, int document_number) {
         this.discount_valor = discount_valor;
         this.discount_type = discount_type;
         this.account_id = account_id;
         this.payment_type = payment_type;
         this.total = total;
+        this.closure_number = closure_number;
+        this.document_number = document_number;
     }
 }

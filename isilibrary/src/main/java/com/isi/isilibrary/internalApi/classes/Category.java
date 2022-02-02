@@ -13,6 +13,9 @@ public class Category extends LastModifiedTables{
     @SerializedName("Color")
     public Integer color;
 
+    @SerializedName("Active")
+    public int active = 1;
+
     public Category(int id, String name, Integer color) {
         this.id = id;
         this.name = name;
