@@ -43,7 +43,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     
     implementation 'com.google.android:flexbox:2.0.1'
-    implementation 'com.daimajia.easing:library:2.4@aar'
     implementation 'com.daimajia.androidanimations:library:2.4@aar'
 
     implementation 'info.androidhive:fontawesome:0.0.5'

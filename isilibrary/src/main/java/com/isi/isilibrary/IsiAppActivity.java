@@ -232,12 +232,11 @@ public class IsiAppActivity extends AppCompatActivity{
     private void updateGUI(ArrayList<AppAndAppActivation> applications){
 
         LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
-        assert inflater != null;
 
         if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
-            inflate = inflater.inflate(R.layout.menu_layout, null);
+            inflate = inflater.inflate(R.layout.menu_layout, mainView, false);
         }else{
-            inflate = inflater.inflate(R.layout.menu_layout_portrait, null);
+            inflate = inflater.inflate(R.layout.menu_layout_portrait, mainView, false);
         }
 
 
