@@ -25,7 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:hint="@string/nome"
+                android:hint="Nome"
                 app:counterEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -40,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:hint="@string/price"
+                android:hint="Prezzo"
                 app:counterEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -86,7 +86,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:hint="@string/categories">
+                android:hint="Categoria">
 
                 <AutoCompleteTextView
                     android:id="@+id/addManageElementSpinner"
@@ -101,7 +101,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:hint="@string/connection">
+                android:hint="Prodotto connesso">
 
                 <AutoCompleteTextView
                     android:id="@+id/product_connection_spinner"
@@ -116,7 +116,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:hint="@string/department">
+                android:hint="Reparto">
 
                 <AutoCompleteTextView
                     android:id="@+id/departmentCodeElement"
