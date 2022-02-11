@@ -11,11 +11,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.isi.isiapi.classes.isicash.IsiCashDepartment;
 import com.isi.isilibrary.IsiAppActivity;
 import com.isi.isilibrary.R;
 import com.isi.isilibrary.backActivity.BackActivity;
 import com.isi.isiapi.classes.CategoryAndProduct;
-import com.isi.isiapi.classes.IsiCashDepartment;
 import com.isi.isiapi.classes.Product;
 
 import java.util.Comparator;
