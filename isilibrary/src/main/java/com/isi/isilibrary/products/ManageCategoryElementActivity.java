@@ -102,7 +102,7 @@ public class ManageCategoryElementActivity extends BackActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
 
-        inflater.inflate(R.menu.add_intestazione_menu, menu);
+        inflater.inflate(R.menu.intestazione_menu, menu);
 
         return true;
     }
