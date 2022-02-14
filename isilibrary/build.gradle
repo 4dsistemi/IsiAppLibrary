@@ -53,6 +53,6 @@ dependencies {
     implementation 'info.androidhive:fontawesome:0.0.5'
     implementation  'org.apache.commons:commons-lang3:3.3.2'
 
-    implementation 'com.github.4dsistemi:IsiApi:4.0.32'
+    implementation 'com.github.4dsistemi:IsiApi:4.0.33'
 
 }

@@ -39,7 +39,7 @@ public class AddManageElementActivity extends BackActivity {
     private List<Ingredients> ingredients = null;
     private int categoryDef = 0;
     private int productDef = 0;
-    private int department = 0;
+    private int department = 1;
     private AppCompatImageView imageView;
     private List<CategoryAndProduct> categories;
 
