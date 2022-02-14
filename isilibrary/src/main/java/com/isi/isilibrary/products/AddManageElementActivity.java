@@ -36,7 +36,7 @@ import java.util.Locale;
 public class AddManageElementActivity extends BackActivity {
 
     private Product products;
-    private List<Ingredients> ingredients = new ArrayList<>();
+    private List<Ingredients> ingredients = null;
     private int categoryDef = 0;
     private int productDef = 0;
     private int department = 0;
@@ -211,11 +211,9 @@ public class AddManageElementActivity extends BackActivity {
 
                         new Thread(() -> {
 
-                            boolean ok = IsiAppActivity.isiCashierRequest.addProduct(products);
-
-                            //TODO add ingedients
-
-                            runOnUiThread(this::finish);
+                            if(IsiAppActivity.isiCashierRequest.addProduct(products, ingredients)){
+                                runOnUiThread(this::finish);
+                            }
 
                         }).start();
 
@@ -223,11 +221,8 @@ public class AddManageElementActivity extends BackActivity {
 
                         new Thread(() -> {
 
-                            IsiAppActivity.isiCashierRequest.editProduct(products);
-
-                            //TODO ingredients
-
-                            runOnUiThread(this::finish);
+                            if(IsiAppActivity.isiCashierRequest.editProduct(products, ingredients))
+                                runOnUiThread(this::finish);
 
                         }).start();
 
@@ -250,7 +245,7 @@ public class AddManageElementActivity extends BackActivity {
 
         addIngredients.setOnClickListener(view -> {
             Intent i = new Intent(AddManageElementActivity.this, AddIngredientsActivity.class);
-            startActivityForResult(i, 1);
+            startActivityForResult(i, 888);
         });
 
         chooseColor.setOnClickListener(v -> ColorPickerDialogBuilder
@@ -292,20 +287,10 @@ public class AddManageElementActivity extends BackActivity {
 
             }
 
-        }else{
+        }else if(requestCode == 888){
             String ingredients = data.getStringExtra("ingredients");
 
-
-
             this.ingredients = new Gson().fromJson(ingredients, new TypeToken<ArrayList<Ingredients>>(){}.getType());
-
-            if(this.ingredients != null){
-                for (Ingredients ingredients1 : this.ingredients){
-
-                    ingredients1.product_id = products.id;
-                }
-            }
-
 
         }
 

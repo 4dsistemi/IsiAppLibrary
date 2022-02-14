@@ -62,7 +62,7 @@ public class ElementRecycler extends RecyclerView.Adapter<ElementRecycler.ViewHo
             }else{
                 p.active = 0;
             }
-            IsiAppActivity.isiCashierRequest.editProduct(p);
+            IsiAppActivity.isiCashierRequest.editProduct(p, null);
         });
 
         holder.active.setChecked(p.active == 1);
@@ -75,7 +75,7 @@ public class ElementRecycler extends RecyclerView.Adapter<ElementRecycler.ViewHo
             }else{
                 p.guest = 0;
             }
-            IsiAppActivity.isiCashierRequest.editProduct(p);
+            IsiAppActivity.isiCashierRequest.editProduct(p, null);
         });
 
         holder.modify.setOnClickListener(view -> {
@@ -92,7 +92,7 @@ public class ElementRecycler extends RecyclerView.Adapter<ElementRecycler.ViewHo
                 if(backPriority != position){
                     p.priority_prod = position;
 
-                    IsiAppActivity.isiCashierRequest.editProduct(p);
+                    IsiAppActivity.isiCashierRequest.editProduct(p, null);
                 }
 
             }

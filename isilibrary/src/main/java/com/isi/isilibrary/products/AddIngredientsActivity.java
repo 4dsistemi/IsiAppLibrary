@@ -3,24 +3,33 @@ package com.isi.isilibrary.products;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.gson.Gson;
 import com.isi.isiapi.classes.Ingredients;
+import com.isi.isiapi.classes.isimaga.ProductForniture;
+import com.isi.isilibrary.IsiAppActivity;
 import com.isi.isilibrary.R;
 import com.isi.isilibrary.backActivity.BackActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AddIngredientsActivity extends BackActivity {
 
     private LinearLayout ingredientsLayout;
     private ConstraintLayout layout;
     private ArrayList<Ingredients> ingredientsAdd;
+    private String search = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,12 +40,20 @@ public class AddIngredientsActivity extends BackActivity {
 
         ingredientsAdd = new ArrayList<>();
 
+        updateUI(R.layout.activity_add_ingredients);
+
+    }
+
+    @Override
+    public void updateUI(int layoutOut) {
+        super.updateUI(layoutOut);
+
         ingredientsLayout = findViewById(R.id.addIngredientsLayout);
         layout = findViewById(R.id.addIngredientsConstraint);
 
-        final SearchView search = findViewById(R.id.searchIngredients);
+        final SearchView searchView = findViewById(R.id.searchIngredients);
 
-        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 return false;
@@ -44,7 +61,8 @@ public class AddIngredientsActivity extends BackActivity {
 
             @Override
             public boolean onQueryTextChange(String s) {
-                updateUi(s);
+                search = s;
+                updateUI(layoutOut);
                 return true;
             }
         });
@@ -53,103 +71,88 @@ public class AddIngredientsActivity extends BackActivity {
 
         done.setOnClickListener(view -> onBackPressed());
 
-        updateUi("");
-
-    }
-
-    private void updateUi(final String search){
         ingredientsLayout.removeAllViews();
-
-        /*
 
         new Thread(() -> {
 
-            List<MagaProduct> storage = new HttpRequest(GeneralInfo.apiKey).getProducts(GeneralInfo.serial);
+            List<ProductForniture> storage = IsiAppActivity.isiCashierRequest.isimagaGetProductForniture();
 
-            for(final MagaProduct ingredient : storage){
+            if(storage == null){
+                errorPage(layoutOut);
+            }else{
+                for(final ProductForniture ingredient : storage){
 
-                new Thread(() -> runOnUiThread(() -> {
+                    runOnUiThread(() -> {
 
-                    if (ingredient.name.toLowerCase().contains(search.toLowerCase())) {
-                        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-                        assert inflater != null;
-                        @SuppressLint("InflateParams") View inflate = inflater.inflate(R.layout.add_ingredients_layout, null);
-                        final TextView text = inflate.findViewById(R.id.nameElementText);
-                        Button plus = inflate.findViewById(R.id.buttonPlusLayout);
+                        if (ingredient.name.toLowerCase().contains(search.toLowerCase())) {
+                            LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+                            assert inflater != null;
+                            View inflate = inflater.inflate(R.layout.add_ingredients_layout, ingredientsLayout, false);
+                            final TextView text = inflate.findViewById(R.id.nameElementText);
+                            Button plus = inflate.findViewById(R.id.buttonPlusLayout);
 
-                        text.setText(ingredient.name);
+                            text.setText(ingredient.name);
 
-                        ingredientsLayout.addView(inflate);
+                            ingredientsLayout.addView(inflate);
 
-                        plus.setOnClickListener(view -> {
-                            final LayoutInflater inflater1 = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-                            assert inflater1 != null;
-                            @SuppressLint("InflateParams") final View inflate1 = inflater1.inflate(R.layout.add_ingredients_quantity, layout, false);
-                            final EditText text1 = inflate1.findViewById(R.id.quantityAddIngredients);
-                            Button add = inflate1.findViewById(R.id.addIngredientsIn);
-                            TextView quantity = inflate1.findViewById(R.id.quantityAddInIngredients);
+                            plus.setOnClickListener(view -> {
+                                final LayoutInflater inflater1 = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+                                assert inflater1 != null;
+                                final View inflate1 = inflater1.inflate(R.layout.add_ingredients_quantity, layout, false);
+                                final EditText text1 = inflate1.findViewById(R.id.quantityAddIngredients);
+                                Button add = inflate1.findViewById(R.id.addIngredientsIn);
+                                TextView quantity = inflate1.findViewById(R.id.quantityAddInIngredients);
 
-                            quantity.setText(String.format("Quantità in %s", ingredient.unity_id));
+                                quantity.setText(String.format("Quantità in %s", ingredient.unity_id));
 
-                            add.setOnClickListener(view12 -> {
+                                add.setOnClickListener(view12 -> {
 
-                                try {
+                                    try {
 
-                                    if (plus.getText().equals("+")) {
-                                        Ingredients i = new Ingredients(ingredient.id, 0, (Float.parseFloat(text1.getText().toString())));
+                                        if (plus.getText().equals("+")) {
+                                            Ingredients i = new Ingredients(ingredient.id, 0, (Float.parseFloat(text1.getText().toString())));
 
-                                        ingredientsAdd.add(i);
+                                            ingredientsAdd.add(i);
+                                            layout.removeView(inflate1);
 
-                                        layout.removeView(inflate1);
+                                            plus.setText("-");
+                                        } else {
 
-                                        plus.setText("-");
-                                    } else {
+                                            for (Ingredients i : ingredientsAdd) {
+                                                if (i.id == ingredient.id) {
 
-                                        for (Ingredients i : ingredientsAdd) {
+                                                    ingredientsAdd.remove(i);
+                                                    break;
 
-                                            if (i.barcode_id == ingredient.id) {
-
-                                                ingredientsAdd.remove(i);
-
-                                                break;
-
+                                                }
                                             }
+                                            plus.setText("+");
 
                                         }
 
-                                        plus.setText("+");
+                                    } catch (Exception e) {
+
+                                        Toast.makeText(AddIngredientsActivity.this, "Formato non corretto", Toast.LENGTH_SHORT).show();
 
                                     }
 
+                                });
 
-                                } catch (Exception e) {
+                                ConstraintLayout ingrLayout = inflate1.findViewById(R.id.layoutAddIngredients);
 
-                                    Toast.makeText(AddIngredientsActivity.this, "Formato non corretto", Toast.LENGTH_SHORT).show();
+                                ingrLayout.setOnClickListener(view1 -> layout.removeView(inflate1));
 
-                                }
+                                layout.addView(inflate1);
 
                             });
+                        }
 
-                            ConstraintLayout ingrLayout = inflate1.findViewById(R.id.layoutAddIngredients);
+                    });
 
-                            ingrLayout.setOnClickListener(view1 -> layout.removeView(inflate1));
-
-                            layout.addView(inflate1);
-
-                        });
-                    }
-
-                })).start();
-
+                }
             }
 
-
         }).start();
-
-
-         */
-
-
 
     }
 
