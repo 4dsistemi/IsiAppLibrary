@@ -1,6 +1,7 @@
 <resources>
     <string name="add">Aggiungi</string>
     <string name="modify">Modifica</string>
+    <string name="ok">ok</string>
 
     <string-array name="rate_percents">
 
