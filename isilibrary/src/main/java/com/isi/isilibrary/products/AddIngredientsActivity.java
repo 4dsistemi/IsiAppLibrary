@@ -1,5 +1,6 @@
 package com.isi.isilibrary.products;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,8 +13,6 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import com.google.gson.Gson;
 import com.isi.isiapi.classes.Ingredients;
 import com.isi.isiapi.classes.isimaga.ProductForniture;
@@ -24,10 +23,11 @@ import com.isi.isilibrary.backActivity.BackActivity;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 public class AddIngredientsActivity extends BackActivity {
 
     private LinearLayout ingredientsLayout;
-    private ConstraintLayout layout;
     private ArrayList<Ingredients> ingredientsAdd;
     private String search = "";
 
@@ -49,7 +49,6 @@ public class AddIngredientsActivity extends BackActivity {
         super.updateUI(layoutOut);
 
         ingredientsLayout = findViewById(R.id.addIngredientsLayout);
-        layout = findViewById(R.id.addIngredientsConstraint);
 
         final SearchView searchView = findViewById(R.id.searchIngredients);
 
@@ -86,7 +85,6 @@ public class AddIngredientsActivity extends BackActivity {
 
                         if (ingredient.name.toLowerCase().contains(search.toLowerCase())) {
                             LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-                            assert inflater != null;
                             View inflate = inflater.inflate(R.layout.add_ingredients_layout, ingredientsLayout, false);
                             final TextView text = inflate.findViewById(R.id.nameElementText);
                             Button plus = inflate.findViewById(R.id.buttonPlusLayout);
@@ -96,53 +94,51 @@ public class AddIngredientsActivity extends BackActivity {
                             ingredientsLayout.addView(inflate);
 
                             plus.setOnClickListener(view -> {
-                                final LayoutInflater inflater1 = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-                                assert inflater1 != null;
-                                final View inflate1 = inflater1.inflate(R.layout.add_ingredients_quantity, layout, false);
-                                final EditText text1 = inflate1.findViewById(R.id.quantityAddIngredients);
-                                Button add = inflate1.findViewById(R.id.addIngredientsIn);
-                                TextView quantity = inflate1.findViewById(R.id.quantityAddInIngredients);
+                                LayoutInflater inflaterPerso = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
+                                assert inflaterPerso != null;
+                                @SuppressLint("InflateParams") final View inflatePerso = inflaterPerso.inflate(R.layout.quantity_cell, null);
+                                EditText quantity = inflatePerso.findViewById(R.id.quantity_cell_edit);
 
-                                quantity.setText(String.format("Quantità in %s", ingredient.unity_id));
+                                new SweetAlertDialog(this, SweetAlertDialog.NORMAL_TYPE)
+                                        .setTitleText("Aggiungi sconto")
+                                        .setConfirmText("Ok")
+                                        .setHideKeyBoardOnDismiss(true)
+                                        .setCustomView(inflatePerso)
+                                        .setConfirmClickListener(sDialog -> {
 
-                                add.setOnClickListener(view12 -> {
+                                            sDialog.dismissWithAnimation();
 
-                                    try {
+                                            try {
 
-                                        if (plus.getText().equals("+")) {
-                                            Ingredients i = new Ingredients(ingredient.id, 0, (Float.parseFloat(text1.getText().toString())));
+                                                if (plus.getText().equals("+")) {
+                                                    Ingredients i = new Ingredients(ingredient.id, 0, (Float.parseFloat(quantity.getText().toString())));
 
-                                            ingredientsAdd.add(i);
-                                            layout.removeView(inflate1);
+                                                    ingredientsAdd.add(i);
 
-                                            plus.setText("-");
-                                        } else {
+                                                    plus.setText("-");
+                                                } else {
 
-                                            for (Ingredients i : ingredientsAdd) {
-                                                if (i.id == ingredient.id) {
+                                                    for (Ingredients i : ingredientsAdd) {
+                                                        if (i.id == ingredient.id) {
 
-                                                    ingredientsAdd.remove(i);
-                                                    break;
+                                                            ingredientsAdd.remove(i);
+                                                            break;
+
+                                                        }
+                                                    }
+                                                    plus.setText("+");
 
                                                 }
+
+                                            } catch (Exception e) {
+
+                                                Toast.makeText(AddIngredientsActivity.this, "Formato non corretto", Toast.LENGTH_SHORT).show();
+
                                             }
-                                            plus.setText("+");
 
-                                        }
-
-                                    } catch (Exception e) {
-
-                                        Toast.makeText(AddIngredientsActivity.this, "Formato non corretto", Toast.LENGTH_SHORT).show();
-
-                                    }
-
-                                });
-
-                                ConstraintLayout ingrLayout = inflate1.findViewById(R.id.layoutAddIngredients);
-
-                                ingrLayout.setOnClickListener(view1 -> layout.removeView(inflate1));
-
-                                layout.addView(inflate1);
+                                            sDialog.dismissWithAnimation();
+                                        })
+                                        .show();
 
                             });
                         }

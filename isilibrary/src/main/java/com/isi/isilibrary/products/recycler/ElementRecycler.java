@@ -1,5 +1,6 @@
 package com.isi.isilibrary.products.recycler;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import info.androidhive.fontawesome.FontTextView;
 
 public class ElementRecycler extends RecyclerView.Adapter<ElementRecycler.ViewHolder> {
@@ -62,7 +64,15 @@ public class ElementRecycler extends RecyclerView.Adapter<ElementRecycler.ViewHo
             }else{
                 p.active = 0;
             }
-            IsiAppActivity.isiCashierRequest.editProduct(p, null);
+
+            new Thread(() -> {
+                if(!IsiAppActivity.isiCashierRequest.editProduct(p, null)){
+                    ((Activity)context).runOnUiThread(() -> new SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Errore di connessione")
+                            .show());
+
+                }
+            }).start();
         });
 
         holder.active.setChecked(p.active == 1);
@@ -70,12 +80,22 @@ public class ElementRecycler extends RecyclerView.Adapter<ElementRecycler.ViewHo
         holder.orderGuest.setChecked(p.guest == 1);
 
         holder.orderGuest.setOnClickListener(view -> {
+
             if(holder.orderGuest.isChecked()){
                 p.guest = 1;
             }else{
                 p.guest = 0;
             }
-            IsiAppActivity.isiCashierRequest.editProduct(p, null);
+
+            new Thread(() -> {
+                if(!IsiAppActivity.isiCashierRequest.editProduct(p, null)){
+                    ((Activity)context).runOnUiThread(() -> new SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Errore di connessione")
+                            .show());
+
+                }
+            }).start();
+
         });
 
         holder.modify.setOnClickListener(view -> {
