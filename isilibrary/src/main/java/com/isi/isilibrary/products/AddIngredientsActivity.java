@@ -94,51 +94,56 @@ public class AddIngredientsActivity extends BackActivity {
                             ingredientsLayout.addView(inflate);
 
                             plus.setOnClickListener(view -> {
-                                LayoutInflater inflaterPerso = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
-                                assert inflaterPerso != null;
-                                @SuppressLint("InflateParams") final View inflatePerso = inflaterPerso.inflate(R.layout.quantity_cell, null);
-                                EditText quantity = inflatePerso.findViewById(R.id.quantity_cell_edit);
 
-                                new SweetAlertDialog(this, SweetAlertDialog.NORMAL_TYPE)
-                                        .setTitleText("Aggiungi sconto")
-                                        .setConfirmText("Ok")
-                                        .setHideKeyBoardOnDismiss(true)
-                                        .setCustomView(inflatePerso)
-                                        .setConfirmClickListener(sDialog -> {
+                                if (plus.getText().equals("+")) {
 
-                                            sDialog.dismissWithAnimation();
+                                    LayoutInflater inflaterPerso = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
+                                    assert inflaterPerso != null;
+                                    @SuppressLint("InflateParams") final View inflatePerso = inflaterPerso.inflate(R.layout.quantity_cell, null);
+                                    EditText quantity = inflatePerso.findViewById(R.id.quantity_cell_edit);
 
-                                            try {
+                                    new SweetAlertDialog(this, SweetAlertDialog.NORMAL_TYPE)
+                                            .setTitleText("Aggiungi quantità in " + IsiAppActivity.isiCashierRequest.transformIsimagaUnity(ingredient.unity_id))
+                                            .setConfirmText("Ok")
+                                            .setHideKeyBoardOnDismiss(true)
+                                            .setCustomView(inflatePerso)
+                                            .setConfirmClickListener(sDialog -> {
 
-                                                if (plus.getText().equals("+")) {
+                                                sDialog.dismissWithAnimation();
+
+                                                try {
+
                                                     Ingredients i = new Ingredients(ingredient.id, 0, (Float.parseFloat(quantity.getText().toString())));
 
                                                     ingredientsAdd.add(i);
 
                                                     plus.setText("-");
-                                                } else {
 
-                                                    for (Ingredients i : ingredientsAdd) {
-                                                        if (i.id == ingredient.id) {
+                                                } catch (Exception e) {
 
-                                                            ingredientsAdd.remove(i);
-                                                            break;
-
-                                                        }
-                                                    }
-                                                    plus.setText("+");
+                                                    Toast.makeText(AddIngredientsActivity.this, "Formato non corretto", Toast.LENGTH_SHORT).show();
 
                                                 }
 
-                                            } catch (Exception e) {
+                                                sDialog.dismissWithAnimation();
+                                            })
+                                            .show();
 
-                                                Toast.makeText(AddIngredientsActivity.this, "Formato non corretto", Toast.LENGTH_SHORT).show();
 
-                                            }
 
-                                            sDialog.dismissWithAnimation();
-                                        })
-                                        .show();
+                                } else {
+
+                                    for (Ingredients i : ingredientsAdd) {
+                                        if (i.id == ingredient.id) {
+
+                                            ingredientsAdd.remove(i);
+                                            break;
+
+                                        }
+                                    }
+                                    plus.setText("+");
+
+                                }
 
                             });
                         }
