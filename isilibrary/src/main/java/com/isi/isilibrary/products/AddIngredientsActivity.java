@@ -134,7 +134,7 @@ public class AddIngredientsActivity extends BackActivity {
                                 } else {
 
                                     for (Ingredients i : ingredientsAdd) {
-                                        if (i.id == ingredient.id) {
+                                        if (i.product_forniture_id == ingredient.id) {
 
                                             ingredientsAdd.remove(i);
                                             break;
