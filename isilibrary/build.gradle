@@ -47,12 +47,12 @@ dependencies {
 
     implementation 'info.androidhive:fontawesome:0.0.5'
 
-    implementation 'com.github.f0ris.sweetalert:library:1.6.2'
+    implementation 'com.github.4dsistemi:sweet-alert-dialog:1.0.3'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.github.QuadFlask:colorpicker:0.0.15'
     implementation 'info.androidhive:fontawesome:0.0.5'
     implementation  'org.apache.commons:commons-lang3:3.3.2'
 
-    implementation 'com.github.4dsistemi:IsiApi:4.0.44'
+    implementation 'com.github.4dsistemi:IsiApi:4.0.54'
 
 }
