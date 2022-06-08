@@ -67,14 +67,15 @@ public class ManageCategoryElementActivity extends BackActivity {
                     active.setOnCheckedChangeListener((compoundButton, b) -> {
                         categories1.category.active = b ? 1 : 0;
 
-                        IsiAppActivity.isiCashierRequest.editcategory(categories1.category);
+                        new Thread(() -> IsiAppActivity.isiCashierRequest.editcategory(categories1.category)).start();
+
 
                     });
 
                     guest.setOnCheckedChangeListener((compoundButton, b) -> {
                         categories1.category.guest = b ? 1 : 0;
 
-                        IsiAppActivity.isiCashierRequest.editcategory(categories1.category);
+                        new Thread(() -> IsiAppActivity.isiCashierRequest.editcategory(categories1.category)).start();
 
                     });
 
