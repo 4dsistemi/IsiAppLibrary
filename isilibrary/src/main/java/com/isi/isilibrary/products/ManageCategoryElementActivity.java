@@ -63,7 +63,7 @@ public class ManageCategoryElementActivity extends BackActivity {
                     CheckBox guest = inflate.findViewById(R.id.chekcbox_guest_active);
 
                     active.setChecked(categories1.category.active == 1);
-                    guest.setChecked(categories1.category.active == 1);
+                    guest.setChecked(categories1.category.guest == 1);
 
                     active.setOnCheckedChangeListener((compoundButton, b) -> {
                         categories1.category.active = b ? 1 : 0;
