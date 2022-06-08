@@ -23,10 +23,13 @@ import info.androidhive.fontawesome.FontTextView;
 
 public class ManageCategoryElementActivity extends BackActivity {
 
+    private LinearLayout linearLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_category_element);
+
+        linearLayout = findViewById(R.id.categoryElementLayout);
 
         setTitle("Le tue categorie elementi");
 
@@ -42,8 +45,6 @@ public class ManageCategoryElementActivity extends BackActivity {
     }
 
     private void updateUI(){
-
-        LinearLayout linearLayout = findViewById(R.id.categoryElementLayout);
 
         linearLayout.removeAllViews();
 
@@ -92,10 +93,7 @@ public class ManageCategoryElementActivity extends BackActivity {
                 }
             });
 
-
         }).start();
-
-
 
     }
 
