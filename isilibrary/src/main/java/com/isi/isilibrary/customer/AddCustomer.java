@@ -224,28 +224,34 @@ public class AddCustomer extends BackActivity {
                     c.gender = 1;
                 }
 
-                boolean ok;
+                new Thread(() -> {
 
-                if(backCustomer != null){
-                    c.id = backCustomer.id;
-                    ok = IsiAppActivity.isiCashierRequest.editCustomer(c);
+                    boolean ok;
 
-                }else{
-                    ok = IsiAppActivity.isiCashierRequest.addCustomer(c);
+                    if(backCustomer != null){
+                        c.id = backCustomer.id;
+                        ok = IsiAppActivity.isiCashierRequest.editCustomer(c);
 
-                }
+                    }else{
+                        ok = IsiAppActivity.isiCashierRequest.addCustomer(c);
 
-                if(ok){
-                    finish();
-                }else{
-                    new SweetAlertDialog(AddCustomer.this, SweetAlertDialog.ERROR_TYPE)
-                            .setTitleText("Attenzione")
-                            .setContentText("Problema di connessione, riprovare")
-                            .setConfirmText("Ok")
-                            .setConfirmClickListener(SweetAlertDialog::dismissWithAnimation)
-                            .show();
-                }
+                    }
 
+                    runOnUiThread(() -> {
+                        if(ok){
+                            finish();
+                        }else{
+                            new SweetAlertDialog(AddCustomer.this, SweetAlertDialog.ERROR_TYPE)
+                                    .setTitleText("Attenzione")
+                                    .setContentText("Problema di connessione, riprovare")
+                                    .setConfirmText("Ok")
+                                    .setConfirmClickListener(SweetAlertDialog::dismissWithAnimation)
+                                    .show();
+                        }
+                    });
+
+
+                }).start();
 
             }
 
