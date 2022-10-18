@@ -1,0 +1,20 @@
+<resources>
+    <string name="add">Aggiungi</string>
+    <string name="modify">Modifica</string>
+    <string name="ok">ok</string>
+
+    <string-array name="rate_percents">
+
+        <item>Tipo A - 4%</item>
+        <item>Tipo B - 10%</item>
+        <item>Tipo C - 22%</item>
+        <item>N1 - Escluse</item>
+        <item>N2 - Non soggette</item>
+        <item>N3 - Non imponibili</item>
+        <item>N4 - Esenti</item>
+        <item>N5 - Regime del margine</item>
+        <item>N6 - Inversione contabile (reverse charge)</item>
+        <item>N7 - IVA assolta in altro stato UE</item>
+
+    </string-array>
+</resources>

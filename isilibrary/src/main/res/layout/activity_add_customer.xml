@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".customer.AddCustomer">
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <CheckBox
+                android:id="@+id/privacyAccepted"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Il cliente ha letto e accettato la normativa sulla privacy" />
+
+            <CheckBox
+                android:id="@+id/commercialAccepted"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Il cliente ha letto e accettato la comunicazione per mezzi commerciali" />
+
+            <EditText
+                android:id="@+id/nameAddCustomer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="5dp"
+                android:ems="10"
+                android:hint="Nome"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/surnameAddCustomer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="5dp"
+                android:ems="10"
+                android:hint="Cognome"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/addressAddCustomer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="5dp"
+                android:ems="10"
+                android:hint="Indirizzo"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/cityAddCustomer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="5dp"
+                android:ems="10"
+                android:hint="Città"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/capAddCustomer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="5dp"
+                android:ems="10"
+                android:hint="C.A.P."
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/provinceAddCustomer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="5dp"
+                android:ems="10"
+                android:hint="Provincia"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/countryAddCustomer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="5dp"
+                android:ems="10"
+                android:hint="Stato"
+                android:inputType="textPersonName" />
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <RadioButton
+                    android:id="@+id/maleAddCustomer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="Uomo" />
+
+                <RadioButton
+                    android:id="@+id/femaleAddCustomer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Donna" />
+            </RadioGroup>
+
+            <EditText
+                android:id="@+id/birthplaceCustomer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="5dp"
+                android:ems="10"
+                android:hint="Nato a"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/birthdayAddCustomer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="5dp"
+                android:ems="10"
+                android:hint="Data di nascita(dd-mm-yyyy)"
+                android:inputType="date" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/fiscalAddCustomer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="Codice fiscale"
+                    android:inputType="textPersonName" />
+
+                <Button
+                    android:id="@+id/generateFiscalCode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Genera" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/aeCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="5dp"
+                android:ems="10"
+                android:hint="Codice Agenzia Entrate"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/ivaEditCustomer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:ems="10"
+                android:hint="Partita I.V.A."
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/pecAddCustomer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="5dp"
+                android:ems="10"
+                android:hint="P.E.C."
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/phoneAddCustomer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="5dp"
+                android:ems="10"
+                android:hint="Telefono"
+                android:inputType="phone" />
+
+            <EditText
+                android:id="@+id/societyAddCustomer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="5dp"
+                android:ems="10"
+                android:hint="Società"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/emailAddCustomer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="5dp"
+                android:ems="10"
+                android:hint="Email"
+                android:inputType="textEmailAddress" />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
