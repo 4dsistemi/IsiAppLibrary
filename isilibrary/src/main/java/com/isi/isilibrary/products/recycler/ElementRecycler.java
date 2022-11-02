@@ -19,13 +19,13 @@ import com.google.gson.Gson;
 import com.isi.isiapi.classes.Product;
 import com.isi.isilibrary.IsiAppActivity;
 import com.isi.isilibrary.R;
+import com.isi.isilibrary.dialog.Dialog;
 import com.isi.isilibrary.products.AddManageElementActivity;
 
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
-import cn.pedant.SweetAlert.SweetAlertDialog;
 import info.androidhive.fontawesome.FontTextView;
 
 public class ElementRecycler extends RecyclerView.Adapter<ElementRecycler.ViewHolder> {
@@ -59,17 +59,15 @@ public class ElementRecycler extends RecyclerView.Adapter<ElementRecycler.ViewHo
 
         holder.active.setOnClickListener(view -> {
 
-            if(holder.active.isChecked()){
+            if (holder.active.isChecked()) {
                 p.active = 1;
-            }else{
+            } else {
                 p.active = 0;
             }
 
             new Thread(() -> {
-                if(!IsiAppActivity.isiCashierRequest.editProduct(p, null)){
-                    ((Activity)context).runOnUiThread(() -> new SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE)
-                            .setTitleText("Errore di connessione")
-                            .show());
+                if (!IsiAppActivity.isiCashierRequest.editProduct(p, null)) {
+                    ((Activity) context).runOnUiThread(() -> new Dialog(context).showErrorConnectionDialog(false));
 
                 }
             }).start();
@@ -81,17 +79,15 @@ public class ElementRecycler extends RecyclerView.Adapter<ElementRecycler.ViewHo
 
         holder.orderGuest.setOnClickListener(view -> {
 
-            if(holder.orderGuest.isChecked()){
+            if (holder.orderGuest.isChecked()) {
                 p.guest = 1;
-            }else{
+            } else {
                 p.guest = 0;
             }
 
             new Thread(() -> {
-                if(!IsiAppActivity.isiCashierRequest.editProduct(p, null)){
-                    ((Activity)context).runOnUiThread(() -> new SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE)
-                            .setTitleText("Errore di connessione")
-                            .show());
+                if (!IsiAppActivity.isiCashierRequest.editProduct(p, null)) {
+                    ((Activity) context).runOnUiThread(() -> new Dialog(context).showErrorConnectionDialog(false));
 
                 }
             }).start();
@@ -109,7 +105,7 @@ public class ElementRecycler extends RecyclerView.Adapter<ElementRecycler.ViewHo
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 int backPriority = p.priority_prod;
 
-                if(backPriority != position){
+                if (backPriority != position) {
                     p.priority_prod = position;
 
                     IsiAppActivity.isiCashierRequest.editProduct(p, null);
@@ -135,7 +131,7 @@ public class ElementRecycler extends RecyclerView.Adapter<ElementRecycler.ViewHo
             arrayCount[i] = i;
         }
 
-        ArrayAdapter<Integer> aa = new ArrayAdapter<>(context,android.R.layout.simple_spinner_item,arrayCount);
+        ArrayAdapter<Integer> aa = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, arrayCount);
         spinner.setAdapter(aa);
 
         spinner.setSelection(p.priority_prod);

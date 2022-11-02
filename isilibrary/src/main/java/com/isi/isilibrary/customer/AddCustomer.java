@@ -1,7 +1,6 @@
 package com.isi.isilibrary.customer;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,6 +10,8 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
+
 import com.google.gson.Gson;
 import com.isi.isilibrary.IsiAppActivity;
 import com.isi.isilibrary.R;
@@ -18,8 +19,7 @@ import com.isi.isilibrary.backActivity.BackActivity;
 import com.isi.isilibrary.cfbuilder.CF_Builder;
 import com.isi.isilibrary.cfbuilder.PersonalData;
 import com.isi.isiapi.classes.Customer;
-
-import cn.pedant.SweetAlert.SweetAlertDialog;
+import com.isi.isilibrary.dialog.Dialog;
 
 public class AddCustomer extends BackActivity {
 
@@ -116,13 +116,8 @@ public class AddCustomer extends BackActivity {
 
         generateFiscalCode.setOnClickListener(v -> {
 
-            SweetAlertDialog pDialog = new SweetAlertDialog(AddCustomer.this, SweetAlertDialog.PROGRESS_TYPE);
-            pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-            pDialog.setTitleText("Genero codice fiscale...");
-            pDialog.setCancelable(false);
-            pDialog.show();
-
-            pDialog.dismissWithAnimation();
+            AlertDialog pDialog = new Dialog(this).showLoadingDialog("Genero codice fiscale...");
+            pDialog.dismiss();
 
             try{
                 String birthday = birthdayCustomer.getText().toString();
@@ -147,13 +142,9 @@ public class AddCustomer extends BackActivity {
 
                 fiscalAddCustomer.setText(codice_fiscale);
             }catch (Exception e){
-                new SweetAlertDialog(AddCustomer.this, SweetAlertDialog.ERROR_TYPE)
-                        .setTitleText("Attenzione")
-                        .setContentText("Non è stato possibile calcolare il codice fiscale")
-                        .setConfirmText("Ok")
-                        .setConfirmClickListener(SweetAlertDialog::dismissWithAnimation).show();
-            }
 
+                new Dialog(this).showCustomErrorConnectionDialog("Non è stato possibile calcolare il codice fiscale");
+            }
 
         });
 
@@ -181,22 +172,9 @@ public class AddCustomer extends BackActivity {
         if (id == R.id.addIntestazioneDone) {
 
             if(!privacyAccepted.isChecked()){
-
-                new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
-                        .setTitleText("Attenzione")
-                        .setContentText("Non si può aggiungere un cliente se non ha accettato e letto le norme sulla privacy")
-                        .setConfirmText("OK!")
-                        .show();
-
-
+                new Dialog(this).showCustomErrorConnectionDialog("Non si può aggiungere un cliente se non ha accettato e letto le norme sulla privacy");
             }else if(nameAddCustomer.getText().toString().trim().equals("") || surnameAddCustomer.getText().toString().trim().equals("")){
-
-                new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
-                        .setTitleText("Attenzione")
-                        .setContentText("Nome e cognome non possono essere vuoti")
-                        .setConfirmText("OK!")
-                        .show();
-
+                new Dialog(this).showCustomErrorConnectionDialog("Nome e cognome non possono essere vuoti");
             }else{
 
                 final Customer c = new Customer(
@@ -241,12 +219,7 @@ public class AddCustomer extends BackActivity {
                         if(ok){
                             finish();
                         }else{
-                            new SweetAlertDialog(AddCustomer.this, SweetAlertDialog.ERROR_TYPE)
-                                    .setTitleText("Attenzione")
-                                    .setContentText("Problema di connessione, riprovare")
-                                    .setConfirmText("Ok")
-                                    .setConfirmClickListener(SweetAlertDialog::dismissWithAnimation)
-                                    .show();
+                            new Dialog(this).showErrorConnectionDialog(false);
                         }
                     });
 

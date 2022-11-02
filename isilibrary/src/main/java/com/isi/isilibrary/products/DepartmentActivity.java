@@ -2,7 +2,6 @@ package com.isi.isilibrary.products;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,18 +11,19 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
+
 import com.isi.isiapi.classes.isicash.IsiCashDepartment;
 import com.isi.isilibrary.IsiAppActivity;
 import com.isi.isilibrary.R;
 import com.isi.isilibrary.backActivity.BackActivity;
 import com.isi.isiapi.classes.CategoryAndProduct;
 import com.isi.isiapi.classes.Product;
+import com.isi.isilibrary.dialog.Dialog;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
-
-import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class DepartmentActivity extends BackActivity {
 
@@ -44,32 +44,23 @@ public class DepartmentActivity extends BackActivity {
 
         departmentLayout.removeAllViews();
 
-        SweetAlertDialog pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
-        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-        pDialog.setTitleText("Aggiorno Reparti...");
-        pDialog.setCancelable(false);
-        pDialog.show();
+        AlertDialog pDialog = new Dialog(this).showLoadingDialog("Aggiorno reparti...");
 
         new Thread(() -> {
 
             List<IsiCashDepartment> rates = IsiAppActivity.isiCashierRequest.getDepartment();
             List<CategoryAndProduct> products = IsiAppActivity.isiCashierRequest.getCategories();
 
-            if(rates == null || products == null){
-                runOnUiThread(() -> new SweetAlertDialog(DepartmentActivity.this, SweetAlertDialog.ERROR_TYPE)
-                        .setTitleText("Attenzione")
-                        .setContentText("Errore di comunicazione con il server. Riprovare")
-                        .setConfirmText("Ok")
-                        .setConfirmClickListener(sweetAlertDialog -> {
-                            sweetAlertDialog.dismissWithAnimation();
-                            finish();
-                        }).show());
-            }else{
+            if (rates == null || products == null) {
+                runOnUiThread(() ->
+                        new Dialog(this).showErrorConnectionDialog(true)
+                );
+            } else {
                 rates.sort(Comparator.comparingInt(departments -> departments.department));
 
-                for (final IsiCashDepartment rate : rates){
+                for (final IsiCashDepartment rate : rates) {
 
-                    LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
+                    LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
                     assert inflater != null;
                     @SuppressLint("InflateParams") final View inflate = inflater.inflate(R.layout.department_cell, departmentLayout, false);
 
@@ -79,10 +70,10 @@ public class DepartmentActivity extends BackActivity {
 
                     TextView description = inflate.findViewById(R.id.descriptionRateTextCell);
 
-                    if(rate.product_id != null){
-                        for(CategoryAndProduct categoryAndProduct : products){
-                            for (Product prod : categoryAndProduct.product){
-                                if(prod.id == rate.product_id){
+                    if (rate.product_id != null) {
+                        for (CategoryAndProduct categoryAndProduct : products) {
+                            for (Product prod : categoryAndProduct.product) {
+                                if (prod.id == rate.product_id) {
                                     description.setText(String.format("Descrizione %s", prod.name));
                                 }
                             }
@@ -104,7 +95,7 @@ public class DepartmentActivity extends BackActivity {
 
                 }
 
-                runOnUiThread(pDialog::dismissWithAnimation);
+                runOnUiThread(pDialog::dismiss);
             }
 
 

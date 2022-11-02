@@ -1,28 +1,26 @@
 package com.isi.isilibrary.backActivity;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Button;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.isi.isilibrary.R;
+import com.isi.isilibrary.dialog.Dialog;
 
 import java.util.Objects;
 
-import cn.pedant.SweetAlert.SweetAlertDialog;
-
 public class BackActivity extends AppCompatActivity {
 
-    private SweetAlertDialog pDialog;
+    private AlertDialog pDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        pDialog = new SweetAlertDialog(BackActivity.this, SweetAlertDialog.PROGRESS_TYPE);
     }
 
     @Override
@@ -67,19 +65,14 @@ public class BackActivity extends AppCompatActivity {
 
     public void startLoader(String title){
         final String titleIn = title == null ? "Aggiorno dati..." : title;
-        runOnUiThread(() -> {
-            pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-            pDialog.setTitleText(titleIn);
-            pDialog.setCancelable(false);
-            pDialog.show();
-        });
+        runOnUiThread(() -> pDialog = new Dialog(this).showLoadingDialog(titleIn));
 
     }
 
     public void stopLoader(){
         runOnUiThread(() -> {
             if(pDialog != null){
-                pDialog.dismissWithAnimation();
+                pDialog.dismiss();
             }
         });
     }

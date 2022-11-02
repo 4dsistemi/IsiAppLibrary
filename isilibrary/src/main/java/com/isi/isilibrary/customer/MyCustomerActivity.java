@@ -1,12 +1,12 @@
 package com.isi.isilibrary.customer;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SearchView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.flexbox.AlignItems;
@@ -18,11 +18,10 @@ import com.isi.isilibrary.IsiAppActivity;
 import com.isi.isilibrary.R;
 import com.isi.isilibrary.backActivity.BackActivity;
 import com.isi.isiapi.classes.Customer;
+import com.isi.isilibrary.dialog.Dialog;
 
 import java.util.Comparator;
 import java.util.List;
-
-import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MyCustomerActivity extends BackActivity {
 
@@ -71,18 +70,14 @@ public class MyCustomerActivity extends BackActivity {
 
         boolean searching = getIntent().getBooleanExtra("searching", false);
 
-        SweetAlertDialog pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
-        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-        pDialog.setTitleText("Aggiorno Clienti...");
-        pDialog.setCancelable(false);
-        pDialog.show();
+        AlertDialog pDialog = new Dialog(this).showLoadingDialog("Aggiorno clienti...");
 
         new Thread(() -> {
 
             List<Customer> customers = IsiAppActivity.isiCashierRequest.getCustomers();
 
             runOnUiThread(() -> {
-                pDialog.dismissWithAnimation();
+                pDialog.dismiss();
 
                 if(customers != null){
 
@@ -92,16 +87,8 @@ public class MyCustomerActivity extends BackActivity {
 
                     recyclerView.setAdapter(adapter);
                 }else{
-                    runOnUiThread(() -> new SweetAlertDialog(MyCustomerActivity.this, SweetAlertDialog.ERROR_TYPE)
-                            .setTitleText("Attenzione")
-                            .setContentText("Errore di comunicazione con il server. Riprovare")
-                            .setConfirmText("Ok")
-                            .setConfirmClickListener(sweetAlertDialog -> {
-                                sweetAlertDialog.dismissWithAnimation();
-                                finish();
-                            }).show());
+                    runOnUiThread(() -> new Dialog(MyCustomerActivity.this).showErrorConnectionDialog(true));
                 }
-
 
             });
 

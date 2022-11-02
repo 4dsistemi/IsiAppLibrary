@@ -2,7 +2,6 @@ package com.isi.isilibrary.customer;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,7 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
@@ -19,13 +19,12 @@ import com.google.gson.Gson;
 import com.isi.isilibrary.IsiAppActivity;
 import com.isi.isilibrary.R;
 import com.isi.isiapi.classes.Customer;
+import com.isi.isilibrary.dialog.Dialog;
 
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.ViewHolder> implements Filterable {
 
@@ -92,41 +91,30 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.ViewHo
             context.startActivity(i);
         });
 
-        holder.delete.setOnClickListener(v -> new SweetAlertDialog(context, SweetAlertDialog.WARNING_TYPE)
-                .setTitleText("Cancellazione cliente")
-                .setContentText("Sei sicuro di voler eliminare " + c.name + " " + c.surname + "?")
-                .setConfirmText("Sì")
-                .setCancelText("No")
-                .setCancelClickListener(SweetAlertDialog::dismissWithAnimation)
-                .setConfirmClickListener(sweetAlertDialog -> {
-                    sweetAlertDialog.dismissWithAnimation();
-                    SweetAlertDialog pDialog = new SweetAlertDialog(context, SweetAlertDialog.PROGRESS_TYPE);
-                    pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-                    pDialog.setTitleText("Elimino Cliente...");
-                    pDialog.setCancelable(false);
-                    pDialog.show();
+        holder.delete.setOnClickListener(v ->
 
-                    new Thread(() -> {
+                new Dialog(context).yesNoDialog("Cancellazione cliente", "Sei sicuro di voler eliminare " + c.name + " " + c.surname + "?",
+                        (dialogInterface, i) -> {
+                            dialogInterface.dismiss();
 
-                        boolean response = IsiAppActivity.isiCashierRequest.deleteCustomer(c);
+                            AlertDialog loader = new Dialog(context).showLoadingDialog("Elimino cliente...");
 
-                        context.runOnUiThread(() -> {
-                            pDialog.dismissWithAnimation();
+                            new Thread(() -> {
 
-                            if(response){
-                                context.updateUI();
-                            }else{
-                                new SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE)
-                                        .setTitleText("Cancellazione cliente")
-                                        .setContentText("Errore nell'eliminazione del cliente")
-                                        .show();
-                            }
-                        });
+                                boolean response = IsiAppActivity.isiCashierRequest.deleteCustomer(c);
 
-                    }).start();
+                                context.runOnUiThread(() -> {
+                                    loader.dismiss();
 
-                })
-                .show());
+                                    if(response){
+                                        context.updateUI();
+                                    }else{
+                                        new Dialog(context).showErrorConnectionDialog(false);
+                                    }
+                                });
+
+                            }).start();
+                        }, null));
 
         if(searching){
             holder.cardView.setOnClickListener(v -> {
@@ -182,8 +170,6 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.ViewHo
 
         }
     };
-
-
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView nameSurnameCustomer;

@@ -19,11 +19,11 @@ import com.isi.isiapi.classes.isimaga.ProductForniture;
 import com.isi.isilibrary.IsiAppActivity;
 import com.isi.isilibrary.R;
 import com.isi.isilibrary.backActivity.BackActivity;
+import com.isi.isilibrary.dialog.Dialog;
+import com.isi.isilibrary.dialog.MaterialTextAndListener;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class AddIngredientsActivity extends BackActivity {
 
@@ -76,10 +76,10 @@ public class AddIngredientsActivity extends BackActivity {
 
             List<ProductForniture> storage = IsiAppActivity.isiCashierRequest.isimagaGetProductForniture();
 
-            if(storage == null){
+            if (storage == null) {
                 errorPage(layoutOut);
-            }else{
-                for(final ProductForniture ingredient : storage){
+            } else {
+                for (final ProductForniture ingredient : storage) {
 
                     runOnUiThread(() -> {
 
@@ -97,25 +97,18 @@ public class AddIngredientsActivity extends BackActivity {
 
                                 if (plus.getText().equals("+")) {
 
-                                    LayoutInflater inflaterPerso = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
+                                    LayoutInflater inflaterPerso = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
                                     assert inflaterPerso != null;
                                     @SuppressLint("InflateParams") final View inflatePerso = inflaterPerso.inflate(R.layout.quantity_cell, null);
                                     EditText quantity = inflatePerso.findViewById(R.id.quantity_cell_edit);
 
-                                    new SweetAlertDialog(this, SweetAlertDialog.NORMAL_TYPE)
-                                            .setTitleText("Aggiungi quantità in " + IsiAppActivity.isiCashierRequest.transformIsimagaUnity(ingredient.unity_id))
-                                            .setConfirmText("Ok")
-                                            .setHideKeyBoardOnDismiss(true)
-                                            .setCustomView(inflatePerso)
-                                            .setConfirmClickListener(sDialog -> {
-
-                                                sDialog.dismissWithAnimation();
-
+                                    new Dialog(this).showNormalDialogType(null, "Aggiungi quantità in " + IsiAppActivity.isiCashierRequest.transformIsimagaUnity(ingredient.unity_id),
+                                            null, new MaterialTextAndListener("Ok", (dialogInterface, i) -> {
                                                 try {
 
-                                                    Ingredients i = new Ingredients(ingredient.id, 0, (Float.parseFloat(quantity.getText().toString())));
+                                                    Ingredients ingredients = new Ingredients(ingredient.id, 0, (Float.parseFloat(quantity.getText().toString())));
 
-                                                    ingredientsAdd.add(i);
+                                                    ingredientsAdd.add(ingredients);
 
                                                     plus.setText("-");
 
@@ -125,10 +118,8 @@ public class AddIngredientsActivity extends BackActivity {
 
                                                 }
 
-                                                sDialog.dismissWithAnimation();
-                                            })
-                                            .show();
-
+                                                dialogInterface.dismiss();
+                                            }), null, inflatePerso);
 
 
                                 } else {

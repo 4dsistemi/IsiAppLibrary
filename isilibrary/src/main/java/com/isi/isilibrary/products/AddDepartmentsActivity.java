@@ -1,6 +1,5 @@
 package com.isi.isilibrary.products;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,19 +11,20 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 
+import androidx.appcompat.app.AlertDialog;
+
 import com.isi.isiapi.classes.isicash.IsiCashDepartment;
 import com.isi.isilibrary.IsiAppActivity;
 import com.isi.isilibrary.R;
 import com.isi.isilibrary.backActivity.BackActivity;
 import com.isi.isiapi.classes.CategoryAndProduct;
 import com.isi.isiapi.classes.Product;
+import com.isi.isilibrary.dialog.Dialog;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
-
-import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class AddDepartmentsActivity extends BackActivity {
 
@@ -55,11 +55,7 @@ public class AddDepartmentsActivity extends BackActivity {
 
         names.add("Default");
 
-        SweetAlertDialog pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
-        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-        pDialog.setTitleText("Aggiorno Reparti...");
-        pDialog.setCancelable(false);
-        pDialog.show();
+        AlertDialog pDialog = new Dialog(this).showLoadingDialog("Aggiorno reparti...");
 
         new Thread(() -> {
 
@@ -68,27 +64,20 @@ public class AddDepartmentsActivity extends BackActivity {
 
             List<CategoryAndProduct> categoryAndProducts = IsiAppActivity.isiCashierRequest.getCategories();
 
-            for (CategoryAndProduct cat : categoryAndProducts){
+            for (CategoryAndProduct cat : categoryAndProducts) {
                 products.addAll(cat.product);
             }
 
             runOnUiThread(() -> {
 
-                pDialog.dismissWithAnimation();
+                pDialog.dismiss();
 
-                if(rates == null){
-                    new SweetAlertDialog(AddDepartmentsActivity.this, SweetAlertDialog.ERROR_TYPE)
-                            .setTitleText("Attenzione")
-                            .setContentText("Errore di comunicazione con il server. Riprovare")
-                            .setConfirmText("Ok")
-                            .setConfirmClickListener(sweetAlertDialog -> {
-                                sweetAlertDialog.dismissWithAnimation();
-                                finish();
-                            }).show();
-                }else{
+                if (rates == null) {
+                    new Dialog(this).showErrorConnectionDialog(true);
+                } else {
                     rates.sort(Comparator.comparingInt(departments -> departments.department));
 
-                    for (Product p : products){
+                    for (Product p : products) {
                         names.add(p.name);
                     }
 
@@ -100,9 +89,9 @@ public class AddDepartmentsActivity extends BackActivity {
                     spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                            if(i > 0){
-                                product_id = products.get(i -1).id;
-                            }else{
+                            if (i > 0) {
+                                product_id = products.get(i - 1).id;
+                            } else {
                                 product_id = null;
                             }
 
@@ -114,11 +103,11 @@ public class AddDepartmentsActivity extends BackActivity {
                         }
                     });
 
-                    if(getIntent().getBooleanExtra("modify", false)){
+                    if (getIntent().getBooleanExtra("modify", false)) {
 
-                        for (IsiCashDepartment departments : rates){
+                        for (IsiCashDepartment departments : rates) {
 
-                            if(departments.id == getIntent().getIntExtra("id", -1)){
+                            if (departments.id == getIntent().getIntExtra("id", -1)) {
 
                                 code.setText(String.format(Locale.getDefault(), "%d", departments.department));
 
@@ -128,16 +117,16 @@ public class AddDepartmentsActivity extends BackActivity {
 
                                 for (int j = 0; j < arrayRate.length; j++) {
 
-                                    if(arrayRate[j].contains(departments.code + " -")){
+                                    if (arrayRate[j].contains(departments.code + " -")) {
                                         spinnerRate.setSelection(j, true);
                                     }
 
                                 }
 
-                                if(departments.product_id != null){
+                                if (departments.product_id != null) {
                                     for (int j = 0; j < products.size(); j++) {
 
-                                        if(products.get(j).id == departments.product_id){
+                                        if (products.get(j).id == departments.product_id) {
 
                                             spinner.setSelection(j + 1);
 
@@ -174,11 +163,10 @@ public class AddDepartmentsActivity extends BackActivity {
         int id = item.getItemId();
 
 
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.addIntestazioneDone) {
 
-            if(backDepartment != null){
+            if (backDepartment != null) {
                 new Thread(() -> {
                     backDepartment.department = Integer.parseInt(code.getText().toString());
                     backDepartment.code = Rates.rates[spinnerRate.getSelectedItemPosition()];
@@ -191,14 +179,11 @@ public class AddDepartmentsActivity extends BackActivity {
                             Toast.makeText(AddDepartmentsActivity.this, "Reparto modificato correttamente!",
                                     Toast.LENGTH_LONG).show();
                         } else {
-                            new SweetAlertDialog(AddDepartmentsActivity.this, SweetAlertDialog.ERROR_TYPE)
-                                    .setTitleText("Attenzione")
-                                    .setContentText("Errore di comunicazione con il server. Riprovare")
-                                    .setConfirmText("Ok")
-                                    .setConfirmClickListener(SweetAlertDialog::dismissWithAnimation).show();                        }
+                            new Dialog(this).showErrorConnectionDialog(false);
+                        }
                     });
                 }).start();
-            }else{
+            } else {
                 new Thread(() -> {
 
                     IsiCashDepartment department = new IsiCashDepartment(0, Integer.parseInt(code.getText().toString()), product_id, Rates.rates[spinnerRate.getSelectedItemPosition()]);
@@ -209,11 +194,9 @@ public class AddDepartmentsActivity extends BackActivity {
                             Toast.makeText(AddDepartmentsActivity.this, "Reparto aggiunto correttamente!",
                                     Toast.LENGTH_LONG).show();
                         } else {
-                            new SweetAlertDialog(AddDepartmentsActivity.this, SweetAlertDialog.ERROR_TYPE)
-                                    .setTitleText("Attenzione")
-                                    .setContentText("Errore di comunicazione con il server. Riprovare")
-                                    .setConfirmText("Ok")
-                                    .setConfirmClickListener(SweetAlertDialog::dismissWithAnimation).show();                        }
+                            new Dialog(this).showErrorConnectionDialog(false);
+                        }
+
                     });
                 }).start();
             }
