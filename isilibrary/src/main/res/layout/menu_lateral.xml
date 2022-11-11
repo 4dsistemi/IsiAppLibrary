@@ -5,7 +5,6 @@
     android:id="@+id/lateralMenuLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/Theme.Material3.DayNight"
     android:orientation="vertical">
 
     <com.google.android.material.card.MaterialCardView
