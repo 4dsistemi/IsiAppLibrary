@@ -1,7 +1,6 @@
 package com.isi.isilibrary;
 
 import android.annotation.SuppressLint;
-import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -26,7 +25,6 @@ import android.widget.TextView;
 import androidx.annotation.CallSuper;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -38,7 +36,6 @@ import com.isi.isiapi.classes.AppAndAppActivation;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
 
 public class IsiAppActivity extends AppCompatActivity{
 
@@ -368,6 +365,7 @@ public class IsiAppActivity extends AppCompatActivity{
         registerReceiver(guestReceiver, new IntentFilter("timeoutService"));
     }
 
+
     private void getApplicationListActive(int code){
 
         try{
@@ -515,7 +513,6 @@ public class IsiAppActivity extends AppCompatActivity{
     public void updateUI(int layout){
         runOnUiThread(() -> setContentView(layout));
     }
-
 
     public void errorPage(int layout){
         runOnUiThread(() -> {

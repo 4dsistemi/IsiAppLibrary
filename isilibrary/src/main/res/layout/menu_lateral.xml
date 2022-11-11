@@ -10,6 +10,8 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="70dp"
         android:layout_height="0dp"
+        android:layout_marginTop="68dp"
+        android:layout_marginBottom="68dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -95,6 +97,8 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="70dp"
         android:layout_height="0dp"
+        android:layout_marginTop="68dp"
+        android:layout_marginBottom="68dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -119,13 +123,13 @@
                     android:layout_margin="3dp"
                     android:background="@android:color/transparent"
                     android:contentDescription="@string/image_content_description"
+                    android:scaleType="centerInside"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/imageButton"
-                    app:srcCompat="@android:color/transparent"
-                    android:scaleType="centerInside" />
+                    app:srcCompat="@android:color/transparent" />
 
             </LinearLayout>
 
