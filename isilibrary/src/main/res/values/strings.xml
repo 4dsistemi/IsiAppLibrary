@@ -17,4 +17,6 @@
         <item>N7 - IVA assolta in altro stato UE</item>
 
     </string-array>
+
+    <string name="image_content_description">iSiAPP</string>
 </resources>

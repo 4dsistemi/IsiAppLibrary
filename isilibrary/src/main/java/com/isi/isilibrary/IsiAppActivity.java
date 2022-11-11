@@ -20,6 +20,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.CallSuper;
@@ -126,8 +127,8 @@ public class IsiAppActivity extends AppCompatActivity{
 
         lateralMenu = inflater.inflate(R.layout.menu_lateral, mainView, false);
 
-        ConstraintLayout lateralLayout = lateralMenu.findViewById(R.id.lateral_left);
-        ConstraintLayout lateralLayoutRight = lateralMenu.findViewById(R.id.lateral_right);
+        LinearLayout lateralLayout = lateralMenu.findViewById(R.id.lateral_left);
+        LinearLayout lateralLayoutRight = lateralMenu.findViewById(R.id.lateral_right);
 
         for (int i = 0; i < 3; i++) {
 
@@ -138,7 +139,8 @@ public class IsiAppActivity extends AppCompatActivity{
 
                 if(app.appActivation.position_in_menu - 1 == i){
                     try {
-                        ImageButton b = (ImageButton) lateralLayout.getChildAt(i);
+                        LinearLayout in = (LinearLayout) lateralLayout.getChildAt(i);
+                        ImageButton b = (ImageButton) in.getChildAt(0);
                         Drawable icon = getPackageManager().getApplicationIcon(app.application.Package);
 
                         b.setImageDrawable(icon);
@@ -171,7 +173,8 @@ public class IsiAppActivity extends AppCompatActivity{
 
                 if(app.appActivation.position_in_menu - 1 == i){
                     try {
-                        ImageButton b = (ImageButton) lateralLayoutRight.getChildAt(i - 3);
+                        LinearLayout in = (LinearLayout) lateralLayoutRight.getChildAt(i - 3);
+                        ImageButton b = (ImageButton) in.getChildAt(0);
                         Drawable icon = getPackageManager().getApplicationIcon(app.application.Package);
 
                         b.setImageDrawable(icon);
