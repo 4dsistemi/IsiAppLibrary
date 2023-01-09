@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -25,8 +26,6 @@ import com.isi.isilibrary.products.AddManageElementActivity;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
-
-import info.androidhive.fontawesome.FontTextView;
 
 public class ElementRecycler extends RecyclerView.Adapter<ElementRecycler.ViewHolder> {
 
@@ -147,7 +146,7 @@ public class ElementRecycler extends RecyclerView.Adapter<ElementRecycler.ViewHo
 
         TextView name;
         TextView price;
-        FontTextView modify;
+        Button modify;
         Spinner priority;
         CheckBox active;
         CheckBox orderGuest;

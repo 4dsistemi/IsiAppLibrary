@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,8 +19,6 @@ import com.isi.isilibrary.R;
 import com.isi.isilibrary.backActivity.BackActivity;
 
 import java.util.List;
-
-import info.androidhive.fontawesome.FontTextView;
 
 public class ManageCategoryElementActivity extends BackActivity {
 
@@ -80,7 +79,7 @@ public class ManageCategoryElementActivity extends BackActivity {
 
                     });
 
-                    FontTextView edit = inflate.findViewById(R.id.editCategoryButton);
+                    Button edit = inflate.findViewById(R.id.editCategoryButton);
                     edit.setOnClickListener(v -> {
                         Intent i = new Intent(ManageCategoryElementActivity.this, AddCategoryElementActivity.class);
                         i.putExtra("category", new Gson().toJson(categories1.category));

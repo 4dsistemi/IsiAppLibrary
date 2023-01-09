@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/addIntestazioneDone"
-        android:icon="@drawable/done_icon_menu"
+        android:icon="@drawable/done"
         android:title="@string/add"
         app:showAsAction="ifRoom"
         android:orderInCategory="0"/>
