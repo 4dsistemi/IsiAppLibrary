@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -68,7 +69,14 @@ public class Dialog {
     }
 
     public void showNormalDialogType(DIALOG_TYPE dialog_type, @NonNull String title, String message, MaterialTextAndListener confirm, MaterialTextAndListener reject, @NonNull View view){
-        alertDialogBuilder.setView(view)
+
+        LayoutInflater inflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View inflate = inflater.inflate(R.layout.dialog_custom_view, null);
+
+        LinearLayout layout = inflate.findViewById(R.id.dialog_custom_view_linear);
+        layout.addView(view);
+
+        alertDialogBuilder.setView(inflate)
                 .setTitle(title);
 
         if(message != null){

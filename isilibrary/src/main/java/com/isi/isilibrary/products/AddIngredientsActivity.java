@@ -1,13 +1,11 @@
 package com.isi.isilibrary.products;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -21,6 +19,7 @@ import com.isi.isilibrary.R;
 import com.isi.isilibrary.backActivity.BackActivity;
 import com.isi.isilibrary.dialog.Dialog;
 import com.isi.isilibrary.dialog.MaterialTextAndListener;
+import com.isi.isilibrary.dialog.RapidEditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,16 +96,15 @@ public class AddIngredientsActivity extends BackActivity {
 
                                 if (plus.getText().equals("+")) {
 
-                                    LayoutInflater inflaterPerso = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-                                    assert inflaterPerso != null;
-                                    @SuppressLint("InflateParams") final View inflatePerso = inflaterPerso.inflate(R.layout.quantity_cell, null);
-                                    EditText quantity = inflatePerso.findViewById(R.id.quantity_cell_edit);
+                                    RapidEditText quantity = new RapidEditText(AddIngredientsActivity.this);
+                                    quantity.setEditTextNumber(true, false);
+                                    quantity.setHint("Quantità...");
 
                                     new Dialog(this).showNormalDialogType(null, "Aggiungi quantità in " + IsiAppActivity.isiCashierRequest.transformIsimagaUnity(ingredient.unity_id),
                                             null, new MaterialTextAndListener("Ok", (dialogInterface, i) -> {
                                                 try {
 
-                                                    Ingredients ingredients = new Ingredients(ingredient.id, 0, (Float.parseFloat(quantity.getText().toString())));
+                                                    Ingredients ingredients = new Ingredients(ingredient.id, 0, (Float.parseFloat(quantity.getTextOrEmpty())));
 
                                                     ingredientsAdd.add(ingredients);
 
@@ -119,7 +117,7 @@ public class AddIngredientsActivity extends BackActivity {
                                                 }
 
                                                 dialogInterface.dismiss();
-                                            }), null, inflatePerso);
+                                            }), null, quantity);
 
 
                                 } else {
