@@ -47,7 +47,7 @@
                     android:id="@+id/priceModify"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="number|numberDecimal" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
