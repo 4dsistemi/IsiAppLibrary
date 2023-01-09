@@ -28,67 +28,69 @@ public class ManageCategoryElementActivity extends BackActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_category_element);
 
-        linearLayout = findViewById(R.id.categoryElementLayout);
-
         setTitle("Le tue categorie elementi");
-
-        updateUI();
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
-        updateUI();
+        updateUI(R.layout.activity_manage_category_element);
     }
 
-    private void updateUI(){
+    @Override
+    public void updateUI(int layout){
 
+        super.updateUI(layout);
+
+        linearLayout = findViewById(R.id.categoryElementLayout);
         linearLayout.removeAllViews();
 
         new Thread(() -> {
             List<CategoryAndProduct> categories = IsiAppActivity.isiCashierRequest.getCategories();
 
             runOnUiThread(() -> {
-                for (CategoryAndProduct categories1 : categories){
+                if(categories != null){
+                    for (CategoryAndProduct categories1 : categories){
 
-                    LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-                    final View inflate = inflater.inflate(R.layout.category_table, linearLayout, false);
-                    TextView loadinf = inflate.findViewById(R.id.categoryTableText);
-                    loadinf.setText(categories1.category.name);
+                        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+                        final View inflate = inflater.inflate(R.layout.category_table, linearLayout, false);
+                        TextView loadinf = inflate.findViewById(R.id.categoryTableText);
+                        loadinf.setText(categories1.category.name);
 
-                    CheckBox active = inflate.findViewById(R.id.checkbox_active);
-                    CheckBox guest = inflate.findViewById(R.id.chekcbox_guest_active);
+                        CheckBox active = inflate.findViewById(R.id.checkbox_active);
+                        CheckBox guest = inflate.findViewById(R.id.chekcbox_guest_active);
 
-                    active.setChecked(categories1.category.active == 1);
-                    guest.setChecked(categories1.category.guest == 1);
+                        active.setChecked(categories1.category.active == 1);
+                        guest.setChecked(categories1.category.guest == 1);
 
-                    active.setOnCheckedChangeListener((compoundButton, b) -> {
-                        categories1.category.active = b ? 1 : 0;
+                        active.setOnCheckedChangeListener((compoundButton, b) -> {
+                            categories1.category.active = b ? 1 : 0;
 
-                        new Thread(() -> IsiAppActivity.isiCashierRequest.editcategory(categories1.category)).start();
-
-
-                    });
-
-                    guest.setOnCheckedChangeListener((compoundButton, b) -> {
-                        categories1.category.guest = b ? 1 : 0;
-
-                        new Thread(() -> IsiAppActivity.isiCashierRequest.editcategory(categories1.category)).start();
-
-                    });
-
-                    Button edit = inflate.findViewById(R.id.editCategoryButton);
-                    edit.setOnClickListener(v -> {
-                        Intent i = new Intent(ManageCategoryElementActivity.this, AddCategoryElementActivity.class);
-                        i.putExtra("category", new Gson().toJson(categories1.category));
-                        startActivity(i);
-                    });
+                            new Thread(() -> IsiAppActivity.isiCashierRequest.editcategory(categories1.category)).start();
 
 
-                    linearLayout.addView(inflate);
+                        });
 
+                        guest.setOnCheckedChangeListener((compoundButton, b) -> {
+                            categories1.category.guest = b ? 1 : 0;
+
+                            new Thread(() -> IsiAppActivity.isiCashierRequest.editcategory(categories1.category)).start();
+
+                        });
+
+                        Button edit = inflate.findViewById(R.id.editCategoryButton);
+                        edit.setOnClickListener(v -> {
+                            Intent i = new Intent(ManageCategoryElementActivity.this, AddCategoryElementActivity.class);
+                            i.putExtra("category", new Gson().toJson(categories1.category));
+                            startActivity(i);
+                        });
+
+
+                        linearLayout.addView(inflate);
+
+                    }
+                }else{
+                    errorPage(layout);
                 }
             });
 

@@ -88,15 +88,6 @@ public class ManageElementsActivity extends BackActivity {
                     }
                 });
 
-                FloatingActionButton addElement = findViewById(R.id.addElementFloating);
-
-                addElement.setOnClickListener(view -> {
-
-                    Intent intent = new Intent(ManageElementsActivity.this, AddManageElementActivity.class);
-                    startActivity(intent);
-
-                });
-
             });
 
 
@@ -163,9 +154,17 @@ public class ManageElementsActivity extends BackActivity {
 
         }).start();
 
-
-
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId() == R.id.addIntestazioneMenu){
+            Intent intent = new Intent(ManageElementsActivity.this, AddManageElementActivity.class);
+            startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }
