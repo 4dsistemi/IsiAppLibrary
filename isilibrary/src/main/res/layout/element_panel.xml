@@ -84,8 +84,7 @@
             android:layout_height="wrap_content"
             android:padding="5dp"
             app:icon="@drawable/edit"
-            app:iconSize="35sp"
-            app:solid_icon="true" />
+            app:iconSize="35sp"/>
 
     </LinearLayout>
 
