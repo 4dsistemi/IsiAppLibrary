@@ -5,9 +5,9 @@
 
     <string-array name="rate_percents">
 
-        <item>Tipo A - 4%</item>
-        <item>Tipo B - 10%</item>
-        <item>Tipo C - 22%</item>
+        <item>A - 4%</item>
+        <item>B - 10%</item>
+        <item>C - 22%</item>
         <item>N1 - Escluse</item>
         <item>N2 - Non soggette</item>
         <item>N3 - Non imponibili</item>

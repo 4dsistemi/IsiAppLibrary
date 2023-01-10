@@ -1,24 +1,22 @@
 package com.isi.isilibrary.products;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
-
 
 import androidx.appcompat.app.AlertDialog;
 
+import com.google.android.material.textfield.TextInputEditText;
+import com.isi.isiapi.classes.CategoryAndProduct;
+import com.isi.isiapi.classes.Product;
 import com.isi.isiapi.classes.isicash.IsiCashDepartment;
 import com.isi.isilibrary.IsiAppActivity;
 import com.isi.isilibrary.R;
 import com.isi.isilibrary.backActivity.BackActivity;
-import com.isi.isiapi.classes.CategoryAndProduct;
-import com.isi.isiapi.classes.Product;
 import com.isi.isilibrary.dialog.Dialog;
 
 import java.util.ArrayList;
@@ -30,8 +28,8 @@ public class AddDepartmentsActivity extends BackActivity {
 
     private Integer product_id = null;
     private IsiCashDepartment backDepartment = null;
-    private EditText code;
-    private Spinner spinnerRate;
+    private TextInputEditText code;
+    private AutoCompleteTextView spinnerRate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +44,17 @@ public class AddDepartmentsActivity extends BackActivity {
     protected void onResume() {
         super.onResume();
 
-        Spinner spinner = findViewById(R.id.productSpinnerDepartment);
+        String[] arrayRate = getResources().getStringArray(R.array.rate_percents);
+
+        AutoCompleteTextView spinner = findViewById(R.id.productSpinnerDepartment);
         code = findViewById(R.id.departmentCodeEdit);
 
         spinnerRate = findViewById(R.id.departmentSpinnerCode);
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, arrayRate);
+        spinnerRate.setAdapter(adapter2);
+        spinnerRate.setText("A - 4%", false);
 
         List<String> names = new ArrayList<>();
-
         names.add("Default");
 
         AlertDialog pDialog = new Dialog(this).showLoadingDialog("Aggiorno reparti...");
@@ -85,23 +87,15 @@ public class AddDepartmentsActivity extends BackActivity {
                             android.R.layout.simple_spinner_item, names);
 
                     spinner.setAdapter(adapter);
-
-                    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                            if (i > 0) {
-                                product_id = products.get(i - 1).id;
-                            } else {
-                                product_id = null;
-                            }
-
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> adapterView) {
-
+                    spinner.setOnItemClickListener((adapterView, view, i, l) -> {
+                        Log.e("TAG", "onResume: ");
+                        if (i > 0) {
+                            product_id = products.get(i - 1).id;
+                        } else {
+                            product_id = null;
                         }
                     });
+                    spinner.setText(names.get(0), false);
 
                     if (getIntent().getBooleanExtra("modify", false)) {
 
@@ -113,14 +107,10 @@ public class AddDepartmentsActivity extends BackActivity {
 
                                 backDepartment = departments;
 
-                                String[] arrayRate = getResources().getStringArray(R.array.rate_percents);
-
-                                for (int j = 0; j < arrayRate.length; j++) {
-
-                                    if (arrayRate[j].contains(departments.code + " -")) {
-                                        spinnerRate.setSelection(j, true);
+                                for (String s : arrayRate) {
+                                    if (s.contains(departments.code + " -")) {
+                                        spinnerRate.setText(s, false);
                                     }
-
                                 }
 
                                 if (departments.product_id != null) {
@@ -169,7 +159,7 @@ public class AddDepartmentsActivity extends BackActivity {
             if (backDepartment != null) {
                 new Thread(() -> {
                     backDepartment.department = Integer.parseInt(code.getText().toString());
-                    backDepartment.code = Rates.rates[spinnerRate.getSelectedItemPosition()];
+                    backDepartment.code = spinnerRate.getText().toString().split(" - ")[0];
                     backDepartment.product_id = product_id;
 
                     final boolean result = IsiAppActivity.isiCashierRequest.editDepartment(backDepartment);
@@ -185,8 +175,7 @@ public class AddDepartmentsActivity extends BackActivity {
                 }).start();
             } else {
                 new Thread(() -> {
-
-                    IsiCashDepartment department = new IsiCashDepartment(0, Integer.parseInt(code.getText().toString()), product_id, Rates.rates[spinnerRate.getSelectedItemPosition()]);
+                    IsiCashDepartment department = new IsiCashDepartment(0, Integer.parseInt(code.getText().toString()), product_id, spinnerRate.getText().toString().split(" - ")[0]);
                     final boolean result = IsiAppActivity.isiCashierRequest.addDepartment(department);
                     runOnUiThread(() -> {
                         if (result) {
