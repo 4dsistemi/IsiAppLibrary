@@ -84,7 +84,7 @@ public class AddDepartmentsActivity extends BackActivity {
                     }
 
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(AddDepartmentsActivity.this,
-                            android.R.layout.simple_spinner_item, names);
+                            android.R.layout.simple_dropdown_item_1line, names);
 
                     spinner.setAdapter(adapter);
                     spinner.setOnItemClickListener((adapterView, view, i, l) -> {
@@ -114,11 +114,12 @@ public class AddDepartmentsActivity extends BackActivity {
                                 }
 
                                 if (departments.product_id != null) {
-                                    for (int j = 0; j < products.size(); j++) {
+                                    for (Product p : products) {
 
-                                        if (products.get(j).id == departments.product_id) {
+                                        if (p.id == departments.product_id) {
 
-                                            spinner.setSelection(j + 1);
+                                            spinner.setText(p.name);
+                                            product_id = p.id;
 
                                         }
 
