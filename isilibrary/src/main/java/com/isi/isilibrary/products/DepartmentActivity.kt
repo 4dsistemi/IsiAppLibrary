@@ -26,14 +26,14 @@ class DepartmentActivity : BackActivity() {
         departmentLayout.removeAllViews()
         val pDialog = Dialog(this).showLoadingDialog("Aggiorno reparti...")
         Thread {
-            var rates: List<IsiCashDepartment>? =
+            val rates: MutableList<IsiCashDepartment>? =
                 IsiAppActivity.isiCashierRequest!!.department
             val products: List<CategoryAndProduct>? =
                 IsiAppActivity.isiCashierRequest!!.categories
             if (rates == null || products == null) {
                 runOnUiThread { Dialog(this).showErrorConnectionDialog(true) }
             } else {
-                rates = rates.sortedWith(Comparator.comparingInt { departments: IsiCashDepartment -> departments.department })
+                rates.sortWith(Comparator.comparingInt { departments: IsiCashDepartment -> departments.department })
                 for (rate in rates) {
                     val inflater = (getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater)
                     @SuppressLint("InflateParams") val inflate =

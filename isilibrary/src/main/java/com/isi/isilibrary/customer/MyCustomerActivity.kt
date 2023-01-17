@@ -47,13 +47,13 @@ class MyCustomerActivity : BackActivity() {
         val searching = intent.getBooleanExtra("searching", false)
         val pDialog = Dialog(this).showLoadingDialog("Aggiorno clienti...")
         Thread {
-            var customers: List<Customer>? =
+            val customers: MutableList<Customer>? =
                 IsiAppActivity.isiCashierRequest!!.customers
             runOnUiThread {
                 pDialog.dismiss()
                 if (customers != null) {
-                    customers = customers!!.sortedWith(Comparator.comparing { customer: Customer -> customer.surname })
-                    adapter = CustomerAdapter(this@MyCustomerActivity, customers!!, searching)
+                    customers.sortWith(Comparator.comparing { customer: Customer -> customer.surname })
+                    adapter = CustomerAdapter(this@MyCustomerActivity, customers, searching)
                     recyclerView.adapter = adapter
                 } else {
                     runOnUiThread { Dialog(this@MyCustomerActivity).showErrorConnectionDialog(true) }

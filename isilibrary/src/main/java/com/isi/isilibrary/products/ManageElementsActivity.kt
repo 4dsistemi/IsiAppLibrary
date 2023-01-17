@@ -38,7 +38,7 @@ class ManageElementsActivity : BackActivity() {
             for (categoryAndProduct in categoryAndProducts) {
                 products.addAll(categoryAndProduct.product)
             }
-            products = products.sortedWith(Comparator.comparing { one: Product -> one.name }) as MutableList<Product>
+            products.sortWith(Comparator.comparing { one: Product -> one.name })
             runOnUiThread {
                 updateUi("")
                 val search = findViewById<SearchView>(R.id.searchElement)

@@ -42,7 +42,7 @@ class AddDepartmentsActivity : BackActivity() {
         names.add("Default")
         val pDialog = Dialog(this).showLoadingDialog("Aggiorno reparti...")
         Thread {
-            var rates: List<IsiCashDepartment>? =
+            val rates: MutableList<IsiCashDepartment>? =
                 IsiAppActivity.isiCashierRequest!!.department
             val products = ArrayList<Product>()
             val categoryAndProducts: List<CategoryAndProduct>? =
@@ -55,8 +55,7 @@ class AddDepartmentsActivity : BackActivity() {
             runOnUiThread {
                 pDialog.dismiss()
                 if(rates != null){
-                    rates =
-                        rates!!.sortedWith(Comparator.comparingInt { departments: IsiCashDepartment -> departments.department })
+                    rates.sortWith(Comparator.comparingInt { departments: IsiCashDepartment -> departments.department })
                     for (p in products) {
                         names.add(p.name)
                     }
@@ -76,7 +75,7 @@ class AddDepartmentsActivity : BackActivity() {
                         }
                     spinner.setText(names[0], false)
                     if (intent.getBooleanExtra("modify", false)) {
-                        for (departments in rates!!) {
+                        for (departments in rates) {
                             if (departments.id == intent.getIntExtra("id", -1)) {
                                 code.setText(
                                     String.format(
