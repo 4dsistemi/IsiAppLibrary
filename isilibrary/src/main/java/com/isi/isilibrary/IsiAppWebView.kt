@@ -6,7 +6,7 @@ import android.view.MotionEvent
 import android.webkit.WebView
 
 class IsiAppWebView : WebView {
-    constructor(context: Context?) : super(context!!) {}
+    constructor(context: Context?) : super(context!!)
     constructor(context: Context?, attrs: AttributeSet?) : super(
         context!!, attrs
     )

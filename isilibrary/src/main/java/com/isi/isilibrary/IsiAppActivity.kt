@@ -23,7 +23,7 @@ import java.util.ArrayList
 import kotlin.math.abs
 import kotlin.system.exitProcess
 
-class IsiAppActivity : AppCompatActivity() {
+open class IsiAppActivity : AppCompatActivity() {
     private var x1 = 0f
     private var y1 = 0f
     var closing = true

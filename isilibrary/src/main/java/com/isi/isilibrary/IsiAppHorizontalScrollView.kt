@@ -15,8 +15,7 @@ class IsiAppHorizontalScrollView : HorizontalScrollView {
         context,
         attrs,
         defStyleAttr
-    ) {
-    }
+    )
 
     constructor(
         context: Context?,
