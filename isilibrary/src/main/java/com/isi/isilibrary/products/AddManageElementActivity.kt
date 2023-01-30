@@ -227,7 +227,7 @@ class AddManageElementActivity : BackActivity() {
                     products!!.name = nametext.text.toString()
                     products!!.barcode_value = barcodeText.text.toString()
                     products!!.description = descriptionElement.text.toString()
-                    if (products == null) {
+                    if (products?.id == 0) {
                         Thread {
                             if (IsiAppActivity.isiCashierRequest!!.addProduct(
                                     products,
