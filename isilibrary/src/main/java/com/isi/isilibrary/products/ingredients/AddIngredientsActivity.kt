@@ -60,30 +60,31 @@ class AddIngredientsActivity : BackActivity() {
             if (storage == null) {
                 errorPage(layout)
             } else {
-                storage.sortedBy { productForniture -> productForniture.name }
+                runOnUiThread {
+                    storage.sortedBy { productForniture -> productForniture.name.lowercase() }
 
-                ingredientsLayout = findViewById(R.id.ingredientRecycler)
+                    ingredientsLayout = findViewById(R.id.ingredientRecycler)
 
-                val ingredientsRecycler = IngredientsRecycler(
-                    context = this,
-                    product = storage,
-                    ingredients = ingredientsAdd
-                )
+                    val ingredientsRecycler = IngredientsRecycler(
+                        context = this,
+                        product = storage,
+                        ingredients = ingredientsAdd
+                    )
 
-                ingredientsLayout.adapter = ingredientsRecycler
+                    ingredientsLayout.adapter = ingredientsRecycler
 
-                val searchView = findViewById<SearchView>(R.id.searchIngredients)
-                searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                    override fun onQueryTextSubmit(s: String): Boolean {
-                        return false
-                    }
+                    val searchView = findViewById<SearchView>(R.id.searchIngredients)
+                    searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                        override fun onQueryTextSubmit(s: String): Boolean {
+                            return false
+                        }
 
-                    override fun onQueryTextChange(s: String): Boolean {
-                        ingredientsRecycler.search(s)
-                        return true
-                    }
-                })
-
+                        override fun onQueryTextChange(s: String): Boolean {
+                            ingredientsRecycler.search(s)
+                            return true
+                        }
+                    })
+                }
             }
         }.start()
     }
