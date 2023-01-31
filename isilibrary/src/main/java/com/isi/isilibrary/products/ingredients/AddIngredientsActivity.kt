@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.SearchView
 import androidx.activity.OnBackPressedCallback
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.isi.isiapi.classes.Ingredients
@@ -64,6 +65,10 @@ class AddIngredientsActivity : BackActivity() {
                     storage.sortedBy { productForniture -> productForniture.name.lowercase() }
 
                     ingredientsLayout = findViewById(R.id.ingredientRecycler)
+
+                    val linearLayoutManager = LinearLayoutManager(this)
+                    linearLayoutManager.orientation = RecyclerView.VERTICAL
+                    ingredientsLayout.layoutManager = linearLayoutManager
 
                     val ingredientsRecycler = IngredientsRecycler(
                         context = this,
