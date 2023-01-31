@@ -25,6 +25,7 @@
           <stringArguments>
             <stringArg name="classpath">
               <args>
+                <arg>$MODULE_DIR$/../../../app/build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debug/R.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/2b328dede6ec6fa9ff05e255562d8102/transformed/jetified-material3-1.0.1-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/76dc05b388a6bc3274f974e01a297731/transformed/jetified-material3-window-size-class-1.0.1-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/0f9c5db65985d1868023469075f4b6b8/transformed/jetified-material-ripple-1.0.0-api.jar</arg>

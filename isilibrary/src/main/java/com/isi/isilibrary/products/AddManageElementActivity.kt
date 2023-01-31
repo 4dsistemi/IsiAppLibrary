@@ -22,6 +22,7 @@ import com.isi.isiapi.classes.Product
 import com.isi.isilibrary.IsiAppActivity
 import com.isi.isilibrary.R
 import com.isi.isilibrary.backActivity.BackActivity
+import com.isi.isilibrary.products.ingredients.AddIngredientsActivity
 import java.util.*
 
 class AddManageElementActivity : BackActivity() {
