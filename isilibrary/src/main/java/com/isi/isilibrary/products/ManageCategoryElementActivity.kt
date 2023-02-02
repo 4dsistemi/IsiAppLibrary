@@ -30,10 +30,11 @@ class ManageCategoryElementActivity : BackActivity() {
         linearLayout = findViewById(R.id.categoryElementLayout)
         linearLayout.removeAllViews()
         Thread {
-            val categories: List<CategoryAndProduct>? =
-                IsiAppActivity.isiCashierRequest!!.categories
+            val categories: MutableList<CategoryAndProduct>? =
+                IsiAppActivity.isiCashierRequest?.categories
             runOnUiThread {
                 if (categories != null) {
+                    categories.sortBy { it.category.name.lowercase() }
                     for (categories1 in categories) {
                         val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
                         val inflate = inflater.inflate(R.layout.category_table, linearLayout, false)

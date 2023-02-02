@@ -33,7 +33,7 @@ class DepartmentActivity : BackActivity() {
             if (rates == null || products == null) {
                 runOnUiThread { Dialog(this).showErrorConnectionDialog(true) }
             } else {
-                rates.sortWith(Comparator.comparingInt { departments: IsiCashDepartment -> departments.department })
+                rates.sortBy { it.department }
                 for (rate in rates) {
                     val inflater = (getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater)
                     @SuppressLint("InflateParams") val inflate =

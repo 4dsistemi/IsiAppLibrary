@@ -48,11 +48,11 @@ class MyCustomerActivity : BackActivity() {
         val pDialog = Dialog(this).showLoadingDialog("Aggiorno clienti...")
         Thread {
             val customers: MutableList<Customer>? =
-                IsiAppActivity.isiCashierRequest!!.customers
+                IsiAppActivity.isiCashierRequest?.customers
             runOnUiThread {
                 pDialog.dismiss()
                 if (customers != null) {
-                    customers.sortWith(Comparator.comparing { customer: Customer -> customer.surname })
+                    customers.sortBy { it.surname.lowercase() }
                     adapter = CustomerAdapter(this@MyCustomerActivity, customers, searching)
                     recyclerView.adapter = adapter
                 } else {

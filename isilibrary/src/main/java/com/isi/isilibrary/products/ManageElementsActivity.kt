@@ -12,7 +12,6 @@ import com.isi.isilibrary.R
 import com.isi.isilibrary.backActivity.BackActivity
 import com.isi.isilibrary.products.recycler.ElementRecycler
 import java.util.*
-import java.util.stream.Collectors
 import kotlin.collections.ArrayList
 
 class ManageElementsActivity : BackActivity() {
@@ -62,25 +61,13 @@ class ManageElementsActivity : BackActivity() {
         val recycler: ElementRecycler
         if (categorySelected != null) {
             recycler = if (categorySelected!!.category.id == 0) {
-                ElementRecycler(this, products.stream()
-                    .filter { prod: Product ->
-                        prod.name.lowercase(Locale.getDefault()).contains(
-                            s.lowercase(
-                                Locale.getDefault()
-                            )
-                        )
-                    }
-                    .collect(Collectors.toList()))
+                ElementRecycler(this, products.filter { it.name.lowercase().contains(s.lowercase() )})
             } else {
-                ElementRecycler(this, products.stream()
-                    .filter { prod: Product ->
-                        prod.name.lowercase(Locale.getDefault()).contains(
-                            s.lowercase(
-                                Locale.getDefault()
-                            )
-                        ) && prod.category_id == categorySelected!!.category.id
-                    }
-                    .collect(Collectors.toList()))
+                ElementRecycler(this, products.filter {
+                        it.name.lowercase().contains(
+                            s.lowercase()
+                        ) && it.category_id == categorySelected!!.category.id
+                    })
             }
             layout.adapter = recycler
         }
