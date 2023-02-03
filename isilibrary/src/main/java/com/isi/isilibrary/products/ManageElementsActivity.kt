@@ -11,7 +11,6 @@ import com.isi.isilibrary.IsiAppActivity
 import com.isi.isilibrary.R
 import com.isi.isilibrary.backActivity.BackActivity
 import com.isi.isilibrary.products.recycler.ElementRecycler
-import java.util.*
 import kotlin.collections.ArrayList
 
 class ManageElementsActivity : BackActivity() {
@@ -37,7 +36,7 @@ class ManageElementsActivity : BackActivity() {
             for (categoryAndProduct in categoryAndProducts) {
                 products.addAll(categoryAndProduct.product)
             }
-            products.sortWith(Comparator.comparing { one: Product -> one.name })
+            products.sortBy { it.name.lowercase() }
             runOnUiThread {
                 updateUi("")
                 val search = findViewById<SearchView>(R.id.searchElement)

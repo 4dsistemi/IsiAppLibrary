@@ -361,7 +361,7 @@ open class IsiAppActivity : AppCompatActivity() {
     }
 
     @CallSuper
-    fun updateUI(layout: Int) {
+    open fun updateUI(layout: Int) {
         runOnUiThread { setContentView(layout) }
     }
 
