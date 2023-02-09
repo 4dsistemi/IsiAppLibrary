@@ -24,10 +24,11 @@ import com.isi.isilibrary.R
 import com.isi.isilibrary.backActivity.BackActivity
 import com.isi.isilibrary.products.ingredients.AddIngredientsActivity
 import java.util.*
+import kotlin.collections.ArrayList
 
 class AddManageElementActivity : BackActivity() {
     private var products: Product? = null
-    private var ingredients: List<Ingredients>? = null
+    private var ingredients: MutableList<Ingredients?>? = null
     private var categoryDef = 0
     private var productDef = 0
     private var department = 1
@@ -75,7 +76,7 @@ class AddManageElementActivity : BackActivity() {
                     fake.id = 0
                     productsArray.add(0, fake)
                     for (cat in categories) {
-                        productsArray.addAll(cat.product)
+                        productsArray.addAll(cat.product!!)
                     }
                     val adapterProduct =
                         ArrayAdapter(this, android.R.layout.simple_spinner_item, productsArray)
@@ -108,9 +109,9 @@ class AddManageElementActivity : BackActivity() {
                             products!!.color
                         )
                         for (cat in categories) {
-                            if (cat.category.id == products!!.category_id) {
-                                categoryDef = cat.category.id
-                                categrySpinner.setText(cat.category.name, false)
+                            if (cat.category?.id == products!!.category_id) {
+                                categoryDef = cat.category!!.id
+                                categrySpinner.setText(cat.category!!.name, false)
                                 break
                             }
                         }
@@ -149,7 +150,7 @@ class AddManageElementActivity : BackActivity() {
                     }
                     categrySpinner.onItemClickListener =
                         OnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, _: Long ->
-                            categoryDef = categories[position].category.id
+                            categoryDef = categories[position].category!!.id
                         }
                     productSpinner.onItemClickListener =
                         OnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, _: Long ->

@@ -48,7 +48,7 @@ class DepartmentActivity : BackActivity() {
                     val description = inflate.findViewById<TextView>(R.id.descriptionRateTextCell)
                     if (rate.product_id != null) {
                         for (categoryAndProduct in products) {
-                            for (prod in categoryAndProduct.product) {
+                            for (prod in categoryAndProduct.product!!) {
                                 if (prod.id == rate.product_id) {
                                     description.text = String.format("Descrizione %s", prod.name)
                                 }

@@ -34,18 +34,18 @@ class ManageCategoryElementActivity : BackActivity() {
                 IsiAppActivity.isiCashierRequest?.categories
             runOnUiThread {
                 if (categories != null) {
-                    categories.sortBy { it.category.name.lowercase() }
+                    categories.sortBy { it.category?.name?.lowercase() }
                     for (categories1 in categories) {
                         val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
                         val inflate = inflater.inflate(R.layout.category_table, linearLayout, false)
                         val loadinf = inflate.findViewById<TextView>(R.id.categoryTableText)
-                        loadinf.text = categories1.category.name
+                        loadinf.text = categories1.category?.name
                         val active = inflate.findViewById<CheckBox>(R.id.checkbox_active)
                         val guest = inflate.findViewById<CheckBox>(R.id.chekcbox_guest_active)
-                        active.isChecked = categories1.category.active == 1
-                        guest.isChecked = categories1.category.guest == 1
+                        active.isChecked = categories1.category?.active == 1
+                        guest.isChecked = categories1.category?.guest == 1
                         active.setOnCheckedChangeListener { _: CompoundButton?, b: Boolean ->
-                            categories1.category.active = if (b) 1 else 0
+                            categories1.category?.active = if (b) 1 else 0
                             Thread {
                                 IsiAppActivity.isiCashierRequest!!.editcategory(
                                     categories1.category
@@ -54,7 +54,7 @@ class ManageCategoryElementActivity : BackActivity() {
                                 .start()
                         }
                         guest.setOnCheckedChangeListener { _: CompoundButton?, b: Boolean ->
-                            categories1.category.guest = if (b) 1 else 0
+                            categories1.category?.guest = if (b) 1 else 0
                             Thread {
                                 IsiAppActivity.isiCashierRequest!!.editcategory(
                                     categories1.category

@@ -31,11 +31,14 @@ class ManageElementsActivity : BackActivity() {
         super.onResume()
         Thread {
             products.clear()
-            val categoryAndProducts: List<CategoryAndProduct> =
+            val categoryAndProducts: MutableList<CategoryAndProduct>? =
                 IsiAppActivity.isiCashierRequest!!.categories
-            for (categoryAndProduct in categoryAndProducts) {
-                products.addAll(categoryAndProduct.product)
+            if(categoryAndProducts != null){
+                for (categoryAndProduct in categoryAndProducts) {
+                    products.addAll(categoryAndProduct.product!!)
+                }
             }
+
             products.sortBy { it.name.lowercase() }
             runOnUiThread {
                 updateUi("")
@@ -59,13 +62,13 @@ class ManageElementsActivity : BackActivity() {
     private fun updateUi(s: String) {
         val recycler: ElementRecycler
         if (categorySelected != null) {
-            recycler = if (categorySelected!!.category.id == 0) {
+            recycler = if (categorySelected!!.category?.id == 0) {
                 ElementRecycler(this, products.filter { it.name.lowercase().contains(s.lowercase() )})
             } else {
                 ElementRecycler(this, products.filter {
                         it.name.lowercase().contains(
                             s.lowercase()
-                        ) && it.category_id == categorySelected!!.category.id
+                        ) && it.category_id == categorySelected!!.category?.id
                     })
             }
             layout.adapter = recycler

@@ -85,15 +85,23 @@ open class IsiAppActivity : AppCompatActivity() {
         for (i in 0..2) {
             for (app in applications) {
                 if (app.appActivation == null) continue
-                if (app.appActivation.position_in_menu - 1 == i) {
+                if (app.appActivation!!.position_in_menu - 1 == i) {
                     try {
                         val myin = lateralLayout.getChildAt(i) as LinearLayout
                         val b = myin.getChildAt(0) as ImageButton
-                        val icon = packageManager.getApplicationIcon(app.application.Package)
+                        val icon = app.application?.Package?.let {
+                            packageManager.getApplicationIcon(
+                                it
+                            )
+                        }
                         b.setImageDrawable(icon)
                         b.setOnClickListener {
                             val launchIntent =
-                                packageManager.getLaunchIntentForPackage(app.application.Package)
+                                app.application?.Package?.let { it1 ->
+                                    packageManager.getLaunchIntentForPackage(
+                                        it1
+                                    )
+                                }
                             if (launchIntent != null) {
                                 startActivity(launchIntent)
                                 overridePendingTransition(
@@ -111,15 +119,23 @@ open class IsiAppActivity : AppCompatActivity() {
         for (i in 3..5) {
             for (app in applications) {
                 if (app.appActivation == null) continue
-                if (app.appActivation.position_in_menu - 1 == i) {
+                if (app.appActivation!!.position_in_menu - 1 == i) {
                     try {
                         val `in` = lateralLayoutRight.getChildAt(i - 3) as LinearLayout
                         val b = `in`.getChildAt(0) as ImageButton
-                        val icon = packageManager.getApplicationIcon(app.application.Package)
+                        val icon = app.application?.Package?.let {
+                            packageManager.getApplicationIcon(
+                                it
+                            )
+                        }
                         b.setImageDrawable(icon)
                         b.setOnClickListener {
                             val launchIntent =
-                                packageManager.getLaunchIntentForPackage(app.application.Package)
+                                app.application?.Package?.let { it1 ->
+                                    packageManager.getLaunchIntentForPackage(
+                                        it1
+                                    )
+                                }
                             if (launchIntent != null) {
                                 startActivity(launchIntent) //null pointer check in case package name was not found
                                 overridePendingTransition(
@@ -188,23 +204,27 @@ open class IsiAppActivity : AppCompatActivity() {
         appName.text = getApplicationListName(null)
         val flexboxLayout = inflate!!.findViewById<FlexboxLayout>(R.id.serviceFlex)
         for (pack in applications) {
-            if (pack.application.Package == packageName) {
+            if (pack.application?.Package == packageName) {
                 continue
             }
             val packInflater = (getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater)
             val packInflate = packInflater.inflate(R.layout.service_flex_cell, null)
             val imageApp = packInflate.findViewById<ImageView>(R.id.appImage)
             try {
-                val appIcon = packageManager.getApplicationIcon(pack.application.Package)
+                val appIcon = pack.application?.Package?.let { packageManager.getApplicationIcon(it) }
                 imageApp.setImageDrawable(appIcon)
             } catch (e: PackageManager.NameNotFoundException) {
                 e.printStackTrace()
             }
             val appNameSecondary = packInflate.findViewById<TextView>(R.id.appName)
-            appNameSecondary.text = pack.application.name
+            appNameSecondary.text = pack.application?.name
             packInflate.setOnClickListener {
                 val launchIntent =
-                    packageManager.getLaunchIntentForPackage(pack.application.Package)
+                    pack.application?.Package?.let { it1 ->
+                        packageManager.getLaunchIntentForPackage(
+                            it1
+                        )
+                    }
                 if (launchIntent != null) {
                     mainView!!.removeView(inflate)
                     inflate = null

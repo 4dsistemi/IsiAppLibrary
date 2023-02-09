@@ -194,9 +194,9 @@ class AddCustomer : BackActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun getTextNullTextView(textView: TextView?): String? {
+    private fun getTextNullTextView(textView: TextView?): String {
         return if (textView!!.text.toString() == "") {
-            null
+            ""
         } else textView.text.toString()
     }
 

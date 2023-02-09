@@ -17,6 +17,7 @@ import com.isi.isilibrary.R
 import com.isi.isilibrary.backActivity.BackActivity
 import com.isi.isilibrary.dialog.Dialog
 import java.util.*
+import kotlin.collections.ArrayList
 
 class AddDepartmentsActivity : BackActivity() {
     private var productId: Int? = null
@@ -45,12 +46,14 @@ class AddDepartmentsActivity : BackActivity() {
             val rates: MutableList<IsiCashDepartment>? =
                 IsiAppActivity.isiCashierRequest!!.department
             val products = ArrayList<Product>()
-            val categoryAndProducts: List<CategoryAndProduct>? =
+            val categoryAndProducts: MutableList<CategoryAndProduct>? =
                 IsiAppActivity.isiCashierRequest!!.categories
 
             if (categoryAndProducts != null)
                 for (cat in categoryAndProducts) {
-                    products.addAll(cat.product)
+                    if(cat.product != null){
+                        products.addAll(cat.product!!)
+                    }
                 }
             runOnUiThread {
                 pDialog.dismiss()
