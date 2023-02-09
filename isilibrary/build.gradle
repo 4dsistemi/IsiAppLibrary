@@ -48,11 +48,11 @@ dependencies {
 
     implementation 'com.daimajia.androidanimations:library:2.4@aar'
 
-    implementation 'com.google.code.gson:gson:2.9.0'
+    implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'com.github.QuadFlask:colorpicker:0.0.15'
     implementation  'org.apache.commons:commons-lang3:3.11'
 
-    implementation 'com.github.4dsistemi:IsiApi:4.0.78'
+    implementation 'com.github.4dsistemi:IsiApi:4.0.79'
 
     //MATERIAl
 

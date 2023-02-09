@@ -38,6 +38,11 @@ class CustomerAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val c = customersFilteres[position]
         holder.nameSurnameCustomer.text = String.format("%s %s", c.name, c.surname)
+
+        if(c.society != null){
+            holder.society.text = c.society
+        }
+
         if (!StringUtils.isAnyEmpty(c.address, c.country, c.city, c.zip, c.province)) {
             holder.addressCustomer.text = String.format(
                 "Indirizzo: %s %s %s %s %s",
@@ -126,17 +131,11 @@ class CustomerAdapter(
                 filteredList.addAll(customers)
             } else {
                 val filterPattern =
-                    constraint.toString().lowercase(Locale.getDefault()).trim { it <= ' ' }
+                    constraint.toString().lowercase().trim { it <= ' ' }
                 for (item in customers) {
-                    if (item.name.lowercase(Locale.getDefault()).contains(
-                            filterPattern.lowercase(
-                                Locale.getDefault()
-                            )
-                        ) || item.surname.lowercase(Locale.getDefault()).contains(
-                            filterPattern.lowercase(
-                                Locale.getDefault()
-                            )
-                        )
+                    if (item.name.lowercase().contains(filterPattern.lowercase())
+                        || item.surname.lowercase().contains(filterPattern.lowercase())
+                        || item.society.lowercase().contains(filterPattern.lowercase())
                     ) {
                         filteredList.add(item)
                     }
@@ -160,6 +159,7 @@ class CustomerAdapter(
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var nameSurnameCustomer: TextView
+        var society : TextView
         var addressCustomer: TextView
         var fiscalCustomer: TextView
         var birthplace: TextView
@@ -171,6 +171,7 @@ class CustomerAdapter(
 
         init {
             nameSurnameCustomer = itemView.findViewById(R.id.nameProductList)
+            society = itemView.findViewById(R.id.societyCustomerList)
             addressCustomer = itemView.findViewById(R.id.addressCustomerList)
             fiscalCustomer = itemView.findViewById(R.id.fiscalCustomerList)
             birthplace = itemView.findViewById(R.id.birthplaceCustomerDisplay)
