@@ -52,7 +52,7 @@ dependencies {
     implementation 'com.github.QuadFlask:colorpicker:0.0.15'
     implementation  'org.apache.commons:commons-lang3:3.11'
 
-    implementation 'com.github.4dsistemi:IsiApi:4.1.1'
+    implementation 'com.github.4dsistemi:IsiApi:4.1.2'
 
     //MATERIAl
 

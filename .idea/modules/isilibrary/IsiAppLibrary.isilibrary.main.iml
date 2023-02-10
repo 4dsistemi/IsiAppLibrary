@@ -27,7 +27,6 @@
             <stringArg name="classpath">
               <args>
                 <arg>$MODULE_DIR$/../../../isilibrary/build/intermediates/compile_r_class_jar/debug/R.jar</arg>
-                <arg>$USER_HOME$/.gradle/caches/transforms-3/bbe4eb089984f19715d9719806c4b1f3/transformed/jetified-IsiApi-4.1.1-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/4b40d83d44f8cff873f8a0bfc5bc0a86/transformed/jetified-material3-1.0.1-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/9fd09f8be19d9bfcbf11022473a55850/transformed/jetified-material3-window-size-class-1.0.1-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/89119b99c5aea300eb8894f72797b7eb/transformed/jetified-material-ripple-1.0.0-api.jar</arg>
@@ -115,6 +114,7 @@
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/d5a1e8d4f8c9592afd59ba37d9e8366c/transformed/jetified-gson-2.10.1.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/d3b0deeb8649a9806bef2a283fdc4022/transformed/jetified-colorpicker-0.0.15-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/e5404fd1b335a45d41f4df6662d5fd80/transformed/jetified-commons-lang3-3.11.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/transforms-3/9372572d7ddcd33f5b2ec63ea684332a/transformed/jetified-IsiApi-4.1.2-api.jar</arg>
                 <arg>$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-33/android.jar</arg>
                 <arg>$USER_HOME$/AppData/Local/Android/Sdk/build-tools/30.0.3/core-lambda-stubs.jar</arg>
               </args>
@@ -229,7 +229,7 @@
     <orderEntry type="library" name="Gradle: androidx.asynclayoutinflater:asynclayoutinflater:1.0.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.daimajia.androidanimations:library:2.4@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.github.QuadFlask:colorpicker:0.0.15@aar" level="project" />
-    <orderEntry type="library" name="Gradle: com.github.4dsistemi:IsiApi:4.1.1@aar" level="project" />
+    <orderEntry type="library" name="Gradle: com.github.4dsistemi:IsiApi:4.1.2@aar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.compose.material3:material3:1.0.1@aar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.compose.foundation:foundation:1.2.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.compose.animation:animation:1.1.1@aar" level="project" />
