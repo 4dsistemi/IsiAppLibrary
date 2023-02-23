@@ -31,7 +31,7 @@ class ManageCategoryElementActivity : BackActivity() {
         linearLayout.removeAllViews()
         Thread {
             val categories: MutableList<CategoryAndProduct>? =
-                IsiAppActivity.isiCashierRequest?.categories
+                IsiAppActivity.httpRequest?.categories
             runOnUiThread {
                 if (categories != null) {
                     categories.sortBy { it.category?.name?.lowercase() }
@@ -47,7 +47,7 @@ class ManageCategoryElementActivity : BackActivity() {
                         active.setOnCheckedChangeListener { _: CompoundButton?, b: Boolean ->
                             categories1.category?.active = if (b) 1 else 0
                             Thread {
-                                IsiAppActivity.isiCashierRequest!!.editcategory(
+                                IsiAppActivity.httpRequest!!.editcategory(
                                     categories1.category
                                 )
                             }
@@ -56,7 +56,7 @@ class ManageCategoryElementActivity : BackActivity() {
                         guest.setOnCheckedChangeListener { _: CompoundButton?, b: Boolean ->
                             categories1.category?.guest = if (b) 1 else 0
                             Thread {
-                                IsiAppActivity.isiCashierRequest!!.editcategory(
+                                IsiAppActivity.httpRequest!!.editcategory(
                                     categories1.category
                                 )
                             }

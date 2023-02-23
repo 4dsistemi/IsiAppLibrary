@@ -32,7 +32,7 @@ class ManageElementsActivity : BackActivity() {
         Thread {
             products.clear()
             val categoryAndProducts: MutableList<CategoryAndProduct>? =
-                IsiAppActivity.isiCashierRequest!!.categories
+                IsiAppActivity.httpRequest!!.categories
             if(categoryAndProducts != null){
                 for (categoryAndProduct in categoryAndProducts) {
                     products.addAll(categoryAndProduct.product!!)
@@ -81,7 +81,7 @@ class ManageElementsActivity : BackActivity() {
         val spinner = item.actionView as Spinner?
         Thread {
             val categories: MutableList<CategoryAndProduct>? =
-                IsiAppActivity.isiCashierRequest!!.categories
+                IsiAppActivity.httpRequest!!.categories
 
             if(categories != null){
                 val cat = CategoryAndProduct()

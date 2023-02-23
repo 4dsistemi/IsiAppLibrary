@@ -18,6 +18,8 @@ import android.view.*
 import android.view.animation.AnimationUtils
 import android.widget.*
 import com.isi.isiapi.HttpRequest
+import com.isi.isiapi.classes.Account
+import com.isi.isiapi.classes.Commercial
 import java.lang.Exception
 import java.util.ArrayList
 import kotlin.math.abs
@@ -32,6 +34,7 @@ open class IsiAppActivity : AppCompatActivity() {
     private var underMenu: View? = null
     private var lateralMenu: View? = null
     private var scrolling = true
+
     fun setScrolling(scrolling: Boolean) {
         this.scrolling = scrolling
     }
@@ -274,6 +277,12 @@ open class IsiAppActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         registerReceiver(guestReceiver, IntentFilter("timeoutService"))
+
+        val myIntent = Intent()
+        myIntent.setClassName("com.isi.isiapp", "com.isi.isiapp.PackageActivity")
+        myIntent.putExtra("intent", "getOperatorsAndCommercial")
+        startActivityForResult(myIntent, 1111)
+
     }
 
     private fun getApplicationListActive(code: Int) {
@@ -345,6 +354,19 @@ open class IsiAppActivity : AppCompatActivity() {
                     gson.fromJson<ArrayList<AppAndAppActivation>>(packageName, listType)
                 lateralMenu(applications)
             }
+        }else if(requestCode == 1111){
+
+            if(data != null){
+                if(data.getStringExtra("operator_logged") != null && data.getStringExtra("commercial") != null){
+                    operator_logged = Gson().fromJson(data.getStringExtra("operator_logged"), Account::class.java)
+                    commercial = Gson().fromJson(data.getStringExtra("commercial"), Commercial::class.java)
+                }else{
+                    packageManager.getLaunchIntentForPackage("com.isi.isiapp")
+                }
+            }else{
+                packageManager.getLaunchIntentForPackage("com.isi.isiapp")
+            }
+
         }
     }
 
@@ -377,7 +399,7 @@ open class IsiAppActivity : AppCompatActivity() {
 
     fun initAPI(apikey: String) {
         Companion.apikey = apikey
-        isiCashierRequest = HttpRequest(apikey)
+        httpRequest = HttpRequest(apikey, commercial)
     }
 
     @CallSuper
@@ -400,6 +422,8 @@ open class IsiAppActivity : AppCompatActivity() {
     companion object {
         private const val MIN_DISTANCE = 400
         var apikey = ""
-        var isiCashierRequest: HttpRequest? = null
+        var httpRequest: HttpRequest? = null
+        var operator_logged : Account? = null
+        var commercial : Commercial? = null
     }
 }

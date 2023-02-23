@@ -38,7 +38,7 @@ class ElementRecycler(private val context: Context, private val products: List<P
                 p.active = 0
             }
             Thread {
-                if (!IsiAppActivity.isiCashierRequest!!.editProduct(p, null)) {
+                if (!IsiAppActivity.httpRequest!!.editProduct(p, null)) {
                     (context as Activity).runOnUiThread {
                         Dialog(
                             context
@@ -56,7 +56,7 @@ class ElementRecycler(private val context: Context, private val products: List<P
                 p.guest = 0
             }
             Thread {
-                if (!IsiAppActivity.isiCashierRequest!!.editProduct(p, null)) {
+                if (!IsiAppActivity.httpRequest!!.editProduct(p, null)) {
                     (context as Activity).runOnUiThread {
                         Dialog(
                             context
@@ -80,7 +80,7 @@ class ElementRecycler(private val context: Context, private val products: List<P
                 val backPriority = p.priority_prod
                 if (backPriority != position) {
                     p.priority_prod = position
-                    IsiAppActivity.isiCashierRequest!!.editProduct(p, null)
+                    IsiAppActivity.httpRequest!!.editProduct(p, null)
                 }
             }
 

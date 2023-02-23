@@ -48,7 +48,7 @@ class MyCustomerActivity : BackActivity() {
         val pDialog = Dialog(this).showLoadingDialog("Aggiorno clienti...")
         Thread {
             val customers: MutableList<Customer>? =
-                IsiAppActivity.isiCashierRequest?.customers
+                IsiAppActivity.httpRequest?.customers
             runOnUiThread {
                 pDialog.dismiss()
                 if (customers != null) {

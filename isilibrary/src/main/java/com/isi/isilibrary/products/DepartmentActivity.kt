@@ -27,9 +27,9 @@ class DepartmentActivity : BackActivity() {
         val pDialog = Dialog(this).showLoadingDialog("Aggiorno reparti...")
         Thread {
             val rates: MutableList<IsiCashDepartment>? =
-                IsiAppActivity.isiCashierRequest!!.department
+                IsiAppActivity.httpRequest!!.department
             val products: List<CategoryAndProduct>? =
-                IsiAppActivity.isiCashierRequest!!.categories
+                IsiAppActivity.httpRequest!!.categories
             if (rates == null || products == null) {
                 runOnUiThread { Dialog(this).showErrorConnectionDialog(true) }
             } else {

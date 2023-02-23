@@ -54,7 +54,7 @@ class AddManageElementActivity : BackActivity() {
         products = Gson().fromJson(back.getStringExtra("product"), Product::class.java)
         Thread {
             val categories: List<CategoryAndProduct>? =
-                IsiAppActivity.isiCashierRequest!!.categories
+                IsiAppActivity.httpRequest!!.categories
             if (categories != null) {
                 runOnUiThread {
                     nametext = findViewById(R.id.modifyName)
@@ -231,7 +231,7 @@ class AddManageElementActivity : BackActivity() {
                     products!!.description = descriptionElement.text.toString()
                     if (products?.id == 0) {
                         Thread {
-                            if (IsiAppActivity.isiCashierRequest!!.addProduct(
+                            if (IsiAppActivity.httpRequest!!.addProduct(
                                     products,
                                     ingredients
                                 )
@@ -241,7 +241,7 @@ class AddManageElementActivity : BackActivity() {
                         }.start()
                     } else {
                         Thread {
-                            if (IsiAppActivity.isiCashierRequest!!.editProduct(
+                            if (IsiAppActivity.httpRequest!!.editProduct(
                                     products,
                                     ingredients
                                 )

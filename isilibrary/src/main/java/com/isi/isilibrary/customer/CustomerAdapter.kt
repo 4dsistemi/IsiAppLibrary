@@ -92,7 +92,7 @@ class CustomerAdapter(
                     ).showLoadingDialog("Elimino cliente...")
                     Thread {
                         val response: Boolean =
-                            IsiAppActivity.isiCashierRequest!!.deleteCustomer(c)
+                            IsiAppActivity.httpRequest!!.deleteCustomer(c)
                         context.runOnUiThread {
                             loader.dismiss()
                             if (response) {

@@ -48,7 +48,7 @@ class IngredientsRecycler(private val context: Context, private val product : Li
                 quantity.setEditTextNumber(decimal = true, signed = false)
                 quantity.hint = "Quantità..."
                 Dialog(context).showNormalDialogType(null,
-                    "Aggiungi quantità in " + IsiAppActivity.isiCashierRequest!!.transformIsimagaUnity(
+                    "Aggiungi quantità in " + IsiAppActivity.httpRequest!!.transformIsimagaUnity(
                         product.unity_id
                     ),
                     null,

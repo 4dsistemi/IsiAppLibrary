@@ -57,7 +57,7 @@ class AddIngredientsActivity : BackActivity() {
 
         Thread {
             val storage: List<ProductForniture>? =
-                IsiAppActivity.isiCashierRequest!!.isimagaGetProductForniture()
+                IsiAppActivity.httpRequest!!.isimagaGetProductForniture()
             if (storage == null) {
                 errorPage(layout)
             } else {

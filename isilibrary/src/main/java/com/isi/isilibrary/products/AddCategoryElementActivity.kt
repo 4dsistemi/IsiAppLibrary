@@ -46,13 +46,13 @@ class AddCategoryElementActivity : BackActivity() {
                     back!!.image = "default.png"
                     back!!.name = category!!.text.toString().trim { it <= ' ' }
                     Thread {
-                        if (IsiAppActivity.isiCashierRequest!!.editcategory(back)) {
+                        if (IsiAppActivity.httpRequest!!.editcategory(back)) {
                             runOnUiThread { finish() }
                         }
                     }.start()
                 } else {
                     Thread {
-                        if (IsiAppActivity.isiCashierRequest!!.addCategory(
+                        if (IsiAppActivity.httpRequest!!.addCategory(
                                 Category(
                                     0,
                                     category!!.text.toString().trim { it <= ' ' },

@@ -44,10 +44,10 @@ class AddDepartmentsActivity : BackActivity() {
         val pDialog = Dialog(this).showLoadingDialog("Aggiorno reparti...")
         Thread {
             val rates: MutableList<IsiCashDepartment>? =
-                IsiAppActivity.isiCashierRequest!!.department
+                IsiAppActivity.httpRequest!!.department
             val products = ArrayList<Product>()
             val categoryAndProducts: MutableList<CategoryAndProduct>? =
-                IsiAppActivity.isiCashierRequest!!.categories
+                IsiAppActivity.httpRequest!!.categories
 
             if (categoryAndProducts != null)
                 for (cat in categoryAndProducts) {
@@ -131,7 +131,7 @@ class AddDepartmentsActivity : BackActivity() {
                         spinnerRate.text.toString().split(" - ").toTypedArray()[0]
                     backDepartment!!.product_id = productId
                     val result: Boolean =
-                        IsiAppActivity.isiCashierRequest!!.editDepartment(backDepartment)
+                        IsiAppActivity.httpRequest!!.editDepartment(backDepartment)
                     runOnUiThread {
                         if (result) {
                             finish()
@@ -153,7 +153,7 @@ class AddDepartmentsActivity : BackActivity() {
                         spinnerRate.text.toString().split(" - ").toTypedArray()[0]
                     )
                     val result: Boolean =
-                        IsiAppActivity.isiCashierRequest!!.addDepartment(department)
+                        IsiAppActivity.httpRequest!!.addDepartment(department)
                     runOnUiThread {
                         if (result) {
                             finish()

@@ -176,9 +176,9 @@ class AddCustomer : BackActivity() {
                     val ok: Boolean
                     if (backCustomer != null) {
                         c.id = backCustomer!!.id
-                        ok = IsiAppActivity.isiCashierRequest!!.editCustomer(c)
+                        ok = IsiAppActivity.httpRequest!!.editCustomer(c)
                     } else {
-                        ok = IsiAppActivity.isiCashierRequest!!.addCustomer(c)
+                        ok = IsiAppActivity.httpRequest!!.addCustomer(c)
                     }
                     runOnUiThread {
                         if (ok) {
