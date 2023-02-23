@@ -360,6 +360,8 @@ open class IsiAppActivity : AppCompatActivity() {
                 if(data.getStringExtra("operator_logged") != null && data.getStringExtra("commercial") != null){
                     operator_logged = Gson().fromJson(data.getStringExtra("operator_logged"), Account::class.java)
                     commercial = Gson().fromJson(data.getStringExtra("commercial"), Commercial::class.java)
+
+                    afterResponseAccountAndCommercial()
                 }else{
                     packageManager.getLaunchIntentForPackage("com.isi.isiapp")
                 }
@@ -370,7 +372,10 @@ open class IsiAppActivity : AppCompatActivity() {
         }
     }
 
-    fun doSomethingOnTimeout() {}
+
+
+    open fun doSomethingOnTimeout() {}
+    open fun afterResponseAccountAndCommercial(){}
     fun sendBroadcast(title: String?, messgae: String?) {
         NotifyBroadcast.sendBroadcast(this, title, messgae)
     }
@@ -422,7 +427,7 @@ open class IsiAppActivity : AppCompatActivity() {
     companion object {
         private const val MIN_DISTANCE = 400
         var apikey = ""
-        var httpRequest: HttpRequest? = null
+        public var httpRequest: HttpRequest? = null
         var operator_logged : Account? = null
         var commercial : Commercial? = null
     }
