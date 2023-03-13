@@ -92,7 +92,7 @@ open class IsiAppActivity : AppCompatActivity() {
                     try {
                         val myin = lateralLayout.getChildAt(i) as LinearLayout
                         val b = myin.getChildAt(0) as ImageButton
-                        val icon = app.application?.Package?.let {
+                        val icon = app.application?.packages?.let {
                             packageManager.getApplicationIcon(
                                 it
                             )
@@ -100,7 +100,7 @@ open class IsiAppActivity : AppCompatActivity() {
                         b.setImageDrawable(icon)
                         b.setOnClickListener {
                             val launchIntent =
-                                app.application?.Package?.let { it1 ->
+                                app.application?.packages?.let { it1 ->
                                     packageManager.getLaunchIntentForPackage(
                                         it1
                                     )
@@ -126,7 +126,7 @@ open class IsiAppActivity : AppCompatActivity() {
                     try {
                         val `in` = lateralLayoutRight.getChildAt(i - 3) as LinearLayout
                         val b = `in`.getChildAt(0) as ImageButton
-                        val icon = app.application?.Package?.let {
+                        val icon = app.application?.packages?.let {
                             packageManager.getApplicationIcon(
                                 it
                             )
@@ -134,7 +134,7 @@ open class IsiAppActivity : AppCompatActivity() {
                         b.setImageDrawable(icon)
                         b.setOnClickListener {
                             val launchIntent =
-                                app.application?.Package?.let { it1 ->
+                                app.application?.packages?.let { it1 ->
                                     packageManager.getLaunchIntentForPackage(
                                         it1
                                     )
@@ -207,14 +207,14 @@ open class IsiAppActivity : AppCompatActivity() {
         appName.text = getApplicationListName(null)
         val flexboxLayout = inflate!!.findViewById<FlexboxLayout>(R.id.serviceFlex)
         for (pack in applications) {
-            if (pack.application?.Package == packageName) {
+            if (pack.application?.packages == packageName) {
                 continue
             }
             val packInflater = (getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater)
             val packInflate = packInflater.inflate(R.layout.service_flex_cell, null)
             val imageApp = packInflate.findViewById<ImageView>(R.id.appImage)
             try {
-                val appIcon = pack.application?.Package?.let { packageManager.getApplicationIcon(it) }
+                val appIcon = pack.application?.packages?.let { packageManager.getApplicationIcon(it) }
                 imageApp.setImageDrawable(appIcon)
             } catch (e: PackageManager.NameNotFoundException) {
                 e.printStackTrace()
@@ -223,7 +223,7 @@ open class IsiAppActivity : AppCompatActivity() {
             appNameSecondary.text = pack.application?.name
             packInflate.setOnClickListener {
                 val launchIntent =
-                    pack.application?.Package?.let { it1 ->
+                    pack.application?.packages?.let { it1 ->
                         packageManager.getLaunchIntentForPackage(
                             it1
                         )
