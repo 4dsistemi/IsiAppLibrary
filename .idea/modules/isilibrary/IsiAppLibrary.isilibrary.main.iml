@@ -114,7 +114,7 @@
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/d5a1e8d4f8c9592afd59ba37d9e8366c/transformed/jetified-gson-2.10.1.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/d3b0deeb8649a9806bef2a283fdc4022/transformed/jetified-colorpicker-0.0.15-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/e5404fd1b335a45d41f4df6662d5fd80/transformed/jetified-commons-lang3-3.11.jar</arg>
-                <arg>$USER_HOME$/.gradle/caches/transforms-3/8895174e2139859808277cc269e52305/transformed/jetified-IsiApi-5.0.6-api.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/transforms-3/abbf82c0f3f22851d24723b827055c92/transformed/jetified-IsiApi-5.0.7-api.jar</arg>
                 <arg>$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-33/android.jar</arg>
                 <arg>$USER_HOME$/AppData/Local/Android/Sdk/build-tools/30.0.3/core-lambda-stubs.jar</arg>
               </args>
@@ -229,7 +229,7 @@
     <orderEntry type="library" name="Gradle: androidx.asynclayoutinflater:asynclayoutinflater:1.0.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.daimajia.androidanimations:library:2.4@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.github.QuadFlask:colorpicker:0.0.15@aar" level="project" />
-    <orderEntry type="library" name="Gradle: com.github.4dsistemi:IsiApi:5.0.6@aar" level="project" />
+    <orderEntry type="library" name="Gradle: com.github.4dsistemi:IsiApi:5.0.7@aar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.compose.material3:material3:1.0.1@aar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.compose.foundation:foundation:1.2.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.compose.animation:animation:1.1.1@aar" level="project" />
