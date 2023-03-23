@@ -85,7 +85,7 @@ class AddCustomer : BackActivity() {
             setTextViewtext(emailAddCustomer, backCustomer!!.email)
             setTextViewtext(birthplaceCustomer, backCustomer!!.birthplace)
             setTextViewtext(birthdayCustomer, backCustomer!!.birthday)
-            if (backCustomer!!.commercialComunication) {
+            if (backCustomer!!.commercial_comunication) {
                 commercialAccepted!!.isChecked = true
             }
             if (backCustomer!!.gender == 1) {
