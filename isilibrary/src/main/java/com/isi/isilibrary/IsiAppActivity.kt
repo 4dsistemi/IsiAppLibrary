@@ -357,9 +357,10 @@ open class IsiAppActivity : AppCompatActivity() {
         }else if(requestCode == 1111){
 
             if(data != null){
-                if(data.getStringExtra("operator_logged") != null && data.getStringExtra("commercial") != null){
+                if(data.getStringExtra("operator_logged") != null && data.getStringExtra("commercial") != null && data.getStringExtra("server_ip") != null){
                     operator_logged = Gson().fromJson(data.getStringExtra("operator_logged"), Account::class.java)
                     commercial = Gson().fromJson(data.getStringExtra("commercial"), Commercial::class.java)
+                    serverIp = data.getStringExtra("server_ip")
 
                     afterResponseAccountAndCommercial()
                 }else{
@@ -404,7 +405,7 @@ open class IsiAppActivity : AppCompatActivity() {
 
     fun initAPI(apikey: String) {
         Companion.apikey = apikey
-        httpRequest = HttpRequest(apikey, commercial)
+        httpRequest = HttpRequest(apikey, serverIp, commercial)
     }
 
     @CallSuper
@@ -427,8 +428,9 @@ open class IsiAppActivity : AppCompatActivity() {
     companion object {
         private const val MIN_DISTANCE = 400
         var apikey = ""
-        public var httpRequest: HttpRequest? = null
+        var httpRequest: HttpRequest? = null
         var operator_logged : Account? = null
         var commercial : Commercial? = null
+        var serverIp : String? = null
     }
 }
