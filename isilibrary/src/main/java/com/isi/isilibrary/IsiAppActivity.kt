@@ -6,6 +6,7 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.widget.*
@@ -281,10 +282,12 @@ open class IsiAppActivity : AppCompatActivity(), Thread.UncaughtExceptionHandler
         super.onCreate(savedInstanceState)
         registerReceiver(guestReceiver, IntentFilter("timeoutService"))
 
-        val myIntent = Intent()
-        myIntent.setClassName("com.isi.isiapp", "com.isi.isiapp.PackageActivity")
-        myIntent.putExtra("intent", "getOperatorsAndCommercial")
-        startActivityForResult(myIntent, 1111)
+        if(applicationContext.packageName.equals("com.isi.isiapp")){
+            val myIntent = Intent()
+            myIntent.setClassName("com.isi.isiapp", "com.isi.isiapp.PackageActivity")
+            myIntent.putExtra("intent", "getOperatorsAndCommercial")
+            startActivityForResult(myIntent, 1111)
+        }
 
     }
 
@@ -461,9 +464,11 @@ open class IsiAppActivity : AppCompatActivity(), Thread.UncaughtExceptionHandler
 
     override fun uncaughtException(p0: Thread, p1: Throwable) {
 
-        Dialog(this).showCustomErrorConnectionDialog("Errore inasepttato")
-
         updateError(p1.message)
+
+        Log.e("Unexpected_error", "uncaughtException: " + p1.message)
+
+        exitProcess(10);
 
     }
 
