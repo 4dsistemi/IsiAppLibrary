@@ -1,31 +1,33 @@
 package com.isi.isilibrary
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import androidx.annotation.CallSuper
-import com.google.gson.Gson
 import android.annotation.SuppressLint
 import android.content.*
-import com.google.gson.reflect.TypeToken
-import com.isi.isiapi.classes.AppAndAppActivation
-import android.content.pm.PackageManager
-import com.google.android.flexbox.FlexboxLayout
-import com.daimajia.androidanimations.library.YoYo
-import com.daimajia.androidanimations.library.Techniques
 import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.os.Bundle
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.widget.*
+import androidx.annotation.CallSuper
+import androidx.appcompat.app.AppCompatActivity
+import com.daimajia.androidanimations.library.Techniques
+import com.daimajia.androidanimations.library.YoYo
+import com.google.android.flexbox.FlexboxLayout
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import com.isi.isiapi.HttpJson
 import com.isi.isiapi.HttpRequest
+import com.isi.isiapi.MakeHttpPost
+import com.isi.isiapi.WebControllers
 import com.isi.isiapi.classes.Account
+import com.isi.isiapi.classes.AppAndAppActivation
 import com.isi.isiapi.classes.Commercial
-import java.lang.Exception
-import java.util.ArrayList
+import com.isi.isilibrary.dialog.Dialog
 import kotlin.math.abs
 import kotlin.system.exitProcess
 
-open class IsiAppActivity : AppCompatActivity() {
+open class IsiAppActivity : AppCompatActivity(), Thread.UncaughtExceptionHandler {
     private var x1 = 0f
     private var y1 = 0f
     var closing = true
@@ -214,7 +216,8 @@ open class IsiAppActivity : AppCompatActivity() {
             val packInflate = packInflater.inflate(R.layout.service_flex_cell, null)
             val imageApp = packInflate.findViewById<ImageView>(R.id.appImage)
             try {
-                val appIcon = pack.application?.packages?.let { packageManager.getApplicationIcon(it) }
+                val appIcon =
+                    pack.application?.packages?.let { packageManager.getApplicationIcon(it) }
                 imageApp.setImageDrawable(appIcon)
             } catch (e: PackageManager.NameNotFoundException) {
                 e.printStackTrace()
@@ -354,29 +357,51 @@ open class IsiAppActivity : AppCompatActivity() {
                     gson.fromJson<ArrayList<AppAndAppActivation>>(packageName, listType)
                 lateralMenu(applications)
             }
-        }else if(requestCode == 1111){
+        } else if (requestCode == 1111) {
 
-            if(data != null){
-                if(data.getStringExtra("operator_logged") != null && data.getStringExtra("commercial") != null && data.getStringExtra("server_ip") != null){
-                    operator_logged = Gson().fromJson(data.getStringExtra("operator_logged"), Account::class.java)
-                    commercial = Gson().fromJson(data.getStringExtra("commercial"), Commercial::class.java)
+            if (data != null) {
+                if (data.getStringExtra("operator_logged") != null && data.getStringExtra("commercial") != null && data.getStringExtra(
+                        "server_ip"
+                    ) != null
+                ) {
+                    operator_logged =
+                        Gson().fromJson(data.getStringExtra("operator_logged"), Account::class.java)
+                    commercial =
+                        Gson().fromJson(data.getStringExtra("commercial"), Commercial::class.java)
                     serverIp = data.getStringExtra("server_ip")
 
                     afterResponseAccountAndCommercial()
-                }else{
+                } else {
                     packageManager.getLaunchIntentForPackage("com.isi.isiapp")
                 }
-            }else{
+            } else {
                 packageManager.getLaunchIntentForPackage("com.isi.isiapp")
             }
 
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        super.onCreateOptionsMenu(menu)
 
+        menuInflater.inflate(R.menu.isi_menu, menu)
+
+        return false
+
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        super.onOptionsItemSelected(item)
+
+        if (item.itemId == R.id.isi_menu_icon) {
+            getApplicationListActive(202)
+        }
+
+        return false
+    }
 
     open fun doSomethingOnTimeout() {}
-    open fun afterResponseAccountAndCommercial(){}
+    open fun afterResponseAccountAndCommercial() {}
     fun sendBroadcast(title: String?, messgae: String?) {
         NotifyBroadcast.sendBroadcast(this, title, messgae)
     }
@@ -429,8 +454,33 @@ open class IsiAppActivity : AppCompatActivity() {
         private const val MIN_DISTANCE = 400
         var apikey = ""
         var httpRequest: HttpRequest? = null
-        var operator_logged : Account? = null
-        var commercial : Commercial? = null
-        var serverIp : String? = null
+        var operator_logged: Account? = null
+        var commercial: Commercial? = null
+        var serverIp: String? = null
+    }
+
+    override fun uncaughtException(p0: Thread, p1: Throwable) {
+
+        Dialog(this).showCustomErrorConnectionDialog("Errore inasepttato")
+
+        updateError(p1.message)
+
+    }
+
+    open fun updateError(error: String?) {
+
+        Thread {
+            val json = HttpJson()
+            json.addData("commercial", commercial?.local_id)
+            json.addData("error", error)
+            val post = MakeHttpPost("updateError", json.data, apikey, WebControllers.isiapp)
+            try {
+                post.post()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }.start()
+
+
     }
 }
