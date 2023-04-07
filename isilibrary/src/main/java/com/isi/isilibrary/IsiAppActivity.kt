@@ -382,25 +382,6 @@ open class IsiAppActivity : AppCompatActivity(){
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        super.onCreateOptionsMenu(menu)
-
-        menuInflater.inflate(R.menu.isi_menu, menu)
-
-        return false
-
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        super.onOptionsItemSelected(item)
-
-        if (item.itemId == R.id.isi_menu_icon) {
-            getApplicationListActive(202)
-        }
-
-        return false
-    }
-
     open fun doSomethingOnTimeout() {}
     open fun afterResponseAccountAndCommercial() {}
     fun sendBroadcast(title: String?, messgae: String?) {
