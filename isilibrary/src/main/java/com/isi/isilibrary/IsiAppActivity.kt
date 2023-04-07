@@ -280,7 +280,7 @@ open class IsiAppActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         registerReceiver(guestReceiver, IntentFilter("timeoutService"))
 
-        if(applicationContext.packageName.equals("com.isi.isiapp")){
+        if(!applicationContext.packageName.equals("com.isi.isiapp")){
             val myIntent = Intent()
             myIntent.setClassName("com.isi.isiapp", "com.isi.isiapp.PackageActivity")
             myIntent.putExtra("intent", "getOperatorsAndCommercial")
@@ -386,6 +386,12 @@ open class IsiAppActivity : AppCompatActivity(){
     open fun afterResponseAccountAndCommercial() {}
     fun sendBroadcast(title: String?, messgae: String?) {
         NotifyBroadcast.sendBroadcast(this, title, messgae)
+    }
+
+    fun checkIsiMenu(item: MenuItem){
+        if (item.itemId == R.id.isi_menu_icon) {
+            getApplicationListActive(202)
+        }
     }
 
     private fun getApplicationListName(packageName: String?): String {
