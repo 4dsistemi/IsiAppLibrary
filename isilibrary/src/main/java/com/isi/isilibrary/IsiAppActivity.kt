@@ -6,7 +6,6 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.view.animation.AnimationUtils
 import android.widget.*
@@ -24,11 +23,10 @@ import com.isi.isiapi.WebControllers
 import com.isi.isiapi.classes.Account
 import com.isi.isiapi.classes.AppAndAppActivation
 import com.isi.isiapi.classes.Commercial
-import com.isi.isilibrary.dialog.Dialog
 import kotlin.math.abs
 import kotlin.system.exitProcess
 
-open class IsiAppActivity : AppCompatActivity(), Thread.UncaughtExceptionHandler {
+open class IsiAppActivity : AppCompatActivity(){
     private var x1 = 0f
     private var y1 = 0f
     var closing = true
@@ -460,16 +458,6 @@ open class IsiAppActivity : AppCompatActivity(), Thread.UncaughtExceptionHandler
         var operator_logged: Account? = null
         var commercial: Commercial? = null
         var serverIp: String? = null
-    }
-
-    override fun uncaughtException(p0: Thread, p1: Throwable) {
-
-        updateError(p1.message)
-
-        Log.e("Unexpected_error", "uncaughtException: " + p1.message)
-
-        exitProcess(10);
-
     }
 
     open fun updateError(error: String?) {
