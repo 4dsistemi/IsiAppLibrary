@@ -55,7 +55,8 @@ class AddManageElementActivity : BackActivity() {
         Thread {
             val categories: List<CategoryAndProduct>? =
                 IsiAppActivity.httpRequest!!.categories
-            ingredients = IsiAppActivity.httpRequest!!.getProductIngredients(products)
+            if(ingredients == null)
+                ingredients = IsiAppActivity.httpRequest!!.getProductIngredients(products)
 
             if (categories != null && ingredients != null)
             {

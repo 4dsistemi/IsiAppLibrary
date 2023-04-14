@@ -40,6 +40,12 @@ class IngredientsRecycler(private val context: Context, private val product : Li
 
         holder.name.text = product.name
 
+        val pr = ingredients.firstOrNull { it.product_id == product.id }
+
+        if(pr != null){
+            holder.addRemove.text = "-"
+        }
+
         holder.addRemove.setOnClickListener {
             if (holder.addRemove.text == "+") {
                 val quantity = RapidEditText(context)
@@ -81,6 +87,8 @@ class IngredientsRecycler(private val context: Context, private val product : Li
                 holder.addRemove.text = "+"
             }
         }
+
+
 
     }
 
