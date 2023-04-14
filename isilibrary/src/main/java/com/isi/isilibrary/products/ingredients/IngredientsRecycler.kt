@@ -69,6 +69,8 @@ class IngredientsRecycler(private val context: Context, private val product : Li
                             )
                             ingredients.add(ingredient)
                             holder.addRemove.text = "-"
+                            holder.ingredientsQuantity.text = String.format("%.4f %s", ingredient.quantity, IsiAppActivity.httpRequest!!.transformIsimagaUnity(product.unity_id))
+
                         } catch (e: Exception) {
                             Toast.makeText(
                                 context,
@@ -89,6 +91,7 @@ class IngredientsRecycler(private val context: Context, private val product : Li
                     }
                 }
                 holder.addRemove.text = "+"
+                holder.ingredientsQuantity.text = ""
             }
         }
 
