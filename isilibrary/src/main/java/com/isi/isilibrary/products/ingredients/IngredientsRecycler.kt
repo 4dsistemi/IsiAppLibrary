@@ -40,10 +40,14 @@ class IngredientsRecycler(private val context: Context, private val product : Li
 
         holder.name.text = product.name
 
-        val pr = ingredients.firstOrNull { it.product_id == product.id }
+        val pr = ingredients.firstOrNull { it.product_forniture_id == product.id }
 
         if(pr != null){
             holder.addRemove.text = "-"
+            holder.ingredientsQuantity.text = String.format("%.4f %s", pr.quantity, IsiAppActivity.httpRequest!!.transformIsimagaUnity(product.unity_id))
+        }else{
+            holder.addRemove.text = "+"
+            holder.ingredientsQuantity.text = ""
         }
 
         holder.addRemove.setOnClickListener {
@@ -102,11 +106,13 @@ class IngredientsRecycler(private val context: Context, private val product : Li
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var name: TextView
+        var ingredientsQuantity : TextView
         var addRemove: Button
 
         init {
             name = itemView.findViewById(R.id.nameElementText)
             addRemove = itemView.findViewById(R.id.buttonPlusLayout)
+            ingredientsQuantity = itemView.findViewById(R.id.ingredients_quantity_text)
         }
     }
 }

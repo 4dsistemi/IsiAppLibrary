@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="6dp"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:gravity="center_vertical"
             android:textSize="24sp" />
 
@@ -28,6 +28,12 @@
             android:text="+"
             android:textSize="24sp" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/ingredients_quantity_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp" />
 
     <View
         android:id="@+id/divider"
