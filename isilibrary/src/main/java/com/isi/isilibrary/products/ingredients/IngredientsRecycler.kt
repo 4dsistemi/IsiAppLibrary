@@ -16,8 +16,6 @@ import com.isi.isilibrary.R
 import com.isi.isilibrary.dialog.Dialog
 import com.isi.isilibrary.dialog.MaterialTextAndListener
 import com.isi.isilibrary.dialog.RapidEditText
-import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.streams.toList
 
 class IngredientsRecycler(private val context: Context, private val product : List<ProductForniture>, private val ingredients: ArrayList<Ingredients>) : RecyclerView.Adapter<IngredientsRecycler.ViewHolder>(){
@@ -89,8 +87,7 @@ class IngredientsRecycler(private val context: Context, private val product : Li
 
     fun search(search: String){
 
-        ingredientsFilter = product.stream().filter { ing -> ing.name.lowercase(Locale.getDefault())
-            .contains(search) }.toList()
+        ingredientsFilter = product.stream().filter { ing -> ing.name.lowercase().contains(search.lowercase()) }.toList()
 
         notifyDataSetChanged()
     }

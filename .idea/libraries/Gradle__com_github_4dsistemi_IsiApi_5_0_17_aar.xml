@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.4dsistemi:IsiApi:5.0.17@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/17a1725674b8e0cf4c1470325c635955/transformed/jetified-IsiApi-5.0.17/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/17a1725674b8e0cf4c1470325c635955/transformed/jetified-IsiApi-5.0.17/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.4dsistemi/IsiApi/5.0.17/e76ad5bd6750f3bc27339ace70a95a384b410af4/IsiApi-5.0.17-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

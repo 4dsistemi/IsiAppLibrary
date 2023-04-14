@@ -55,7 +55,10 @@ class AddManageElementActivity : BackActivity() {
         Thread {
             val categories: List<CategoryAndProduct>? =
                 IsiAppActivity.httpRequest!!.categories
-            if (categories != null) {
+            ingredients = IsiAppActivity.httpRequest!!.getProductIngredients(products)
+
+            if (categories != null && ingredients != null)
+            {
                 runOnUiThread {
                     nametext = findViewById(R.id.modifyName)
                     priceText = findViewById(R.id.priceModify)
@@ -63,6 +66,7 @@ class AddManageElementActivity : BackActivity() {
                     barcodeText = findViewById(R.id.barcodeElement)
                     descriptionElement = findViewById(R.id.descriptionElement)
                     categrySpinner = findViewById(R.id.addManageElementSpinner)
+
                     val productSpinner =
                         findViewById<AutoCompleteTextView>(R.id.product_connection_spinner)
                     val departmentSpinner =
@@ -90,6 +94,7 @@ class AddManageElementActivity : BackActivity() {
                     categrySpinner.setAdapter(adapter)
                     productSpinner.setAdapter(adapterProduct)
                     departmentSpinner.setAdapter(adapterDepartment)
+
                     if (products != null) {
                         categoryDef = products!!.category_id
                         title = "Modifica elemento"
@@ -133,7 +138,8 @@ class AddManageElementActivity : BackActivity() {
                                 products!!.department
                             ), false
                         )
-                    } else {
+                    }
+                    else {
                         title = "Aggiungi elemento"
                         productSpinner.setText("Nessuno", false)
                         departmentSpinner.setText("1", false)
@@ -148,6 +154,7 @@ class AddManageElementActivity : BackActivity() {
                                 .show()
                         }
                     }
+
                     categrySpinner.onItemClickListener =
                         OnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, _: Long ->
                             categoryDef = categories[position].category!!.id
@@ -166,6 +173,7 @@ class AddManageElementActivity : BackActivity() {
                             this@AddManageElementActivity,
                             AddIngredientsActivity::class.java
                         )
+                        i.putExtra("ingredients", Gson().toJson(ingredients))
                         ingredientsResult.launch(i)
                     }
                     chooseColor.setOnClickListener {
@@ -187,7 +195,8 @@ class AddManageElementActivity : BackActivity() {
                             .show()
                     }
                 }
-            } else {
+            }
+            else {
                 errorPage(layout)
             }
         }.start()
@@ -217,10 +226,12 @@ class AddManageElementActivity : BackActivity() {
                 } else if (categoryDef == 0) {
                     categrySpinner.error = "Scegli una categoria"
                 } else {
+
                     val price1 = priceText.text.toString().replace(",", ".")
                     val price2 = priceBancoText.text.toString().replace(",", ".")
                     val priceDouble = price1.toFloat()
                     val priceBancoDouble = price2.toFloat()
+
                     products!!.price = priceDouble
                     products!!.price_banco = priceBancoDouble
                     products!!.category_id = categoryDef
@@ -229,6 +240,7 @@ class AddManageElementActivity : BackActivity() {
                     products!!.name = nametext.text.toString()
                     products!!.barcode_value = barcodeText.text.toString()
                     products!!.description = descriptionElement.text.toString()
+
                     if (products?.id == 0) {
                         Thread {
                             if (IsiAppActivity.httpRequest!!.addProduct(
@@ -239,7 +251,8 @@ class AddManageElementActivity : BackActivity() {
                                 runOnUiThread { finish() }
                             }
                         }.start()
-                    } else {
+                    }
+                    else {
                         Thread {
                             if (IsiAppActivity.httpRequest!!.editProduct(
                                     products,

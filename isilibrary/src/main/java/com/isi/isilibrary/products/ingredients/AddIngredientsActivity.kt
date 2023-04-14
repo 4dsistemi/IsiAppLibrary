@@ -9,6 +9,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.isi.isiapi.classes.Ingredients
 import com.isi.isiapi.classes.isimaga.ProductForniture
 import com.isi.isilibrary.IsiAppActivity
@@ -23,7 +24,7 @@ class AddIngredientsActivity : BackActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_ingredients)
         title = "Aggiungi ingredienti"
-        ingredientsAdd = ArrayList()
+        ingredientsAdd = Gson().fromJson(intent.getStringExtra("ingredients"), object: TypeToken<ArrayList<Ingredients?>?>() {}.type)
         updateUI(R.layout.activity_add_ingredients)
 
         onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
