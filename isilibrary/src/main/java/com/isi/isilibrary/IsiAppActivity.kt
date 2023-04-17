@@ -26,7 +26,7 @@ import com.isi.isiapi.classes.Commercial
 import kotlin.math.abs
 import kotlin.system.exitProcess
 
-open class IsiAppActivity : AppCompatActivity(){
+open class IsiAppActivity : AppCompatActivity() {
     private var x1 = 0f
     private var y1 = 0f
     var closing = true
@@ -93,17 +93,14 @@ open class IsiAppActivity : AppCompatActivity(){
                     try {
                         val myin = lateralLayout.getChildAt(i) as LinearLayout
                         val b = myin.getChildAt(0) as ImageButton
-                        val icon = app.application?.packages?.let {
-                            packageManager.getApplicationIcon(
-                                it
-                            )
-                        }
+                        val icon =
+                            app.application?.packages?.let { packageManager.getApplicationIcon(it + VERSION) }
                         b.setImageDrawable(icon)
                         b.setOnClickListener {
                             val launchIntent =
-                                app.application?.packages?.let { it1 ->
+                                app.application?.packages?.let {
                                     packageManager.getLaunchIntentForPackage(
-                                        it1
+                                        it + VERSION
                                     )
                                 }
                             if (launchIntent != null) {
@@ -129,15 +126,15 @@ open class IsiAppActivity : AppCompatActivity(){
                         val b = `in`.getChildAt(0) as ImageButton
                         val icon = app.application?.packages?.let {
                             packageManager.getApplicationIcon(
-                                it
+                                it + VERSION
                             )
                         }
                         b.setImageDrawable(icon)
                         b.setOnClickListener {
                             val launchIntent =
-                                app.application?.packages?.let { it1 ->
+                                app.application?.packages?.let {
                                     packageManager.getLaunchIntentForPackage(
-                                        it1
+                                        it + VERSION
                                     )
                                 }
                             if (launchIntent != null) {
@@ -165,7 +162,7 @@ open class IsiAppActivity : AppCompatActivity(){
     private fun isPackageExisted(targetPackage: String?): Boolean {
         val pm = packageManager
         try {
-            pm.getPackageInfo(targetPackage!!, PackageManager.GET_META_DATA)
+            pm.getPackageInfo(targetPackage!! + VERSION, PackageManager.GET_META_DATA)
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
             return false
@@ -200,7 +197,7 @@ open class IsiAppActivity : AppCompatActivity(){
         val thisAppImageView = inflate!!.findViewById<ImageView>(R.id.thisAppImageView)
         try {
             val pkg = packageName //your package name
-            val icon = packageManager.getApplicationIcon(pkg)
+            val icon = packageManager.getApplicationIcon(pkg + VERSION)
             thisAppImageView.setImageDrawable(icon)
         } catch (ignored: PackageManager.NameNotFoundException) {
         }
@@ -216,7 +213,7 @@ open class IsiAppActivity : AppCompatActivity(){
             val imageApp = packInflate.findViewById<ImageView>(R.id.appImage)
             try {
                 val appIcon =
-                    pack.application?.packages?.let { packageManager.getApplicationIcon(it) }
+                    pack.application?.packages?.let { packageManager.getApplicationIcon(it + VERSION) }
                 imageApp.setImageDrawable(appIcon)
             } catch (e: PackageManager.NameNotFoundException) {
                 e.printStackTrace()
@@ -225,11 +222,7 @@ open class IsiAppActivity : AppCompatActivity(){
             appNameSecondary.text = pack.application?.name
             packInflate.setOnClickListener {
                 val launchIntent =
-                    pack.application?.packages?.let { it1 ->
-                        packageManager.getLaunchIntentForPackage(
-                            it1
-                        )
-                    }
+                    pack.application?.packages?.let { packageManager.getLaunchIntentForPackage(it + VERSION) }
                 if (launchIntent != null) {
                     mainView!!.removeView(inflate)
                     inflate = null
@@ -264,7 +257,7 @@ open class IsiAppActivity : AppCompatActivity(){
                         exitProcess(0)
                     } else {
                         val launchIntent =
-                            packageManager.getLaunchIntentForPackage("com.isi.isiapp")
+                            packageManager.getLaunchIntentForPackage("com.isi.isiapp$VERSION")
                         if (launchIntent != null) {
                             startActivity(launchIntent) //null pointer check in case package name was not found
                             overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right)
@@ -280,7 +273,7 @@ open class IsiAppActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         registerReceiver(guestReceiver, IntentFilter("timeoutService"))
 
-        if(!applicationContext.packageName.equals("com.isi.isiapp")){
+        if (!applicationContext.packageName.equals("com.isi.isiapp")) {
             val myIntent = Intent()
             myIntent.setClassName("com.isi.isiapp", "com.isi.isiapp.PackageActivity")
             myIntent.putExtra("intent", "getOperatorsAndCommercial")
@@ -321,7 +314,7 @@ open class IsiAppActivity : AppCompatActivity(){
                 if (data != null) {
                     val packageName = data.getStringExtra("package_name")
                     if (packageName != null) {
-                        val launchIntent = packageManager.getLaunchIntentForPackage(packageName)
+                        val launchIntent = packageManager.getLaunchIntentForPackage(packageName + VERSION)
                         if (launchIntent != null) {
                             startActivity(launchIntent) //null pointer check in case package name was not found
                             overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right)
@@ -333,7 +326,7 @@ open class IsiAppActivity : AppCompatActivity(){
             if (resultCode == RESULT_OK) {
                 if (data != null) {
                     val packageName = data.getStringExtra("package_name")!!
-                    val launchIntent = packageManager.getLaunchIntentForPackage(packageName)
+                    val launchIntent = packageManager.getLaunchIntentForPackage(packageName + VERSION)
                     if (launchIntent != null) {
                         startActivity(launchIntent) //null pointer check in case package name was not found
                         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
@@ -373,10 +366,10 @@ open class IsiAppActivity : AppCompatActivity(){
 
                     afterResponseAccountAndCommercial()
                 } else {
-                    packageManager.getLaunchIntentForPackage("com.isi.isiapp")
+                    packageManager.getLaunchIntentForPackage("com.isi.isiapp$VERSION")
                 }
             } else {
-                packageManager.getLaunchIntentForPackage("com.isi.isiapp")
+                packageManager.getLaunchIntentForPackage("com.isi.isiapp$VERSION")
             }
 
         }
@@ -451,6 +444,8 @@ open class IsiAppActivity : AppCompatActivity(){
         var operator_logged: Account? = null
         var commercial: Commercial? = null
         var serverIp: String? = null
+
+        const val VERSION = "v3"
     }
 
     open fun updateError(error: String?) {
