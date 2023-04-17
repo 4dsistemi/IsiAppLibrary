@@ -275,7 +275,7 @@ open class IsiAppActivity : AppCompatActivity() {
 
         if (!applicationContext.packageName.equals("com.isi.isiapp$VERSION")) {
             val myIntent = Intent()
-            myIntent.setClassName("com.isi.isiapp$VERSION", "com.isi.isiapp$VERSION.PackageActivity")
+            myIntent.setClassName("com.isi.isiapp$VERSION", "com.isi.isiapp.PackageActivity")
             myIntent.putExtra("intent", "getOperatorsAndCommercial")
             startActivityForResult(myIntent, 1111)
         }
@@ -287,7 +287,7 @@ open class IsiAppActivity : AppCompatActivity() {
             val myIntent = Intent()
             myIntent.setClassName(
                 "com.isi.isiapp$VERSION",
-                "com.isi.isiapp$VERSION.PackageActivity"
+                "com.isi.isiapp.PackageActivity"
             )
             myIntent.putExtra("intent", "getApplicationsActive")
             startActivityForResult(myIntent, code)
@@ -299,8 +299,8 @@ open class IsiAppActivity : AppCompatActivity() {
         try {
             val myIntent = Intent()
             myIntent.setClassName(
-                "com.isi.swap$VERSION",
-                "com.isi.isiapp$VERSION.PackageActivity"
+                "com.isi.isiapp$VERSION",
+                "com.isi.isiapp.PackageActivity"
             )
             myIntent.putExtra("package_name", applicationContext.packageName)
             myIntent.putExtra("code", code)
