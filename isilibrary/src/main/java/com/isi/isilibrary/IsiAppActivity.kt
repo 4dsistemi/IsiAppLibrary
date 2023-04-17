@@ -273,13 +273,6 @@ open class IsiAppActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         registerReceiver(guestReceiver, IntentFilter("timeoutService"))
 
-        if (!applicationContext.packageName.equals("com.isi.isiapp")) {
-            val myIntent = Intent()
-            myIntent.setClassName("com.isi.isiapp", "com.isi.isiapp.PackageActivity")
-            myIntent.putExtra("intent", "getOperatorsAndCommercial")
-            startActivityForResult(myIntent, 1111)
-        }
-
     }
 
     private fun getApplicationListActive(code: Int) {
@@ -445,7 +438,7 @@ open class IsiAppActivity : AppCompatActivity() {
         var commercial: Commercial? = null
         var serverIp: String? = null
 
-        @JvmField val VERSION = "v3"
+        const val VERSION = "v3"
     }
 
     open fun updateError(error: String?) {
