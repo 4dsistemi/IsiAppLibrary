@@ -445,7 +445,7 @@ open class IsiAppActivity : AppCompatActivity() {
         var commercial: Commercial? = null
         var serverIp: String? = null
 
-        const val VERSION = "v3"
+        @JvmField val VERSION = "v3"
     }
 
     open fun updateError(error: String?) {
