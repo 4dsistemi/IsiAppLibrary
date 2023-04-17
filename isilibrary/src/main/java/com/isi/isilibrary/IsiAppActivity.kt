@@ -159,10 +159,10 @@ open class IsiAppActivity : AppCompatActivity() {
         lateralMenu!!.startAnimation(bottomUp)
     }
 
-    private fun isPackageExisted(targetPackage: String?): Boolean {
+    private fun isPackageExisted(): Boolean {
         val pm = packageManager
         try {
-            pm.getPackageInfo(targetPackage!! + VERSION, PackageManager.GET_META_DATA)
+            pm.getPackageInfo("com.isi.isiapp$VERSION", PackageManager.GET_META_DATA)
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
             return false
@@ -172,7 +172,7 @@ open class IsiAppActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (isPackageExisted("com.isi.isiapp$VERSION")) {
+        if (isPackageExisted()) {
             if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 if (lateralMenu == null) {
                     getApplicationListActive(210)
@@ -197,7 +197,7 @@ open class IsiAppActivity : AppCompatActivity() {
         val thisAppImageView = inflate!!.findViewById<ImageView>(R.id.thisAppImageView)
         try {
             val pkg = packageName //your package name
-            val icon = packageManager.getApplicationIcon(pkg + VERSION)
+            val icon = packageManager.getApplicationIcon(pkg)
             thisAppImageView.setImageDrawable(icon)
         } catch (ignored: PackageManager.NameNotFoundException) {
         }
