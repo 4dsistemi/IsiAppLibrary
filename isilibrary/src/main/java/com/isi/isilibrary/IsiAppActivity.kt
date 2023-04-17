@@ -172,7 +172,7 @@ open class IsiAppActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (isPackageExisted("com.isi.isiapp")) {
+        if (isPackageExisted("com.isi.isiapp$VERSION")) {
             if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 if (lateralMenu == null) {
                     getApplicationListActive(210)
@@ -278,7 +278,10 @@ open class IsiAppActivity : AppCompatActivity() {
     private fun getApplicationListActive(code: Int) {
         try {
             val myIntent = Intent()
-            myIntent.setClassName("com.isi.isiapp", "com.isi.isiapp.PackageActivity")
+            myIntent.setClassName(
+                "com.isi.isiapp$VERSION",
+                "com.isi.isiapp$VERSION.PackageActivity"
+            )
             myIntent.putExtra("intent", "getApplicationsActive")
             startActivityForResult(myIntent, code)
         } catch (ignored: Exception) {
@@ -288,7 +291,10 @@ open class IsiAppActivity : AppCompatActivity() {
     private fun getPackageNameSlide(code: Int) {
         try {
             val myIntent = Intent()
-            myIntent.setClassName("com.isi.isiapp", "com.isi.isiapp.PackageActivity")
+            myIntent.setClassName(
+                "com.isi.swap$VERSION",
+                "com.isi.isiapp$VERSION.PackageActivity"
+            )
             myIntent.putExtra("package_name", applicationContext.packageName)
             myIntent.putExtra("code", code)
             if (code == 0) {
@@ -307,7 +313,8 @@ open class IsiAppActivity : AppCompatActivity() {
                 if (data != null) {
                     val packageName = data.getStringExtra("package_name")
                     if (packageName != null) {
-                        val launchIntent = packageManager.getLaunchIntentForPackage(packageName + VERSION)
+                        val launchIntent =
+                            packageManager.getLaunchIntentForPackage(packageName + VERSION)
                         if (launchIntent != null) {
                             startActivity(launchIntent) //null pointer check in case package name was not found
                             overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right)
@@ -319,7 +326,8 @@ open class IsiAppActivity : AppCompatActivity() {
             if (resultCode == RESULT_OK) {
                 if (data != null) {
                     val packageName = data.getStringExtra("package_name")!!
-                    val launchIntent = packageManager.getLaunchIntentForPackage(packageName + VERSION)
+                    val launchIntent =
+                        packageManager.getLaunchIntentForPackage(packageName + VERSION)
                     if (launchIntent != null) {
                         startActivity(launchIntent) //null pointer check in case package name was not found
                         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
