@@ -41,6 +41,9 @@ class AddManageElementActivity : BackActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_manage_element)
+
+        val back = intent
+        products = Gson().fromJson(back.getStringExtra("product"), Product::class.java)
     }
 
     override fun onResume() {
@@ -50,8 +53,7 @@ class AddManageElementActivity : BackActivity() {
 
     override fun updateUI(layout: Int) {
         super.updateUI(layout)
-        val back = intent
-        products = Gson().fromJson(back.getStringExtra("product"), Product::class.java)
+
         Thread {
             val categories: List<CategoryAndProduct>? =
                 IsiAppActivity.httpRequest!!.categories
