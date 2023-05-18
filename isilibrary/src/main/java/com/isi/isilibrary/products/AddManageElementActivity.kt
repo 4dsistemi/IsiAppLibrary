@@ -44,11 +44,9 @@ class AddManageElementActivity : BackActivity() {
 
         val back = intent
         products = Gson().fromJson(back.getStringExtra("product"), Product::class.java)
-    }
 
-    override fun onResume() {
-        super.onResume()
         updateUI(R.layout.activity_add_manage_element)
+
     }
 
     override fun updateUI(layout: Int) {
