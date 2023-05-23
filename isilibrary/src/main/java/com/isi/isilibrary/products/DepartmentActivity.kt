@@ -36,8 +36,7 @@ class DepartmentActivity : BackActivity() {
                 rates.sortBy { it.department }
                 for (rate in rates) {
                     val inflater = (getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater)
-                    @SuppressLint("InflateParams") val inflate =
-                        inflater.inflate(R.layout.department_cell, departmentLayout, false)
+                    val inflate = inflater.inflate(R.layout.department_cell, departmentLayout, false)
                     val name = inflate.findViewById<TextView>(R.id.nameDepartmentCellText)
                     name.text = String.format(
                         Locale.getDefault(),

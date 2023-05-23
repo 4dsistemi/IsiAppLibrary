@@ -1,9 +1,11 @@
 package com.isi.isilibrary.products
 
+import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -13,22 +15,23 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
-import com.google.android.material.button.MaterialButton
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.isi.isiapi.classes.CategoryAndProduct
 import com.isi.isiapi.classes.Ingredients
 import com.isi.isiapi.classes.Product
+import com.isi.isiapi.classes.isimaga.ProductForniture
 import com.isi.isilibrary.IsiAppActivity
 import com.isi.isilibrary.R
 import com.isi.isilibrary.backActivity.BackActivity
+import com.isi.isilibrary.dialog.Dialog
 import com.isi.isilibrary.products.ingredients.AddIngredientsActivity
 import java.util.*
-import kotlin.collections.ArrayList
 
 class AddManageElementActivity : BackActivity() {
     private var products: Product? = null
-    private var ingredients: MutableList<Ingredients?>? = null
+    private var ingredients: MutableList<Ingredients>? = null
+    private var productForniture: MutableList<ProductForniture?>? = null
+
     private var categoryDef = 0
     private var productDef = 0
     private var department = 1
@@ -38,6 +41,8 @@ class AddManageElementActivity : BackActivity() {
     private lateinit var barcodeText: TextView
     private lateinit var descriptionElement: TextView
     private lateinit var categrySpinner: AutoCompleteTextView
+    private lateinit var ingredientLinear : LinearLayout
+    private lateinit var ingredientButton : Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_manage_element)
@@ -49,16 +54,38 @@ class AddManageElementActivity : BackActivity() {
 
     }
 
+    private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            // There are no request codes
+            val data: Intent? = result.data
+
+            if(data != null){
+                if(data.getStringExtra("ingredient") != null){
+                    val ingr = Gson().fromJson(data.getStringExtra("ingredient"), Ingredients::class.java)
+                    ingredients!!.add(ingr)
+                    updateIngredients()
+                }
+            }
+        }
+    }
+
     override fun updateUI(layout: Int) {
         super.updateUI(layout)
+
+        val dial = Dialog(this).showLoadingDialog("Caricamento...")
 
         Thread {
             val categories: List<CategoryAndProduct>? =
                 IsiAppActivity.httpRequest!!.categories
+
+            productForniture = IsiAppActivity.httpRequest!!.isimagaGetProductForniture()
+
             if(ingredients == null)
                 ingredients = IsiAppActivity.httpRequest!!.getProductIngredients(products)
 
-            if (categories != null && ingredients != null)
+            runOnUiThread { dial.dismiss() }
+
+            if (categories != null && ingredients != null && productForniture != null)
             {
                 runOnUiThread {
                     nametext = findViewById(R.id.modifyName)
@@ -68,21 +95,31 @@ class AddManageElementActivity : BackActivity() {
                     descriptionElement = findViewById(R.id.descriptionElement)
                     categrySpinner = findViewById(R.id.addManageElementSpinner)
 
+                    ingredientButton = findViewById(R.id.ingredient_add_button)
+                    ingredientLinear = findViewById(R.id.ingredients_linear)
+
+
                     val productSpinner =
                         findViewById<AutoCompleteTextView>(R.id.product_connection_spinner)
+
                     val departmentSpinner =
                         findViewById<AutoCompleteTextView>(R.id.departmentCodeElement)
-                    val chooseColor = findViewById<MaterialButton>(R.id.productColorButton)
+
                     val adapter =
                         ArrayAdapter(this, android.R.layout.simple_spinner_item, categories)
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
                     val productsArray: MutableList<Product> = ArrayList()
+
                     val fake = Product("Nessuno", 0f, 0f, 0, "", 0, 0, "", "", 0)
                     fake.id = 0
+
                     productsArray.add(0, fake)
+
                     for (cat in categories) {
                         productsArray.addAll(cat.product!!)
                     }
+
                     val adapterProduct =
                         ArrayAdapter(this, android.R.layout.simple_spinner_item, productsArray)
                     adapterProduct.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -92,6 +129,7 @@ class AddManageElementActivity : BackActivity() {
                         arrayOf(1, 2, 3, 4)
                     )
                     adapterDepartment.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
                     categrySpinner.setAdapter(adapter)
                     productSpinner.setAdapter(adapterProduct)
                     departmentSpinner.setAdapter(adapterDepartment)
@@ -111,9 +149,8 @@ class AddManageElementActivity : BackActivity() {
                             products!!.price_banco
                         )
                         barcodeText.text = products!!.barcode_value
-                        if (products!!.color != 0 && products!!.color != -1) chooseColor.setBackgroundColor(
-                            products!!.color
-                        )
+
+
                         for (cat in categories) {
                             if (cat.category?.id == products!!.category_id) {
                                 categoryDef = cat.category!!.id
@@ -160,41 +197,24 @@ class AddManageElementActivity : BackActivity() {
                         OnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, _: Long ->
                             categoryDef = categories[position].category!!.id
                         }
+
                     productSpinner.onItemClickListener =
                         OnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, _: Long ->
                             productDef = productsArray[position].id
                         }
+
                     departmentSpinner.onItemClickListener =
                         OnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, _: Long ->
                             department = position + 1
                         }
-                    val addIngredients = findViewById<Button>(R.id.addIngredientsButton)
-                    addIngredients.setOnClickListener {
-                        val i = Intent(
-                            this@AddManageElementActivity,
-                            AddIngredientsActivity::class.java
-                        )
-                        i.putExtra("ingredients", Gson().toJson(ingredients))
-                        ingredientsResult.launch(i)
+
+                    ingredientButton.setOnClickListener {
+                        val intent = Intent(this, AddIngredientsActivity::class.java)
+                        resultLauncher.launch(intent)
                     }
-                    chooseColor.setOnClickListener {
-                        ColorPickerDialogBuilder
-                            .with(this@AddManageElementActivity)
-                            .setTitle("Scegli colore")
-                            .initialColor(Color.WHITE)
-                            .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
-                            .density(12)
-                            .setOnColorSelectedListener { selectedColor: Int ->
-                                products!!.color = selectedColor
-                                chooseColor.setBackgroundColor(selectedColor)
-                            }
-                            .setPositiveButton("ok") { _: DialogInterface?, _: Int, _: Array<Int?>? -> }
-                            .setNegativeButton("cancella") { _: DialogInterface?, _: Int ->
-                                products!!.color = 0
-                            }
-                            .build()
-                            .show()
-                    }
+
+                    updateIngredients()
+
                 }
             }
             else {
@@ -203,10 +223,55 @@ class AddManageElementActivity : BackActivity() {
         }.start()
     }
 
+    private fun updateIngredients(){
+
+        ingredientLinear.removeAllViews()
+
+        for (ingr in ingredients!!){
+
+            val view: View = LayoutInflater.from(this).inflate(R.layout.add_ingredients_layout, ingredientLinear, false)
+
+            val pr = productForniture?.firstOrNull { it!!.id == ingr.product_forniture_id }
+
+            val name = view.findViewById<TextView>(R.id.nameElementText)
+            val addRemove = view.findViewById<Button>(R.id.buttonPlusLayout)
+            val ingredientsQuantity = view.findViewById<TextView>(R.id.ingredients_quantity_text)
+
+            ingredientsQuantity.text = String.format("%.4f %s", pr!!.quantity, IsiAppActivity.httpRequest!!.transformIsimagaUnity(pr.unity_id))
+            name.text = pr.name
+
+            addRemove.setOnClickListener{
+                ingredients!!.remove(ingr)
+
+                updateIngredients()
+            }
+
+            ingredientLinear.addView(view)
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.add_intestazione_menu, menu)
         return true
+    }
+
+    private fun setColor(){
+        ColorPickerDialogBuilder
+            .with(this@AddManageElementActivity)
+            .setTitle("Scegli colore")
+            .initialColor(Color.WHITE)
+            .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
+            .density(12)
+            .setOnColorSelectedListener { selectedColor: Int ->
+                products!!.color = selectedColor
+            }
+            .setPositiveButton("ok") { _: DialogInterface?, _: Int, _: Array<Int?>? -> }
+            .setNegativeButton("cancella") { _: DialogInterface?, _: Int ->
+                products!!.color = 0
+            }
+            .build()
+            .show()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -217,14 +282,7 @@ class AddManageElementActivity : BackActivity() {
         if (id == R.id.addIntestazioneDone) {
             nametext.error = null
             try {
-                if (nametext.text.toString() == "" || nametext.text.toString()
-                        .contains("-") || nametext.text.toString()
-                        .contains(":") || nametext.text.toString()
-                        .contains("!") || nametext.text.toString()
-                        .contains("#") || nametext.text.toString().contains(",")
-                ) {
-                    nametext.error = "Il nome non può contenere caratteri speciali o essere vuoto"
-                } else if (categoryDef == 0) {
+                if (categoryDef == 0) {
                     categrySpinner.error = "Scegli una categoria"
                 } else {
 
@@ -269,12 +327,6 @@ class AddManageElementActivity : BackActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private val ingredientsResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
-        val ingredients = result!!.data?.getStringExtra("ingredients")
-        this.ingredients =
-            Gson().fromJson(ingredients, object : TypeToken<ArrayList<Ingredients?>?>() {}.type)
     }
 
 }

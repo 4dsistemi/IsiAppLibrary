@@ -85,7 +85,7 @@ class ManageElementsActivity : BackActivity() {
 
             if(categories != null){
                 val cat = CategoryAndProduct()
-                cat.category = Category(0, "Tutto", 0, "")
+                cat.category = Category(0, "Tutto", 0, "", 0)
                 categories.add(0, cat)
                 runOnUiThread {
                     val adapter = ArrayAdapter(
