@@ -215,6 +215,31 @@ class AddManageElementActivity : BackActivity() {
 
                     updateIngredients()
 
+                    val chooseColor = findViewById<Button>(R.id.color_button)
+
+                    if (products!!.color != 0 && products!!.color != -1) chooseColor.setBackgroundColor(
+                        products!!.color
+                    )
+
+                    chooseColor.setOnClickListener {
+                        ColorPickerDialogBuilder
+                            .with(this@AddManageElementActivity)
+                            .setTitle("Scegli colore")
+                            .initialColor(Color.WHITE)
+                            .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
+                            .density(12)
+                            .setOnColorSelectedListener { selectedColor: Int ->
+                                products!!.color = selectedColor
+                                chooseColor.setBackgroundColor(selectedColor)
+                            }
+                            .setPositiveButton("ok") { _: DialogInterface?, _: Int, _: Array<Int?>? -> }
+                            .setNegativeButton("cancella") { _: DialogInterface?, _: Int ->
+                                products!!.color = 0
+                            }
+                            .build()
+                            .show()
+                    }
+
                 }
             }
             else {
