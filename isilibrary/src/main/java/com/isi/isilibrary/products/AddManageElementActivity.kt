@@ -262,7 +262,7 @@ class AddManageElementActivity : BackActivity() {
             val addRemove = view.findViewById<Button>(R.id.buttonPlusLayout)
             val ingredientsQuantity = view.findViewById<TextView>(R.id.ingredients_quantity_text)
 
-            ingredientsQuantity.text = String.format("%.4f %s", pr!!.quantity, IsiAppActivity.httpRequest!!.transformIsimagaUnity(pr.unity_id))
+            ingredientsQuantity.text = String.format("%.4f %s", ingr.quantity, IsiAppActivity.httpRequest!!.transformIsimagaUnity(pr!!.unity_id))
             name.text = pr.name
 
             addRemove.setOnClickListener{

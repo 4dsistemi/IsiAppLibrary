@@ -99,7 +99,7 @@
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/7e6ca3d111f4648fd0cdc76a9ba1df0c/transformed/jetified-gson-2.10.1.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/aeba9b06c0b1bf1630780c1a19161a68/transformed/jetified-colorpicker-0.0.15-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/920770db21d4f98fed98b4321bddc475/transformed/jetified-commons-lang3-3.11.jar</arg>
-                <arg>$USER_HOME$/.gradle/caches/transforms-3/11040a8da836f4e0f99c220f88290074/transformed/jetified-IsiApi-5.1.1-api.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/transforms-3/4024e6ffc3378cdc2f1fc59caa050f2f/transformed/jetified-IsiApi-5.1.3-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/bea9676d02d3184530f689f7b2a06186/transformed/runner-1.5.2-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/5d31a5e4bccba1ebcd2003d2a3010470/transformed/jetified-junit-4.13.2.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/f1f3bd4427b8242dcdb56122a6901095/transformed/jetified-hamcrest-integration-1.3.jar</arg>
@@ -266,7 +266,7 @@
     <orderEntry type="library" scope="TEST" name="Gradle: androidx.asynclayoutinflater:asynclayoutinflater:1.0.0@aar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: com.daimajia.androidanimations:library:2.4@aar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: com.github.QuadFlask:colorpicker:0.0.15@aar" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: com.github.4dsistemi:IsiApi:5.1.1@aar" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.github.4dsistemi:IsiApi:5.1.3@aar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: androidx.compose.material3:material3:1.1.0@aar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: androidx.compose.foundation:foundation:1.4.1@aar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: androidx.compose.animation:animation:1.4.1@aar" level="project" />
