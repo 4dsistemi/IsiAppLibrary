@@ -14,7 +14,7 @@ import com.isi.isilibrary.products.recycler.ElementRecycler
 import kotlin.collections.ArrayList
 
 class ManageElementsActivity : BackActivity() {
-    private var categorySelected: CategoryAndProduct? = null
+    private lateinit var categorySelected: CategoryAndProduct
     private lateinit var layout: RecyclerView
     private lateinit var recycler: ElementRecycler
     private var products: MutableList<Product> = ArrayList()
@@ -22,6 +22,11 @@ class ManageElementsActivity : BackActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manage_elements)
         title = "Gestisci elementi"
+
+        val cat = CategoryAndProduct()
+        cat.category = Category(0, "Tutto", 0, "", 0)
+        categorySelected = cat
+
         layout = findViewById(R.id.product_list_recycler)
         val linearLayoutManager = LinearLayoutManager(this)
         linearLayoutManager.orientation = RecyclerView.VERTICAL
@@ -45,7 +50,7 @@ class ManageElementsActivity : BackActivity() {
             runOnUiThread {
                 recycler = ElementRecycler(this, products)
                 layout.adapter = recycler
-                recycler.search(categorySelected?.category?.id, "")
+                recycler.search(categorySelected.category.id, "")
                 val search = findViewById<SearchView>(R.id.searchElement)
                 search.isClickable = true
                 search.queryHint = "Cerca"
@@ -55,7 +60,7 @@ class ManageElementsActivity : BackActivity() {
                     }
 
                     override fun onQueryTextChange(s: String): Boolean {
-                        recycler.search(categorySelected?.category?.id, s)
+                        recycler.search(categorySelected.category.id, s)
                         return true
                     }
                 })
@@ -75,6 +80,7 @@ class ManageElementsActivity : BackActivity() {
                 val cat = CategoryAndProduct()
                 cat.category = Category(0, "Tutto", 0, "", 0)
                 categories.add(0, cat)
+                categorySelected = cat
                 runOnUiThread {
                     val adapter = ArrayAdapter(
                         this@ManageElementsActivity,
@@ -92,7 +98,7 @@ class ManageElementsActivity : BackActivity() {
                         ) {
                             if (categories[position] !== categorySelected) {
                                 categorySelected = categories[position]
-                                recycler.search(categorySelected?.category?.id, "")
+                                recycler.search(categorySelected.category.id, "")
                             }
                         }
 
