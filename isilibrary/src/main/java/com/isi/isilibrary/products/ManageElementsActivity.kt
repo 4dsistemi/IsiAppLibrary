@@ -16,6 +16,7 @@ import kotlin.collections.ArrayList
 class ManageElementsActivity : BackActivity() {
     private var categorySelected: CategoryAndProduct? = null
     private lateinit var layout: RecyclerView
+    private lateinit var recycler: ElementRecycler
     private var products: MutableList<Product> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,8 +41,12 @@ class ManageElementsActivity : BackActivity() {
             }
 
             products.sortBy { it.name.lowercase() }
+
+            recycler = ElementRecycler(this, products)
+            layout.adapter = recycler
+
             runOnUiThread {
-                updateUi("")
+                recycler.search(categorySelected?.category?.id, "")
                 val search = findViewById<SearchView>(R.id.searchElement)
                 search.isClickable = true
                 search.queryHint = "Cerca"
@@ -51,28 +56,12 @@ class ManageElementsActivity : BackActivity() {
                     }
 
                     override fun onQueryTextChange(s: String): Boolean {
-                        runOnUiThread { updateUi(s) }
+                        recycler.search(categorySelected?.category?.id, "")
                         return true
                     }
                 })
             }
         }.start()
-    }
-
-    private fun updateUi(s: String) {
-        val recycler: ElementRecycler
-        if (categorySelected != null) {
-            recycler = if (categorySelected!!.category?.id == 0) {
-                ElementRecycler(this, products.filter { it.name.lowercase().contains(s.lowercase() )})
-            } else {
-                ElementRecycler(this, products.filter {
-                        it.name.lowercase().contains(
-                            s.lowercase()
-                        ) && it.category_id == categorySelected!!.category?.id
-                    })
-            }
-            layout.adapter = recycler
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -104,7 +93,7 @@ class ManageElementsActivity : BackActivity() {
                         ) {
                             if (categories[position] !== categorySelected) {
                                 categorySelected = categories[position]
-                                updateUi("")
+                                recycler.search(categorySelected?.category?.id, "")
                             }
                         }
 

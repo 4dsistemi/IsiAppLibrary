@@ -16,16 +16,37 @@ import com.isi.isilibrary.dialog.Dialog
 import com.isi.isilibrary.products.AddManageElementActivity
 import java.util.*
 import java.util.stream.Collectors
+import kotlin.collections.ArrayList
 
-class ElementRecycler(private val context: Context, private val products: List<Product>?) :
+class ElementRecycler(private val context: Context, private val products: List<Product>) :
     RecyclerView.Adapter<ElementRecycler.ViewHolder>() {
+
+    private var productsSeleccted: List<Product> = ArrayList()
+
+    init {
+        productsSeleccted = ArrayList(products)
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.element_panel, parent, false)
         return ViewHolder(view)
     }
 
+    fun search(category: Int?, search: String){
+        productsSeleccted = if (category == 0) {
+            products.filter { it.name.lowercase().contains(search.lowercase() )}
+        } else {
+            products.filter {
+                it.name.lowercase().contains(
+                    search.lowercase()
+                ) && it.category_id == category
+            }.toList()
+        }
+
+        notifyDataSetChanged()
+    }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val p = products!![position]
+        val p = productsSeleccted[position]
         holder.name.text = String.format("%s", p.name)
         holder.name.setLines(2)
         holder.name.maxLines = 2
@@ -102,7 +123,7 @@ class ElementRecycler(private val context: Context, private val products: List<P
     }
 
     override fun getItemCount(): Int {
-        return products?.size ?: 0
+        return productsSeleccted.size
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
