@@ -56,7 +56,7 @@ class ManageElementsActivity : BackActivity() {
                     }
 
                     override fun onQueryTextChange(s: String): Boolean {
-                        recycler.search(categorySelected?.category?.id, "")
+                        recycler.search(categorySelected?.category?.id, s)
                         return true
                     }
                 })
