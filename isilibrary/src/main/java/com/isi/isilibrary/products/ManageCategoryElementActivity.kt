@@ -11,6 +11,7 @@ import com.isi.isiapi.classes.CategoryAndProduct
 import com.isi.isilibrary.IsiAppActivity
 import com.isi.isilibrary.R
 import com.isi.isilibrary.backActivity.BackActivity
+import com.isi.isilibrary.dialog.NetConnection
 
 class ManageCategoryElementActivity : BackActivity() {
     private lateinit var linearLayout: LinearLayout
@@ -29,55 +30,66 @@ class ManageCategoryElementActivity : BackActivity() {
         super.updateUI(layout)
         linearLayout = findViewById(R.id.categoryElementLayout)
         linearLayout.removeAllViews()
-        Thread {
-            val categories: MutableList<CategoryAndProduct>? =
-                IsiAppActivity.httpRequest?.categories
-            runOnUiThread {
-                if (categories != null) {
-                    categories.sortBy { it.category?.name?.lowercase() }
-                    for (categories1 in categories) {
+
+        NetConnection<MutableList<CategoryAndProduct>?>(
+                this,
+                "Scarico categorie prodotti...",
+                startNetConnection = {
+                    IsiAppActivity.httpRequest?.categories
+                },
+                onConnectionOk = {
+                    it!!.sortBy { it1 -> it1.category?.name?.lowercase() }
+                    for (categories1 in it) {
                         val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
                         val inflate = inflater.inflate(R.layout.category_table, linearLayout, false)
+
                         val loadinf = inflate.findViewById<TextView>(R.id.categoryTableText)
                         loadinf.text = categories1.category?.name
+
                         val active = inflate.findViewById<CheckBox>(R.id.checkbox_active)
                         val guest = inflate.findViewById<CheckBox>(R.id.chekcbox_guest_active)
+
                         active.isChecked = categories1.category?.active == 1
                         guest.isChecked = categories1.category?.guest == 1
+
                         active.setOnCheckedChangeListener { _: CompoundButton?, b: Boolean ->
                             categories1.category?.active = if (b) 1 else 0
+
                             Thread {
                                 IsiAppActivity.httpRequest!!.editcategory(
-                                    categories1.category
+                                        categories1.category
                                 )
                             }
-                                .start()
+                                    .start()
                         }
                         guest.setOnCheckedChangeListener { _: CompoundButton?, b: Boolean ->
                             categories1.category?.guest = if (b) 1 else 0
+
                             Thread {
                                 IsiAppActivity.httpRequest!!.editcategory(
-                                    categories1.category
+                                        categories1.category
                                 )
                             }
-                                .start()
+                                    .start()
                         }
+
                         val edit = inflate.findViewById<Button>(R.id.editCategoryButton)
                         edit.setOnClickListener {
                             val i = Intent(
-                                this@ManageCategoryElementActivity,
-                                AddCategoryElementActivity::class.java
+                                    this@ManageCategoryElementActivity,
+                                    AddCategoryElementActivity::class.java
                             )
                             i.putExtra("category", Gson().toJson(categories1.category))
                             startActivity(i)
                         }
+
                         linearLayout.addView(inflate)
                     }
-                } else {
+                },
+                onConnectionError = {
                     errorPage(layout)
                 }
-            }
-        }.start()
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

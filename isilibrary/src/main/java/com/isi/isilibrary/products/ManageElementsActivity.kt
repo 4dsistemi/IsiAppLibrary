@@ -10,6 +10,7 @@ import com.isi.isiapi.classes.*
 import com.isi.isilibrary.IsiAppActivity
 import com.isi.isilibrary.R
 import com.isi.isilibrary.backActivity.BackActivity
+import com.isi.isilibrary.dialog.NetConnection
 import com.isi.isilibrary.products.recycler.ElementRecycler
 import kotlin.collections.ArrayList
 
@@ -35,37 +36,42 @@ class ManageElementsActivity : BackActivity() {
 
     override fun onResume() {
         super.onResume()
-        Thread {
-            products.clear()
-            val categoryAndProducts: MutableList<CategoryAndProduct>? =
-                IsiAppActivity.httpRequest!!.categories
-            if(categoryAndProducts != null){
-                for (categoryAndProduct in categoryAndProducts) {
-                    products.addAll(categoryAndProduct.product!!)
+
+        NetConnection<MutableList<CategoryAndProduct>>(this,
+                "Scarico elementi...",
+                startNetConnection = {
+                    IsiAppActivity.httpRequest!!.categories
+                },
+                onConnectionOk = {
+                    for (categoryAndProduct in it) {
+                        products.clear()
+                        products.addAll(categoryAndProduct.product!!)
+                    }
+
+                    products.sortBy { it2 -> it2.name.lowercase() }
+
+                    recycler = ElementRecycler(this, products)
+                    layout.adapter = recycler
+                    recycler.search(categorySelected.category.id, "")
+                    val search = findViewById<SearchView>(R.id.searchElement)
+                    search.isClickable = true
+                    search.queryHint = "Cerca"
+                    search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                        override fun onQueryTextSubmit(s: String): Boolean {
+                            return false
+                        }
+
+                        override fun onQueryTextChange(s: String): Boolean {
+                            recycler.search(categorySelected.category.id, s)
+                            return true
+                        }
+                    })
+                },
+                onConnectionError = {
+
                 }
-            }
+        )
 
-            products.sortBy { it.name.lowercase() }
-
-            runOnUiThread {
-                recycler = ElementRecycler(this, products)
-                layout.adapter = recycler
-                recycler.search(categorySelected.category.id, "")
-                val search = findViewById<SearchView>(R.id.searchElement)
-                search.isClickable = true
-                search.queryHint = "Cerca"
-                search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                    override fun onQueryTextSubmit(s: String): Boolean {
-                        return false
-                    }
-
-                    override fun onQueryTextChange(s: String): Boolean {
-                        recycler.search(categorySelected.category.id, s)
-                        return true
-                    }
-                })
-            }
-        }.start()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -74,27 +80,27 @@ class ManageElementsActivity : BackActivity() {
         val spinner = item.actionView as Spinner?
         Thread {
             val categories: MutableList<CategoryAndProduct>? =
-                IsiAppActivity.httpRequest!!.categories
+                    IsiAppActivity.httpRequest!!.categories
 
-            if(categories != null){
+            if (categories != null) {
                 val cat = CategoryAndProduct()
                 cat.category = Category(0, "Tutto", 0, "", 0)
                 categories.add(0, cat)
                 categorySelected = cat
                 runOnUiThread {
                     val adapter = ArrayAdapter(
-                        this@ManageElementsActivity,
-                        android.R.layout.simple_spinner_item,
-                        categories
+                            this@ManageElementsActivity,
+                            android.R.layout.simple_spinner_item,
+                            categories
                     )
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                     spinner!!.adapter = adapter
                     spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                         override fun onItemSelected(
-                            parent: AdapterView<*>?,
-                            view: View,
-                            position: Int,
-                            id: Long
+                                parent: AdapterView<*>?,
+                                view: View,
+                                position: Int,
+                                id: Long
                         ) {
                             if (categories[position] !== categorySelected) {
                                 categorySelected = categories[position]
