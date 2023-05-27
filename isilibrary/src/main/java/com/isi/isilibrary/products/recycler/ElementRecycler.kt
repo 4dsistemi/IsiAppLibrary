@@ -32,7 +32,7 @@ class ElementRecycler(private val context: Context, private val products: List<P
     }
 
     fun search(category: Int?, search: String){
-        productsSeleccted = if (category == 0) {
+        productsSeleccted = if (category == null) {
             products.filter { it.name.lowercase().contains(search.lowercase() )}
         } else {
             products.filter {

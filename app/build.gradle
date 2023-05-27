@@ -9,8 +9,8 @@ android {
         applicationId "com.isi.isiapplibrary"
         minSdkVersion 24
         targetSdkVersion 33
-        versionCode 139
-        versionName "3.0.34"
+        versionCode 140
+        versionName "3.0.35"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
