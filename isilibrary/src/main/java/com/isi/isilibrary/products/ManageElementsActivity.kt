@@ -42,10 +42,9 @@ class ManageElementsActivity : BackActivity() {
 
             products.sortBy { it.name.lowercase() }
 
-            recycler = ElementRecycler(this, products)
-            layout.adapter = recycler
-
             runOnUiThread {
+                recycler = ElementRecycler(this, products)
+                layout.adapter = recycler
                 recycler.search(categorySelected?.category?.id, "")
                 val search = findViewById<SearchView>(R.id.searchElement)
                 search.isClickable = true
