@@ -278,7 +278,7 @@ class AddManageElementActivity : BackActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
 
-        menuInflater.inflate(R.menu.add_intestazione_menu, menu)
+        menuInflater.inflate(R.menu.add_delete_intestazione_menu, menu)
 
         val remove = menu.findItem(R.id.deleteIntestazioneDone);
 

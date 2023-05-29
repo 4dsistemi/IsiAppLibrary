@@ -43,8 +43,9 @@ class ManageElementsActivity : BackActivity() {
                     IsiAppActivity.httpRequest!!.categories
                 },
                 onConnectionOk = {
+                    products.clear()
+
                     for (categoryAndProduct in it) {
-                        products.clear()
                         products.addAll(categoryAndProduct.product!!)
                     }
 
