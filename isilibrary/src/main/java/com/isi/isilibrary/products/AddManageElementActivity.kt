@@ -24,6 +24,7 @@ import com.isi.isilibrary.IsiAppActivity
 import com.isi.isilibrary.R
 import com.isi.isilibrary.backActivity.BackActivity
 import com.isi.isilibrary.dialog.Dialog
+import com.isi.isilibrary.dialog.NetConnection
 import com.isi.isilibrary.products.ingredients.AddIngredientsActivity
 import java.util.*
 
@@ -276,27 +277,17 @@ class AddManageElementActivity : BackActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.add_intestazione_menu, menu)
-        return true
-    }
 
-    private fun setColor(){
-        ColorPickerDialogBuilder
-            .with(this@AddManageElementActivity)
-            .setTitle("Scegli colore")
-            .initialColor(Color.WHITE)
-            .wheelType(ColorPickerView.WHEEL_TYPE.FLOWER)
-            .density(12)
-            .setOnColorSelectedListener { selectedColor: Int ->
-                products!!.color = selectedColor
-            }
-            .setPositiveButton("ok") { _: DialogInterface?, _: Int, _: Array<Int?>? -> }
-            .setNegativeButton("cancella") { _: DialogInterface?, _: Int ->
-                products!!.color = 0
-            }
-            .build()
-            .show()
+        menuInflater.inflate(R.menu.add_intestazione_menu, menu)
+
+        val remove = menu.findItem(R.id.deleteIntestazioneDone);
+
+        if(products == null){
+            remove.isVisible = false
+            remove.isEnabled = false
+        }
+
+        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -351,6 +342,29 @@ class AddManageElementActivity : BackActivity() {
             } catch (ignore: Exception) {
             }
         }
+        else if(id == R.id.deleteIntestazioneDone){
+            Dialog(this).yesNoDialog("Attenzione", "Vuoi davvero eliminare questo elemento?",
+                { dialogInterface: DialogInterface, _: Int ->
+                    dialogInterface.dismiss()
+
+                    NetConnection(this, "Elimino prodotto", startNetConnection = {
+                        products!!.active = -1
+                        IsiAppActivity.httpRequest!!.editProduct(products, null)
+                    },
+                    onConnectionOk = {
+                        if(it){
+                            finish()
+                        }else{
+                            Dialog(this).showCustomErrorConnectionDialog("Errore nell'eliminazione del prodotto")
+                        }
+                    },
+                    onConnectionError = {
+
+                    }).start()
+
+                }, null)
+        }
+
         return super.onOptionsItemSelected(item)
     }
 

@@ -6,7 +6,12 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.CheckBox
+import android.widget.Spinner
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.isi.isiapi.classes.Product
@@ -14,9 +19,7 @@ import com.isi.isilibrary.IsiAppActivity
 import com.isi.isilibrary.R
 import com.isi.isilibrary.dialog.Dialog
 import com.isi.isilibrary.products.AddManageElementActivity
-import java.util.*
-import java.util.stream.Collectors
-import kotlin.collections.ArrayList
+import java.util.Locale
 
 class ElementRecycler(private val context: Context, private val products: List<Product>) :
     RecyclerView.Adapter<ElementRecycler.ViewHolder>() {
@@ -108,13 +111,9 @@ class ElementRecycler(private val context: Context, private val products: List<P
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
         val spinner = holder.priority
-        val categoryProduct = p.category_id
-        val allProductsInCat =
-            products.stream().filter { product: Product -> product.category_id == categoryProduct }
-                .collect(Collectors.toList())
-        val counting = allProductsInCat.size
-        val arrayCount = arrayOfNulls<Int>(counting + 1)
-        for (i in 0..counting) {
+
+        val arrayCount = arrayOfNulls<Int>(100)
+        for (i in 0..99) {
             arrayCount[i] = i
         }
         val aa = ArrayAdapter(context, android.R.layout.simple_spinner_item, arrayCount)
