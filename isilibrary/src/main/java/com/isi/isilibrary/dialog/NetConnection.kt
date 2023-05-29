@@ -1,10 +1,11 @@
 package com.isi.isilibrary.dialog
 
+import android.app.Activity
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 
 class NetConnection<E>(
-        private val c: AppCompatActivity,
+        private val c: Activity,
         private val loading: String?,
         private val startNetConnection: () -> E,
         private val onConnectionOk: (E) -> Unit,
