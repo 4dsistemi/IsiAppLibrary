@@ -10,7 +10,7 @@ android {
         minSdkVersion 24
         targetSdkVersion 33
         versionCode 147
-        versionName "3.0.43"
+        versionName "3.0.44"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

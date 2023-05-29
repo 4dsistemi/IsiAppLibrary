@@ -23,7 +23,7 @@
 
         <Button
             style="?attr/materialIconButtonFilledStyle"
-            app:icon="@drawable/delete"
+            app:icon="@drawable/add"
             android:id="@+id/buttonPlusLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
