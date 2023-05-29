@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:hint="Nome">
+        android:hint="Priorità">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/priority_element"
