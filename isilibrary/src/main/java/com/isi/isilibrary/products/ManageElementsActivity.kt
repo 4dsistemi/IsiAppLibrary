@@ -70,7 +70,7 @@ class ManageElementsActivity : BackActivity() {
                 onConnectionError = {
 
                 }
-        )
+        ).start()
 
     }
 
