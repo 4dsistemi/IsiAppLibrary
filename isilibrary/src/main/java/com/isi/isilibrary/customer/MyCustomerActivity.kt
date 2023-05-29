@@ -11,6 +11,7 @@ import com.isi.isilibrary.IsiAppActivity
 import com.isi.isilibrary.R
 import com.isi.isilibrary.backActivity.BackActivity
 import com.isi.isilibrary.dialog.Dialog
+import com.isi.isilibrary.dialog.NetConnection
 
 class MyCustomerActivity : BackActivity() {
     private lateinit var recyclerView: RecyclerView
@@ -45,21 +46,19 @@ class MyCustomerActivity : BackActivity() {
 
     fun updateUI() {
         val searching = intent.getBooleanExtra("searching", false)
-        val pDialog = Dialog(this).showLoadingDialog("Aggiorno clienti...")
-        Thread {
-            val customers: MutableList<Customer>? =
-                IsiAppActivity.httpRequest?.customers
-            runOnUiThread {
-                pDialog.dismiss()
-                if (customers != null) {
-                    customers.sortBy { it.surname.lowercase() }
-                    adapter = CustomerAdapter(this@MyCustomerActivity, customers, searching)
-                    recyclerView.adapter = adapter
-                } else {
-                    runOnUiThread { Dialog(this@MyCustomerActivity).showErrorConnectionDialog(true) }
-                }
-            }
-        }.start()
+
+        NetConnection<MutableList<Customer>?>(this, "Aggiorno clienti...",
+        startNetConnection = {
+            IsiAppActivity.httpRequest?.customers
+        },
+        onConnectionOk = {
+            it!!.sortBy { it1 -> it1.surname.lowercase() }
+            adapter = CustomerAdapter(this@MyCustomerActivity, it, searching)
+            recyclerView.adapter = adapter
+        },
+        onConnectionError = {
+
+        }).start()
     }
 
     override fun onResume() {

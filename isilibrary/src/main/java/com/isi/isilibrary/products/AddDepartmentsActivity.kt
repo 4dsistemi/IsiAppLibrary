@@ -16,6 +16,7 @@ import com.isi.isilibrary.IsiAppActivity
 import com.isi.isilibrary.R
 import com.isi.isilibrary.backActivity.BackActivity
 import com.isi.isilibrary.dialog.Dialog
+import com.isi.isilibrary.dialog.NetConnection
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -42,6 +43,7 @@ class AddDepartmentsActivity : BackActivity() {
         val names: MutableList<String> = ArrayList()
         names.add("Default")
         val pDialog = Dialog(this).showLoadingDialog("Aggiorno reparti...")
+
         Thread {
             val rates: MutableList<IsiCashDepartment>? =
                 IsiAppActivity.httpRequest!!.department

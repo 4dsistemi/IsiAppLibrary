@@ -10,6 +10,7 @@ import com.isi.isiapi.classes.Category
 import com.isi.isilibrary.IsiAppActivity
 import com.isi.isilibrary.R
 import com.isi.isilibrary.backActivity.BackActivity
+import com.isi.isilibrary.dialog.NetConnection
 
 class AddCategoryElementActivity : BackActivity() {
     private var back: Category? = null
@@ -50,38 +51,51 @@ class AddCategoryElementActivity : BackActivity() {
                 Toast.makeText(this, "Il nome non può essere vuoto", Toast.LENGTH_LONG).show()
             } else {
                 if (back != null) {
-                    back!!.image = "default.png"
-                    back!!.name = category!!.text.toString().trim { it <= ' ' }
-                    back!!.priority = 0
-                    priority!!.text.isNotEmpty().apply {
-                        back!!.priority = Integer.parseInt(priority!!.text.toString())
-                    }
 
-                    Thread {
-                        if (IsiAppActivity.httpRequest!!.editcategory(back)) {
-                            runOnUiThread { finish() }
-                        }
-                    }.start()
+                    NetConnection(this, "Aggiungo categoria",
+                        startNetConnection = {
+                            back!!.image = "default.png"
+                            back!!.name = category!!.text.toString().trim { it <= ' ' }
+                            back!!.priority = 0
+                            priority!!.text.isNotEmpty().apply {
+                                back!!.priority = Integer.parseInt(priority!!.text.toString())
+                            }
+
+                            IsiAppActivity.httpRequest!!.editcategory(back)
+
+                        },
+                        onConnectionOk = {
+                            finish()
+                        },
+                        onConnectionError = {
+
+                        }).start()
                 } else {
-                    Thread {
+
+                    NetConnection(this, "Aggiungo categoria",
+                    startNetConnection = {
                         var prio: Int
                         priority!!.text.isNotEmpty().apply {
                             prio = Integer.parseInt(priority!!.text.toString())
                         }
 
-                        if (IsiAppActivity.httpRequest!!.addCategory(
-                                Category(
-                                    0,
-                                    category!!.text.toString().trim { it <= ' ' },
-                                    0,
-                                    "default.png",
-                                    prio
-                                )
+                        IsiAppActivity.httpRequest!!.addCategory(
+                            Category(
+                                0,
+                                category!!.text.toString().trim { it <= ' ' },
+                                0,
+                                "default.png",
+                                prio
                             )
-                        ) {
-                            runOnUiThread { finish() }
-                        }
-                    }.start()
+                        )
+
+                    },
+                    onConnectionOk = {
+                        finish()
+                    },
+                    onConnectionError = {
+
+                    }).start()
                 }
             }
         }

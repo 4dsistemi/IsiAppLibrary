@@ -89,7 +89,7 @@ class ManageCategoryElementActivity : BackActivity() {
                 onConnectionError = {
                     errorPage(layout)
                 }
-        )
+        ).start()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
