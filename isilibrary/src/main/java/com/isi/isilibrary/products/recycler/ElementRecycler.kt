@@ -1,7 +1,6 @@
 package com.isi.isilibrary.products.recycler
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -18,10 +17,11 @@ import com.isi.isiapi.classes.Product
 import com.isi.isilibrary.IsiAppActivity
 import com.isi.isilibrary.R
 import com.isi.isilibrary.dialog.Dialog
+import com.isi.isilibrary.dialog.NetConnection
 import com.isi.isilibrary.products.AddManageElementActivity
 import java.util.Locale
 
-class ElementRecycler(private val context: Context, private val products: List<Product>) :
+class ElementRecycler(private val context: Activity, private val products: List<Product>) :
     RecyclerView.Adapter<ElementRecycler.ViewHolder>() {
 
     private var productsSeleccted: List<Product> = ArrayList()
@@ -81,7 +81,7 @@ class ElementRecycler(private val context: Context, private val products: List<P
             }
             Thread {
                 if (!IsiAppActivity.httpRequest!!.editProduct(p, null)) {
-                    (context as Activity).runOnUiThread {
+                    context.runOnUiThread {
                         Dialog(
                             context
                         ).showErrorConnectionDialog(false)
@@ -103,8 +103,28 @@ class ElementRecycler(private val context: Context, private val products: List<P
             ) {
                 val backPriority = p.priority_prod
                 if (backPriority != position) {
+
                     p.priority_prod = position
-                    IsiAppActivity.httpRequest!!.editProduct(p, null)
+                    NetConnection(
+                        context,
+                        "Modifico priorità elemento...",
+                        startNetConnection = {
+                            IsiAppActivity.httpRequest!!.editProduct(p, null)
+                        },
+                        onConnectionOk = {
+                            if(it){
+                                Dialog(context).showSuccessDialog("Ottimo", "Priorità modificata con successo")
+                            }else{
+                                Dialog(context).showCustomErrorConnectionDialog("Problema nella modifica della priorità. Riprova.")
+                            }
+                        },
+                        onConnectionError = {
+
+                        }
+                    ).start()
+
+
+
                 }
             }
 
