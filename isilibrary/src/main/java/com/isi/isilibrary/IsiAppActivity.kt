@@ -329,7 +329,8 @@ open class IsiAppActivity : AppCompatActivity() {
                     }
                 }
             }
-        } else if (requestCode == 201) {
+        }
+        else if (requestCode == 201) {
             if (resultCode == RESULT_OK) {
                 if (data != null) {
                     val packageName = data.getStringExtra("package_name")!!
@@ -341,7 +342,8 @@ open class IsiAppActivity : AppCompatActivity() {
                     }
                 }
             }
-        } else if (requestCode == 202) {
+        }
+        else if (requestCode == 202) {
             if (data != null) {
                 val packageName = data.getStringExtra("applications_active")
                 val listType = object : TypeToken<ArrayList<AppAndAppActivation?>?>() {}.type
@@ -350,7 +352,8 @@ open class IsiAppActivity : AppCompatActivity() {
                     gson.fromJson<ArrayList<AppAndAppActivation>>(packageName, listType)
                 updateGUI(applications)
             }
-        } else if (requestCode == 210) {
+        }
+        else if (requestCode == 210) {
             if (data != null) {
                 val packageName = data.getStringExtra("applications_active")
                 val listType = object : TypeToken<ArrayList<AppAndAppActivation?>?>() {}.type
@@ -359,7 +362,8 @@ open class IsiAppActivity : AppCompatActivity() {
                     gson.fromJson<ArrayList<AppAndAppActivation>>(packageName, listType)
                 lateralMenu(applications)
             }
-        } else if (requestCode == 1111) {
+        }
+        else if (requestCode == 1111) {
 
             if (data != null) {
                 if (data.getStringExtra("operator_logged") != null && data.getStringExtra("commercial") != null && data.getStringExtra(
@@ -374,12 +378,21 @@ open class IsiAppActivity : AppCompatActivity() {
 
                     afterResponseAccountAndCommercial()
                 } else {
-                    packageManager.getLaunchIntentForPackage("com.isi.isiapp$VERSION")
+                    val intent = packageManager.getLaunchIntentForPackage("com.isi.isiapp$VERSION")
+
+                    if(intent != null){
+                        startActivity(intent)
+                    }
+                    finish()
                 }
             } else {
-                packageManager.getLaunchIntentForPackage("com.isi.isiapp$VERSION")
-            }
+                val intent = packageManager.getLaunchIntentForPackage("com.isi.isiapp$VERSION")
 
+                if(intent != null){
+                    startActivity(intent)
+                }
+                finish()
+            }
         }
     }
 
