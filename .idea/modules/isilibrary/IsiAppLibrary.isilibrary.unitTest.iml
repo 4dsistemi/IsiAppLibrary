@@ -27,8 +27,6 @@
           <stringArguments>
             <stringArg name="classpath">
               <args>
-                <arg>$MODULE_DIR$/../../../isilibrary/build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debugUnitTest/R.jar</arg>
-                <arg>$MODULE_DIR$/../../../isilibrary/build/intermediates/compile_library_classes_jar/debug/classes.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/69515bfceadbfd1575a61f8ee121f8db/transformed/jetified-material3-window-size-class-1.1.0-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/b2fc1bc62cc85bb11f274c7b4db6ad7a/transformed/jetified-material3-1.1.0-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/70512e66363b6ecc4ffe07b5e6dd30fc/transformed/jetified-material-icons-core-1.4.1-api.jar</arg>
