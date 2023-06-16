@@ -5,9 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.*
+import android.widget.Button
+import android.widget.CheckBox
+import android.widget.CompoundButton
+import android.widget.LinearLayout
+import android.widget.TextView
 import com.google.gson.Gson
-import com.isi.isiapi.classes.CategoryAndProduct
 import com.isi.isilibrary.IsiAppActivity
 import com.isi.isilibrary.R
 import com.isi.isilibrary.backActivity.BackActivity
@@ -31,43 +34,43 @@ class ManageCategoryElementActivity : BackActivity() {
         linearLayout = findViewById(R.id.categoryElementLayout)
         linearLayout.removeAllViews()
 
-        NetConnection<MutableList<CategoryAndProduct>?>(
+        NetConnection(
                 this,
                 "Scarico categorie prodotti...",
                 startNetConnection = {
                     IsiAppActivity.httpRequest?.categories
                 },
                 onConnectionOk = {
-                    it!!.sortBy { it1 -> it1.category?.name?.lowercase() }
-                    for (categories1 in it) {
+                    it!!.categories.sortBy { it1 -> it1.name?.lowercase() }
+                    for (categories1 in it.categories) {
                         val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
                         val inflate = inflater.inflate(R.layout.category_table, linearLayout, false)
 
                         val loadinf = inflate.findViewById<TextView>(R.id.categoryTableText)
-                        loadinf.text = categories1.category?.name
+                        loadinf.text = categories1.name
 
                         val active = inflate.findViewById<CheckBox>(R.id.checkbox_active)
                         val guest = inflate.findViewById<CheckBox>(R.id.chekcbox_guest_active)
 
-                        active.isChecked = categories1.category?.active == 1
-                        guest.isChecked = categories1.category?.guest == 1
+                        active.isChecked = categories1.active == 1
+                        guest.isChecked = categories1.guest == 1
 
                         active.setOnCheckedChangeListener { _: CompoundButton?, b: Boolean ->
-                            categories1.category?.active = if (b) 1 else 0
+                            categories1.active = if (b) 1 else 0
 
                             Thread {
                                 IsiAppActivity.httpRequest!!.editcategory(
-                                        categories1.category
+                                        categories1
                                 )
                             }
                                     .start()
                         }
                         guest.setOnCheckedChangeListener { _: CompoundButton?, b: Boolean ->
-                            categories1.category?.guest = if (b) 1 else 0
+                            categories1.guest = if (b) 1 else 0
 
                             Thread {
                                 IsiAppActivity.httpRequest!!.editcategory(
-                                        categories1.category
+                                        categories1
                                 )
                             }
                                     .start()
@@ -79,7 +82,7 @@ class ManageCategoryElementActivity : BackActivity() {
                                     this@ManageCategoryElementActivity,
                                     AddCategoryElementActivity::class.java
                             )
-                            i.putExtra("category", Gson().toJson(categories1.category))
+                            i.putExtra("category", Gson().toJson(categories1))
                             startActivity(i)
                         }
 

@@ -1,17 +1,20 @@
 package com.isi.isilibrary.products
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.view.*
-import android.widget.*
-import com.isi.isiapi.classes.CategoryAndProduct
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.TextView
 import com.isi.isiapi.classes.isicash.IsiCashDepartment
+import com.isi.isiapi.classes.isiorder.CategoryAndListini
 import com.isi.isilibrary.IsiAppActivity
 import com.isi.isilibrary.R
 import com.isi.isilibrary.backActivity.BackActivity
 import com.isi.isilibrary.dialog.Dialog
-import java.util.*
+import java.util.Locale
 
 class DepartmentActivity : BackActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,10 +29,13 @@ class DepartmentActivity : BackActivity() {
         departmentLayout.removeAllViews()
         val pDialog = Dialog(this).showLoadingDialog("Aggiorno reparti...")
         Thread {
+
             val rates: MutableList<IsiCashDepartment>? =
                 IsiAppActivity.httpRequest!!.department
-            val products: List<CategoryAndProduct>? =
+
+            val products: CategoryAndListini? =
                 IsiAppActivity.httpRequest!!.categories
+
             if (rates == null || products == null) {
                 runOnUiThread { Dialog(this).showErrorConnectionDialog(true) }
             } else {
@@ -46,8 +52,8 @@ class DepartmentActivity : BackActivity() {
                     )
                     val description = inflate.findViewById<TextView>(R.id.descriptionRateTextCell)
                     if (rate.product_id != null) {
-                        for (categoryAndProduct in products) {
-                            for (prod in categoryAndProduct.product!!) {
+                        for (categoryAndProduct in products.categories) {
+                            for (prod in categoryAndProduct.products!!) {
                                 if (prod.id == rate.product_id) {
                                     description.text = String.format("Descrizione %s", prod.name)
                                 }

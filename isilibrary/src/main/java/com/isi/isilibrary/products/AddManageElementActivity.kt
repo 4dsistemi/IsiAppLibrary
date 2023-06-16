@@ -20,6 +20,7 @@ import com.isi.isiapi.classes.CategoryAndProduct
 import com.isi.isiapi.classes.Ingredients
 import com.isi.isiapi.classes.Product
 import com.isi.isiapi.classes.isimaga.ProductForniture
+import com.isi.isiapi.classes.isiorder.CategoryAndListini
 import com.isi.isilibrary.IsiAppActivity
 import com.isi.isilibrary.R
 import com.isi.isilibrary.backActivity.BackActivity
@@ -76,7 +77,7 @@ class AddManageElementActivity : BackActivity() {
         val dial = Dialog(this).showLoadingDialog("Caricamento...")
 
         Thread {
-            val categories: List<CategoryAndProduct>? =
+            val categories: CategoryAndListini? =
                 IsiAppActivity.httpRequest!!.categories
 
             productForniture = IsiAppActivity.httpRequest!!.isimagaGetProductForniture()
@@ -107,7 +108,7 @@ class AddManageElementActivity : BackActivity() {
                         findViewById<AutoCompleteTextView>(R.id.departmentCodeElement)
 
                     val adapter =
-                        ArrayAdapter(this, android.R.layout.simple_spinner_item, categories)
+                        ArrayAdapter(this, android.R.layout.simple_spinner_item, categories.categories)
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
                     val productsArray: MutableList<Product> = ArrayList()
@@ -117,8 +118,8 @@ class AddManageElementActivity : BackActivity() {
 
                     productsArray.add(0, fake)
 
-                    for (cat in categories) {
-                        productsArray.addAll(cat.product!!)
+                    for (cat in categories.categories) {
+                        productsArray.addAll(cat.products!!)
                     }
 
                     val adapterProduct =
@@ -152,10 +153,10 @@ class AddManageElementActivity : BackActivity() {
                         barcodeText.text = products!!.barcode_value
 
 
-                        for (cat in categories) {
-                            if (cat.category?.id == products!!.category_id) {
-                                categoryDef = cat.category!!.id
-                                categrySpinner.setText(cat.category!!.name, false)
+                        for (cat in categories.categories) {
+                            if (cat.id == products!!.category_id) {
+                                categoryDef = cat.id
+                                categrySpinner.setText(cat.name, false)
                                 break
                             }
                         }
@@ -196,7 +197,7 @@ class AddManageElementActivity : BackActivity() {
 
                     categrySpinner.onItemClickListener =
                         OnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, _: Long ->
-                            categoryDef = categories[position].category!!.id
+                            categoryDef = categories.categories[position].id
                         }
 
                     productSpinner.onItemClickListener =

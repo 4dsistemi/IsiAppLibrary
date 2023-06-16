@@ -2,23 +2,23 @@ package com.isi.isilibrary.products
 
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import com.google.android.material.textfield.TextInputEditText
-import com.isi.isiapi.classes.CategoryAndProduct
 import com.isi.isiapi.classes.Product
 import com.isi.isiapi.classes.isicash.IsiCashDepartment
+import com.isi.isiapi.classes.isiorder.CategoryAndListini
 import com.isi.isilibrary.IsiAppActivity
 import com.isi.isilibrary.R
 import com.isi.isilibrary.backActivity.BackActivity
 import com.isi.isilibrary.dialog.Dialog
-import com.isi.isilibrary.dialog.NetConnection
-import java.util.*
-import kotlin.collections.ArrayList
+import java.util.Locale
 
 class AddDepartmentsActivity : BackActivity() {
     private var productId: Int? = null
@@ -45,16 +45,18 @@ class AddDepartmentsActivity : BackActivity() {
         val pDialog = Dialog(this).showLoadingDialog("Aggiorno reparti...")
 
         Thread {
+
             val rates: MutableList<IsiCashDepartment>? =
                 IsiAppActivity.httpRequest!!.department
             val products = ArrayList<Product>()
-            val categoryAndProducts: MutableList<CategoryAndProduct>? =
+
+            val categoryAndListini: CategoryAndListini? =
                 IsiAppActivity.httpRequest!!.categories
 
-            if (categoryAndProducts != null)
-                for (cat in categoryAndProducts) {
-                    if(cat.product != null){
-                        products.addAll(cat.product!!)
+            if (categoryAndListini != null)
+                for (cat in categoryAndListini.categories) {
+                    if(cat.products != null){
+                        products.addAll(cat.products!!)
                     }
                 }
             runOnUiThread {
