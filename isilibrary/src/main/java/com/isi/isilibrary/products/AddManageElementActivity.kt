@@ -16,7 +16,6 @@ import androidx.appcompat.app.AlertDialog
 import com.flask.colorpicker.ColorPickerView
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder
 import com.google.gson.Gson
-import com.isi.isiapi.classes.CategoryAndProduct
 import com.isi.isiapi.classes.Ingredients
 import com.isi.isiapi.classes.Product
 import com.isi.isiapi.classes.isimaga.ProductForniture
