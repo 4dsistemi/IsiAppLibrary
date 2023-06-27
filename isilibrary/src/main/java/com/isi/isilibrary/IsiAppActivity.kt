@@ -295,6 +295,10 @@ open class IsiAppActivity : AppCompatActivity() {
         }
     }
 
+    fun openMenuUp(){
+        getApplicationListActive(202)
+    }
+
     private fun getPackageNameSlide(code: Int) {
         try {
             val myIntent = Intent()

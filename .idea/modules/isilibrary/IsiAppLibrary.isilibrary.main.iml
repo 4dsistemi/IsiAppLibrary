@@ -27,8 +27,8 @@
             <stringArg name="classpath">
               <args>
                 <arg>$MODULE_DIR$/../../../isilibrary/build/intermediates/compile_r_class_jar/debug/R.jar</arg>
-                <arg>$USER_HOME$/.gradle/caches/transforms-3/69515bfceadbfd1575a61f8ee121f8db/transformed/jetified-material3-window-size-class-1.1.0-api.jar</arg>
-                <arg>$USER_HOME$/.gradle/caches/transforms-3/b2fc1bc62cc85bb11f274c7b4db6ad7a/transformed/jetified-material3-1.1.0-api.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/transforms-3/ea332d47b7b24ae4ddc7ac0ab2c1a70c/transformed/jetified-material3-window-size-class-1.1.1-api.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/transforms-3/84d30563ee30baed8b023e4851b6704a/transformed/jetified-material3-1.1.1-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/70512e66363b6ecc4ffe07b5e6dd30fc/transformed/jetified-material-icons-core-1.4.1-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/cd68c86d917c633a289a3a381c0cd515/transformed/jetified-material-ripple-1.4.1-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/623aa894012463980586bdfe2942bdfb/transformed/jetified-animation-core-1.4.1-api.jar</arg>
@@ -114,7 +114,7 @@
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/7e6ca3d111f4648fd0cdc76a9ba1df0c/transformed/jetified-gson-2.10.1.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/aeba9b06c0b1bf1630780c1a19161a68/transformed/jetified-colorpicker-0.0.15-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/920770db21d4f98fed98b4321bddc475/transformed/jetified-commons-lang3-3.11.jar</arg>
-                <arg>$USER_HOME$/.gradle/caches/transforms-3/7829308da1c781735c2ea0e4169fc3ed/transformed/jetified-IsiApi-5.1.15-api.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/transforms-3/969eba9d31ca333d23d4b2fbeab6070f/transformed/jetified-IsiApi-5.1.22-api.jar</arg>
                 <arg>$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-33/android.jar</arg>
                 <arg>$USER_HOME$/AppData/Local/Android/Sdk/build-tools/30.0.3/core-lambda-stubs.jar</arg>
               </args>
@@ -233,8 +233,8 @@
     <orderEntry type="library" name="Gradle: androidx.asynclayoutinflater:asynclayoutinflater:1.0.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.daimajia.androidanimations:library:2.4@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.github.QuadFlask:colorpicker:0.0.15@aar" level="project" />
-    <orderEntry type="library" name="Gradle: com.github.4dsistemi:IsiApi:5.1.15@aar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.compose.material3:material3:1.1.0@aar" level="project" />
+    <orderEntry type="library" name="Gradle: com.github.4dsistemi:IsiApi:5.1.22@aar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.compose.material3:material3:1.1.1@aar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.compose.foundation:foundation:1.4.1@aar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.compose.animation:animation:1.4.1@aar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.compose.animation:animation-core:1.4.1@aar" level="project" />
@@ -248,6 +248,6 @@
     <orderEntry type="library" name="Gradle: androidx.compose.ui:ui-text:1.4.1@aar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.compose.material:material-icons-core:1.4.1@aar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.compose.material:material-ripple:1.4.1@aar" level="project" />
-    <orderEntry type="library" name="Gradle: androidx.compose.material3:material3-window-size-class:1.1.0@aar" level="project" />
+    <orderEntry type="library" name="Gradle: androidx.compose.material3:material3-window-size-class:1.1.1@aar" level="project" />
   </component>
 </module>

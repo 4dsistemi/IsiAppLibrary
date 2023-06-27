@@ -28,8 +28,8 @@
               <args>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/9601e061cc7a6857218d8096dc79bbe7/transformed/jetified-junit-1.1.5-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/ce6db96c5cc4dbe1d0556e8de0fe2a32/transformed/espresso-core-3.5.1-api.jar</arg>
-                <arg>$USER_HOME$/.gradle/caches/transforms-3/69515bfceadbfd1575a61f8ee121f8db/transformed/jetified-material3-window-size-class-1.1.0-api.jar</arg>
-                <arg>$USER_HOME$/.gradle/caches/transforms-3/b2fc1bc62cc85bb11f274c7b4db6ad7a/transformed/jetified-material3-1.1.0-api.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/transforms-3/ea332d47b7b24ae4ddc7ac0ab2c1a70c/transformed/jetified-material3-window-size-class-1.1.1-api.jar</arg>
+                <arg>$USER_HOME$/.gradle/caches/transforms-3/84d30563ee30baed8b023e4851b6704a/transformed/jetified-material3-1.1.1-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/70512e66363b6ecc4ffe07b5e6dd30fc/transformed/jetified-material-icons-core-1.4.1-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/cd68c86d917c633a289a3a381c0cd515/transformed/jetified-material-ripple-1.4.1-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/49abe5f353f02c064c798640565924d7/transformed/jetified-animation-1.2.1-api.jar</arg>
@@ -211,7 +211,7 @@
     <orderEntry type="library" scope="TEST" name="Gradle: androidx.recyclerview:recyclerview:1.1.0@aar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: androidx.transition:transition:1.2.0@aar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: androidx.viewpager2:viewpager2:1.0.0@aar" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: androidx.compose.material3:material3:1.1.0@aar" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: androidx.compose.material3:material3:1.1.1@aar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: androidx.compose.foundation:foundation:1.4.1@aar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: androidx.compose.animation:animation:1.2.1@aar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: androidx.compose.animation:animation-core:1.2.1@aar" level="project" />
@@ -225,7 +225,7 @@
     <orderEntry type="library" scope="TEST" name="Gradle: androidx.compose.ui:ui-text:1.4.1@aar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: androidx.compose.material:material-icons-core:1.4.1@aar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: androidx.compose.material:material-ripple:1.4.1@aar" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: androidx.compose.material3:material3-window-size-class:1.1.0@aar" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: androidx.compose.material3:material3-window-size-class:1.1.1@aar" level="project" />
   </component>
   <component name="TestModuleProperties" production-module="IsiAppLibrary.app.main" />
 </module>
