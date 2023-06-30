@@ -73,7 +73,8 @@ class IngredientsRecycler(private val context: Context,
                     dialogInterface.dismiss()
                 },
                 null,
-                quantity
+                quantity,
+                true
             )
         }
 
