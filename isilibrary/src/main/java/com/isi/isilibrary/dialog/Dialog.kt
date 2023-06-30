@@ -63,7 +63,7 @@ class Dialog {
         confirm: MaterialTextAndListener?,
         reject: MaterialTextAndListener?,
         view: View
-    ) {
+    ) : MaterialAlertDialogBuilder{
         val inflater = c.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val inflate = inflater.inflate(R.layout.dialog_custom_view, null)
         val layout = inflate.findViewById<LinearLayout>(R.id.dialog_custom_view_linear)
@@ -86,7 +86,9 @@ class Dialog {
         if (reject != null) {
             alertDialogBuilder.setNegativeButton(reject.description, reject.clickListener)
         }
+
         alertDialogBuilder.show()
+        return alertDialogBuilder
     }
 
     fun showErrorConnectionDialog(finish: Boolean) {
