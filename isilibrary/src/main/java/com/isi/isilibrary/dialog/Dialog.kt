@@ -17,10 +17,8 @@ class Dialog {
     }
 
     private val c: Context
-    private val alertDialogBuilder: MaterialAlertDialogBuilder
-    fun getAlertDialogBuilder() : MaterialAlertDialogBuilder{
-        return alertDialogBuilder
-    }
+    private var alertDialogBuilder: MaterialAlertDialogBuilder
+
     constructor(c: Context) {
         this.c = c
         alertDialogBuilder = MaterialAlertDialogBuilder(c)
@@ -37,7 +35,7 @@ class Dialog {
         message: String?,
         confirm: MaterialTextAndListener?,
         reject: MaterialTextAndListener?
-    ) {
+    )  : AlertDialog{
         alertDialogBuilder.setTitle(title)
         if (message != null) {
             alertDialogBuilder.setMessage(message)
@@ -55,7 +53,7 @@ class Dialog {
         if (reject != null) {
             alertDialogBuilder.setNegativeButton(reject.description, reject.clickListener)
         }
-        alertDialogBuilder.show()
+        return alertDialogBuilder.show()
     }
 
     fun showNormalDialogType(
@@ -66,7 +64,7 @@ class Dialog {
         reject: MaterialTextAndListener?,
         view: View,
         cancable: Boolean
-    ) {
+    ) : AlertDialog {
         val inflater = c.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val inflate = inflater.inflate(R.layout.dialog_custom_view, null)
         val layout = inflate.findViewById<LinearLayout>(R.id.dialog_custom_view_linear)
@@ -91,12 +89,12 @@ class Dialog {
         }
 
         alertDialogBuilder.setCancelable(cancable)
-        alertDialogBuilder.show()
+        return alertDialogBuilder.show()
 
     }
 
-    fun showErrorConnectionDialog(finish: Boolean) {
-        MaterialAlertDialogBuilder(c)
+    fun showErrorConnectionDialog(finish: Boolean) : AlertDialog{
+        return MaterialAlertDialogBuilder(c)
             .setTitle("Attenzione")
             .setIcon(R.drawable.error)
             .setPositiveButton("Ok") { dialogInterface: DialogInterface, _: Int ->
@@ -110,8 +108,8 @@ class Dialog {
             .show()
     }
 
-    fun showCustomErrorConnectionDialog(message: String?) {
-        MaterialAlertDialogBuilder(c)
+    fun showCustomErrorConnectionDialog(message: String?) : AlertDialog{
+        return MaterialAlertDialogBuilder(c)
             .setTitle("Attenzione")
             .setIcon(R.drawable.error)
             .setPositiveButton("Ok") { dialogInterface: DialogInterface, _: Int -> dialogInterface.dismiss() }
@@ -119,8 +117,8 @@ class Dialog {
             .show()
     }
 
-    fun showSuccessDialog(title: String?, message: String?) {
-        MaterialAlertDialogBuilder(c)
+    fun showSuccessDialog(title: String?, message: String?) : AlertDialog {
+        return MaterialAlertDialogBuilder(c)
             .setTitle(title)
             .setIcon(R.drawable.success)
             .setPositiveButton("Ok") { dialogInterface: DialogInterface, _: Int -> dialogInterface.dismiss() }
@@ -143,7 +141,7 @@ class Dialog {
         message: String?,
         yes: DialogInterface.OnClickListener,
         no: DialogInterface.OnClickListener?
-    ) {
+    )  : AlertDialog{
         val builder = MaterialAlertDialogBuilder(c).setTitle(title)
         if (message != null) {
             builder.setMessage(message)
@@ -154,6 +152,6 @@ class Dialog {
         } else {
             builder.setNegativeButton("No") { dialogInterface: DialogInterface, _: Int -> dialogInterface.dismiss() }
         }
-        builder.show()
+        return builder.show()
     }
 }
