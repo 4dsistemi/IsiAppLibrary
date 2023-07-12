@@ -18,7 +18,9 @@ class Dialog {
 
     private val c: Context
     private val alertDialogBuilder: MaterialAlertDialogBuilder
-
+    fun getAlertDialogBuilder() : MaterialAlertDialogBuilder{
+        return alertDialogBuilder
+    }
     constructor(c: Context) {
         this.c = c
         alertDialogBuilder = MaterialAlertDialogBuilder(c)
